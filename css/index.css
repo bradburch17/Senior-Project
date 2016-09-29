@@ -1,0 +1,31 @@
+.intro-header {
+    padding-top: 70px;
+    padding-bottom: 80px;
+    text-align: center;
+    color: white;
+    background: url(../images/rrunners.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.intro-header h1
+{
+	margin: 0;
+	font-size: 5em;
+	text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+}
+
+#intro-sub
+{
+	font-size: 18px;
+	text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+}
+
+.content
+{
+	margin: auto;
+}
+
+.center
+{
+  text-align: center;
+}

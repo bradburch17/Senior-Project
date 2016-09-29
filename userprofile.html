@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Joggers and Loggers - User Profile</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/navbar-custom.css">
+	<link rel="stylesheet" type="text/css" href="css/userprofile.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+<div class="wrapper">
+	<xt-header></xt-header>
+
+	<div class="content add-padding" ng-controller="UserController as user">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h1>{{user.users[0].name}}'s Profile</h1>
+			</div>
+			<div class="col-md-6">
+				<img src="images/bradburch.jpg" class="img-responsive img-format">
+			</div>
+		</div>
+
+		<!-- USER INFORMATION -->
+		<div>
+		<ul class="list-group">
+			<li class="list-group-item borderless">Username:    {{user.users[0].username}}</li>
+			<li class="list-group-item borderless">Sex:	        {{user.users[0].sex}}</li>
+			<li class="list-group-item borderless">Current Shoe:	{{user.users[0].shoe}}</li>
+			<li class="list-group-item borderless">Device:	      {{user.users[0].device}}</li>
+			<li class="list-group-item borderless">Team:         {{user.users[0].teams}}</li>
+			<li class="list-group-item borderless">Do you want your account to be private?
+				<input type="radio" name="privateAccount" value="Yes"> Yes
+				<input type="radio" name="privateAccount" value="No" checked> No
+			</li>
+			<li class="list-group-item borderless">Are you a coach?
+				<input type="radio" name="privateAccount" value="Yes"> Yes
+				<input type="radio" name="privateAccount" value="No" checked> No
+			</li>
+		</ul>
+
+		<!-- PR TABLE -->
+		<br><br>
+		<table class="table table-striped table-format">
+			<h3>Personal Records:</h3>
+			<tr ng-repeat="(key, val) in user.users[0].prs">
+				<th>{{key}}</th>
+				<td>{{val}}</td>
+			</tr>
+		</table>
+	</div>
+	</div>
+	</div>
+
+	<xt-footer></xt-footer>
+</div>
+</body>
+</html>
