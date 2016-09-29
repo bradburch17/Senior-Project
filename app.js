@@ -32,6 +32,12 @@
 			"Cross Country": "29:00",
 			Mile: "4:48",
 		},
+    images:
+    [
+      {
+        profile: "images/bradburch.jpg",
+      },
+    ],
     device: "FitBit",
     teams: "Team Tiger"
 	}];

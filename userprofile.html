@@ -22,12 +22,13 @@
 				<h1>{{user.users[0].name}}'s Profile</h1>
 			</div>
 			<div class="col-md-6">
-				<img src="images/bradburch.jpg" class="img-responsive img-format">
+				<img ng-src="{{user.users[0].images[0].profile}}" class="img-responsive img-format">
 			</div>
 		</div>
 
 		<!-- USER INFORMATION -->
-		<div>
+		<div class="row">
+			<div class="col-md-12">
 		<ul class="list-group">
 			<li class="list-group-item borderless">Username:    {{user.users[0].username}}</li>
 			<li class="list-group-item borderless">Sex:	        {{user.users[0].sex}}</li>
@@ -53,6 +54,7 @@
 				<td>{{val}}</td>
 			</tr>
 		</table>
+	</div>
 	</div>
 	</div>
 	</div>
