@@ -1,44 +1,60 @@
-(function()
-{
-  	var app = angular.module('myApp', []);
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-  	app.controller('UserController', function()
-  	{
-  		this.users = testData;
-  	});
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
-	app.directive("xtHeader", function() {
-	    return {
-	        restrict : "E",
-	        templateUrl : "partials/header.html"
-	    };
-	});
+var app = express();
 
-	app.directive("xtFooter", function() {
-	    return {
-	        restrict : "E",
-	        templateUrl : "partials/footer.html"
-	    };
-	});
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-	var testData =
-	[{
-		name: "Bradley Burch",
-    username: "bradburch",
-		sex: "Male",
-		shoe: "Brooks Ravenna 6",
-		prs:
-		{
-			"Cross Country": "29:00",
-			Mile: "4:48",
-		},
-    images:
-    [
-      {
-        profile: "images/bradburch.jpg",
-      },
-    ],
-    device: "FitBit",
-    teams: "Team Tiger"
-	}];
-})();
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status( err.code || 500 )
+    .json({
+      status: 'error',
+      message: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500)
+  .json({
+    status: 'error',
+    message: err.message
+  });
+});
+
+
+module.exports = app;
