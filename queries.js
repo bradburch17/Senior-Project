@@ -6,7 +6,7 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:informer@localhost:5432/JoggersLoggersDB';
+var connectionString = 'postgres://postgres:s@localhost:5432/JoggersLoggersDB';
 var db = pgp(connectionString);
 
 // add query functions
@@ -53,16 +53,33 @@ function getSingleUser(req, res, next) {
     });
 }
 
+//CREATE A USER
 function createUser(req, res, next) {
-  req.body.age = parseInt(req.body.age);
-  db.none('INSERT INTO person_tbl(person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, ispublic, iscoach, birthdate)' +
-      'values(${person_id}, ${shoe_id}, ${device_id}, ${pr_id}, ${username}, ${password}, ${email}, ${sex}, ${ispublic}, ${iscoach}, ${birthdate})',
+  db.none('INSERT INTO person_tbl(person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, isPublic, isCoach, birthdate)' +
+      'values(${person_id}, ${shoe_id}, ${device_id}, ${pr_id}, ${username}, ${password}, ${email}, ${sex}, ${isPublic}, ${isCoach}, ${birthdate})',
     req.body)
     .then(function () {
       res.status(200)
         .json({
           status: 'success',
           message: 'Inserted one user'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+//CREATE A TEAM
+function createTeam(req, res, next) {
+  db.none('INSERT INTO team_tbl(team_id, coach_id, teamName, teamDescription, isRestricted)' +
+      'values(${team_id}, ${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
+    req.body)
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted one team'
         });
     })
     .catch(function (err) {
@@ -95,7 +112,6 @@ function removeUser(req, res, next) {
           status: 'success',
           message: `Removed ${result.rowCount} user`
         });
-      /* jshint ignore:end */
     })
     .catch(function (err) {
       return next(err);
