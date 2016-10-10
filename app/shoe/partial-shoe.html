@@ -1,0 +1,51 @@
+<div class="center">
+    <div class="container">
+
+        <!--Show current Shoes -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Shoes</h1>
+                <table class="table table-striped table-format-userprofile">
+                    <tr>
+                        <td><b>Shoe</b></td>
+                        <td><b>Current Mileage</b></td>
+                        <td><b>Max Mileage</b></td>
+                        <td><b>Current Shoe</b></td>
+                        <td><b>Retired Shoe</b></td>
+                    </tr>
+                    <tr>
+                        <td>Sample</td>
+                        <td>Sample</td>
+                        <td>Sample</td>
+                        <td>Sample</td>
+                        <td>Sample</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add a new Shoe -->
+        <div class="row">
+            <div class="col-md-12">
+                <form>
+                    <label>Enter a new shoe:</label>
+                    <input type="text" name="shoename">
+                </form>
+                <form>
+                    <label>What is the maximum mileage?</label>
+                    <input type="number" name="maxmileage">
+                </form>
+                <form>
+                    <label>When did you purchase the shoes?</label>
+                    <input type="date" name="purchasedate">
+                </form>
+                <form>
+                    <label>Will this be your current shoe?</label>
+                    <input type="radio" name="currentshoe" value="Yes" checked> Yes
+                    <input type="radio" name="currentshoe" value="No"> No
+                </form>
+                <button class="btn btn-primary" ui-sref="home">Add Shoe</button>
+            </div>
+        </div>
+    </div>
+</div>

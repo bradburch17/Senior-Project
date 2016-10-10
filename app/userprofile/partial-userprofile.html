@@ -1,8 +1,11 @@
-<div class="add-padding" ng-controller="UserController as user">
-	<div class="container">
+<div class="add-padding" ng-controller="userController as user">
+	<div class="container"  ng-repeat="users in userData">
 		<div class="row">
 			<div class="col-md-6">
-				<h1>{{user.users[0].name}}'s Profile</h1>
+				<ul>
+					<li>{{users.username}}</li>
+				</ul>
+				<h1>{{users.firstname}} {{users.lastname}}'s Profile</h1>
 			</div>
 			<div class="col-md-6">
 				<img ng-src="{{user.users[0].images[0].profile}}" class="img-responsive img-format-userprofile">
@@ -13,11 +16,11 @@
 		<div class="row">
 			<div class="col-md-12">
 				<ul class="list-group">
-					<li class="list-group-item borderless-userprofile">Username: {{user.users[0].username}}</li>
-					<li class="list-group-item borderless-userprofile">Sex: {{user.users[0].sex}}</li>
-					<li class="list-group-item borderless-userprofile">Current Shoe: {{user.users[0].shoe}}</li>
-					<li class="list-group-item borderless-userprofile">Device: {{user.users[0].device}}</li>
-					<li class="list-group-item borderless-userprofile">Team: {{user.users[0].teams}}</li>
+					<li class="list-group-item borderless-userprofile">Username: {{users.username}}</li>
+					<li class="list-group-item borderless-userprofile">Sex: {{users.sex}}</li>
+					<li class="list-group-item borderless-userprofile">Current Shoe: {{users.shoe}}</li>
+					<li class="list-group-item borderless-userprofile">Device: {{users.device}}</li>
+					<li class="list-group-item borderless-userprofile">Team: {{users.teams}}</li>
 					<li class="list-group-item borderless-userprofile">Do you want your account to be private?
 						<input type="radio" name="privateAccount" value="Yes"> Yes
 						<input type="radio" name="privateAccount" value="No" checked> No
@@ -26,13 +29,14 @@
 						<input type="radio" name="privateAccount" value="Yes"> Yes
 						<input type="radio" name="privateAccount" value="No" checked> No
 					</li>
+					<li><input type="checkbox" ng-click="deleteUser(user.person_id)">&nbsp;Delete {{ users.username }}</li>
 				</ul>
 
 				<!-- PR TABLE -->
 				<br><br>
 				<table class="table table-striped table-format-userprofile">
 					<h3>Personal Records:</h3>
-					<tr ng-repeat="(key, val) in user.users[0].prs">
+					<tr ng-repeat="(key, val) in users.prs">
 						<th>{{key}}</th>
 						<td>{{val}}</td>
 					</tr>

@@ -2,13 +2,20 @@ var express = require('express');
 var router = express.Router();
 
 var db = require('../queries');
-var path = '/api/v1/'
+var apipath = '/api/v1/';
+const path = require('path');
 
-router.get(path + 'joggersloggers', db.getAllUsers);
-router.get(path + 'joggersloggers/:id', db.getSingleUser);
-router.post(path + 'joggersloggers', db.createUser);
-router.put(path + 'joggersloggers/:id', db.updateUser);
-router.delete(path + 'joggersloggers/:id', db.removeUser);
+router.get('/', (req, res, next) =>
+{
+  res.sendFile(path.join(__dirname, '..', 'app', 'index.html'));
+});
+
+router.get(apipath + 'users', db.getAllUsers);
+router.get(apipath + 'users/:id', db.getSingleUser);
+router.post(apipath + 'users', db.createUser);
+router.post(apipath + 'teams', db.createTeam);
+router.put(apipath + 'users/:id', db.updateUser);
+router.delete(apipath + 'users/:id', db.removeUser);
 
 
 module.exports = router;

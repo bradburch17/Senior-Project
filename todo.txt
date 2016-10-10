@@ -1,0 +1,18 @@
+TODO:
+* Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
+* Add Activities - Create a SQL script for adding some default activities
+* Add Passport integration
+* Fix general API activities
+* Refactor API code modules
+* `Create page for logging an activity
+  * Connect the page to update the database
+* `Create page for adding a shoe
+  * Create a table for already existing shoes
+  * Connect to Database
+* `Create page for personal records
+  * Connect page to database
+  * Shoe already existing PRs
+
+
+********Bonus*********
+* Create an API route to return current mileage information to transfer to another site

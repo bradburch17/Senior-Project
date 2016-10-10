@@ -1,13 +1,14 @@
 ﻿CREATE TABLE Activity_tbl
 (
-    activity_ID integer not null, 
+    activity_ID integer not null,
     activity varchar(50) not null,
-    
+
     primary key (activity_ID)
-); 
+);
 
 CREATE TABLE Log_tbl
 (
+  person_id integer not null,
 	log_ID integer not null,
 	activity_ID integer not null,
 	logDate date not null,
@@ -17,12 +18,13 @@ CREATE TABLE Log_tbl
 	heartRate integer not null,
 	description varchar(500) not null,
 
-	primary key	(log_ID), 
+	primary key	(log_ID),
 	foreign key (activity_ID) references Activity_tbl on delete no action
 );
 
 CREATE TABLE Team_tbl
 (
+  person_id integer not null,
 	team_ID integer not null,
 	coach_ID integer not null,
 	teamName varchar(50) not null,
@@ -34,9 +36,10 @@ CREATE TABLE Team_tbl
 
 CREATE TABLE Shoe_tbl
 (
+  person_id integer not null,
 	shoe_ID integer not null,
 	shoeName varchar(50) not null,
-	maxMileage decimal, 
+	maxMileage decimal,
 	currentMileage decimal not null,
 	purchaseDate date,
 	isRetired boolean not null,
@@ -47,6 +50,7 @@ CREATE TABLE Shoe_tbl
 
 CREATE TABLE PersonalRecord_tbl
 (
+  person_id integer not null,
 	pr_ID integer not null,
 	prTime varchar(10) not null,
 	prEvent varchar(50) not null,
@@ -57,6 +61,7 @@ CREATE TABLE PersonalRecord_tbl
 
 CREATE TABLE DeviceInfo_tbl
 (
+  person_id integer not null,
 	device_ID integer not null,
 	deviceName varchar(25) not null,
 
@@ -65,7 +70,7 @@ CREATE TABLE DeviceInfo_tbl
 
 CREATE TABLE Person_tbl
 (
-    person_ID integer not null, 
+    person_ID integer not null,
     shoe_ID integer,
     team_ID integer,
     device_ID integer,
@@ -77,12 +82,12 @@ CREATE TABLE Person_tbl
     isPublic boolean not null,
     isCoach boolean not null,
     birthdate date not null,
-    
-    primary key (person_ID), 
-    foreign key (shoe_ID) references Shoe_tbl on delete no action, 
-    foreign key (team_ID) references Team_tbl on delete no action, 
+
+    primary key (person_ID),
+    foreign key (shoe_ID) references Shoe_tbl on delete no action,
+    foreign key (team_ID) references Team_tbl on delete no action,
     foreign key (pr_ID) references PersonalRecord_tbl on delete no action,
     foreign key (device_ID) references DeviceInfo_tbl on delete no action
-); 
+);
 
 ALTER TABLE Team_tbl ADD FOREIGN KEY (coach_ID) references Person_tbl
