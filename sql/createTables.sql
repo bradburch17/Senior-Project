@@ -1,43 +1,40 @@
-﻿CREATE TABLE Activity_tbl
+CREATE TABLE Activity_tbl
 (
-    activity_ID integer not null,
+    activity_id integer not null,
     activity varchar(50) not null,
 
-    primary key (activity_ID)
+    primary key (activity_id)
 );
 
 CREATE TABLE Log_tbl
 (
-  person_id integer not null,
-	log_ID integer not null,
-	activity_ID integer not null,
+	log_id integer not null,
+	activity_id integer not null,
 	logDate date not null,
-	distance decimal not null,
-	activityTime time not null,
-	sleep time not null,
-	heartRate integer not null,
-	description varchar(500) not null,
+	distance decimal,
+	activityTime varchar(10),
+	sleep varchar(10),
+	heartRate integer,
+	description varchar(500),
 
-	primary key	(log_ID),
-	foreign key (activity_ID) references Activity_tbl on delete no action
+	primary key	(log_id),
+	foreign key (activity_id) references Activity_tbl on delete no action
 );
 
 CREATE TABLE Team_tbl
 (
-  person_id integer not null,
-	team_ID integer not null,
-	coach_ID integer not null,
+	team_id integer not null,
+	coach_id integer not null,
 	teamName varchar(50) not null,
 	teamDescription varchar(250) not null,
 	isRestricted boolean not null,
 
-	primary key (team_ID)
+	primary key (team_id)
 );
 
 CREATE TABLE Shoe_tbl
 (
-  person_id integer not null,
-	shoe_ID integer not null,
+	shoe_id integer not null,
 	shoeName varchar(50) not null,
 	maxMileage decimal,
 	currentMileage decimal not null,
@@ -45,49 +42,78 @@ CREATE TABLE Shoe_tbl
 	isRetired boolean not null,
 	currentShoe boolean not null,
 
-	primary key (shoe_ID)
+	primary key (shoe_id)
 );
 
 CREATE TABLE PersonalRecord_tbl
 (
-  person_id integer not null,
-	pr_ID integer not null,
+	pr_id integer not null,
 	prTime varchar(10) not null,
 	prEvent varchar(50) not null,
-	prDate date not null,
+	prDate date,
 
-	primary key (pr_ID)
+	primary key (pr_id)
 );
 
 CREATE TABLE DeviceInfo_tbl
 (
-  person_id integer not null,
-	device_ID integer not null,
+	device_id integer not null,
 	deviceName varchar(25) not null,
 
-	primary key (device_ID)
+	primary key (device_id)
 );
 
 CREATE TABLE Person_tbl
 (
-    person_ID integer not null,
-    shoe_ID integer,
-    team_ID integer,
-    device_ID integer,
-    pr_ID integer,
+    person_id integer not null,
+    shoe_id integer,
+    team_id integer,
+    device_id integer,
+    pr_id integer,
     username varchar(25) not null,
     password varchar(64) not null,
     email varchar(50) not null,
     sex varchar(6) not null,
+    firstname varchar(25) not null,
+    lastname varchar(40) not null,
     isPublic boolean not null,
     isCoach boolean not null,
     birthdate date not null,
 
-    primary key (person_ID),
-    foreign key (shoe_ID) references Shoe_tbl on delete no action,
-    foreign key (team_ID) references Team_tbl on delete no action,
-    foreign key (pr_ID) references PersonalRecord_tbl on delete no action,
-    foreign key (device_ID) references DeviceInfo_tbl on delete no action
+    primary key (person_id),
+    foreign key (shoe_id) references Shoe_tbl on delete no action,
+    foreign key (team_id) references Team_tbl on delete no action,
+    foreign key (pr_id) references PersonalRecord_tbl on delete no action,
+    foreign key (device_id) references DeviceInfo_tbl on delete no action
 );
 
-ALTER TABLE Team_tbl ADD FOREIGN KEY (coach_ID) references Person_tbl
+ALTER TABLE Team_tbl ADD FOREIGN KEY (coach_id) references Person_tbl
+
+--Add Autoincrement sequences
+CREATE SEQUENCE person_id_seq;
+ALTER TABLE person_tbl ALTER person_id set default nextval('person_id_seq');
+--Select setval('person_id_seq', 1);
+
+CREATE SEQUENCE shoe_id_seq;
+ALTER TABLE shoe_tbl ALTER shoe_id set default nextval('shoe_id_seq');
+--Select setval('shoe_id_seq', 1);
+
+CREATE SEQUENCE activity_id_seq;
+alter table activity_tbl alter activity_id set default nextval('activity_id_seq');
+--Select setval('activity_id_seq', 1);
+
+CREATE SEQUENCE log_id_seq;
+alter table log_tbl alter log_id set default nextval('log_id_seq');
+--Select setval('log_id_seq', 1);
+
+CREATE SEQUENCE team_id_seq;
+alter table team_tbl alter team_id set default nextval('team_id_seq');
+--Select setval('team_id_seq', 1);
+
+CREATE SEQUENCE personalrecord_id_seq;
+ALTER TABLE personalrecord_tbl ALTER pr_id SET default nextval('personalrecord_id_seq');
+--Select setval('personalrecord_id_seq', 1);
+
+CREATE SEQUENCE device_id_seq;
+ALTER TABLE deviceinfo_tbl ALTER device_id SET default nextval('device_id_seq');
+--Select setval('device_id_seq', 1);

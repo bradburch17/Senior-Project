@@ -1,4 +1,4 @@
-<div class="center">
+<div class="center" ng-controller="shoeController as shoe">
     <div class="container">
 
         <!--Show current Shoes -->
@@ -27,24 +27,23 @@
         <!-- Add a new Shoe -->
         <div class="row">
             <div class="col-md-12">
-                <form>
+                <form name="AddShoeForm" ng-submit="createShoe();">
                     <label>Enter a new shoe:</label>
-                    <input type="text" name="shoename">
-                </form>
-                <form>
+                    <input type="text" name="shoename" ng-model="shoeData.shoename" required>
+                    <br>
                     <label>What is the maximum mileage?</label>
-                    <input type="number" name="maxmileage">
-                </form>
-                <form>
+                    <input type="number" name="maxmileage" ng-model="shoeData.maxmileage">
+                    <br>
                     <label>When did you purchase the shoes?</label>
-                    <input type="date" name="purchasedate">
-                </form>
-                <form>
+                    <input type="date" name="purchasedate" ng-model="shoeData.purchasedate">
+                    <br>
                     <label>Will this be your current shoe?</label>
-                    <input type="radio" name="currentshoe" value="Yes" checked> Yes
-                    <input type="radio" name="currentshoe" value="No"> No
+                    <input type="radio" name="currentshoe" value="True" ng-model="shoeData.currentshoe" checked> Yes
+                    <input type="radio" name="currentshoe" value="False" ng-model="shoeData.currentshoe"> No
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add Shoe</button>
                 </form>
-                <button class="btn btn-primary" ui-sref="home">Add Shoe</button>
+
             </div>
         </div>
     </div>

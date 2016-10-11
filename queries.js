@@ -16,21 +16,24 @@ module.exports = {
     createUser: createUser,
     createTeam: createTeam,
     createShoe: createShoe,
+    createPR: createPR,
+    createLog: createLog,
     updateUser: updateUser,
     removeUser: removeUser
 };
 
 // Read Functions
 function getAllUsers(req, res, next) {
-    db.any('SELECT p.*, t.*, s.*, row_to_json(pr.*) as prs, d.*  FROM person_tbl AS p ' +
-            'JOIN team_tbl AS t on p.person_id = t.person_id ' +
-            'JOIN shoe_tbl AS s on p.person_id = s.person_id ' +
-            'JOIN personalrecord_tbl AS pr on p.person_id = pr.person_id ' +
-            'JOIN deviceinfo_tbl AS d on p.person_id = d.person_id ' +
+    db.any('SELECT p.*, row_to_json(t.*) as teams, s.*, d.*, row_to_json(pr.*) as prs FROM person_tbl AS p ' +
+            'JOIN team_tbl AS t on p.team_id = t.team_id ' +
+            'JOIN shoe_tbl AS s on p.shoe_id = s.shoe_id ' +
+            'JOIN personalrecord_tbl AS pr on p.pr_id = pr.pr_id ' +
+            'JOIN deviceinfo_tbl AS d on p.device_id = d.device_id ' +
             'WHERE p.person_id = 1 AND s.currentshoe = TRUE')
         .then(function(data) {
             res.status(200)
                 .json({
+                    status: 'success',
                     data: data
                 });
             console.log("success");
@@ -60,7 +63,7 @@ function getSingleUser(req, res, next) {
 
 //Create Methods
 function createUser(req, res, next) {
-    db.none('INSERT INTO person_tbl(person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, isPublic, isCoach, birthdate)' +
+    db.none('INSERT INTO person_tbl (person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, isPublic, isCoach, birthdate)' +
             'values(${person_id}, ${shoe_id}, ${device_id}, ${pr_id}, ${username}, ${password}, ${email}, ${sex}, ${isPublic}, ${isCoach}, ${birthdate})',
             req.body)
         .then(function() {
@@ -76,8 +79,8 @@ function createUser(req, res, next) {
 }
 
 function createTeam(req, res, next) {
-    db.none('INSERT INTO team_tbl(team_id, coach_id, teamName, teamDescription, isRestricted)' +
-            'values(${team_id}, ${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
+    db.none('INSERT INTO team_tbl (team_id, coach_id, teamName, teamDescription, isRestricted)' +
+            'VALUES (${team_id}, ${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
             req.body)
         .then(function() {
             res.status(200)
@@ -92,8 +95,8 @@ function createTeam(req, res, next) {
 }
 
 function createShoe(req, res, next) {
-    db.none('INSERT INTO shoe_tbl(shoe_id, shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe, person_id)' +
-            'values(${shoe_id}, ${shoename}, ${maxMileage}, ${currentMileage}, ${purchaseDate}, ${isRetired}, ${currentShoe}, ${person_id})',
+    db.none('INSERT INTO shoe_tbl (shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe)' +
+            'VALUES (${shoename}, ${maxmileage}, 0, ${purchasedate}, FALSE, ${currentshoe})',
             req.body)
         .then(function() {
             res.status(200)
@@ -107,10 +110,41 @@ function createShoe(req, res, next) {
         });
 }
 
+function createPR(req, res, next) {
+    db.none('INSERT INTO personalrecord_tbl (prtime, prevent, prdate)' +
+            'VALUES (${prtime}, ${prevent}, ${prdate})',
+            req.body)
+        .then(function() {
+            res.status(200)
+                .json({
+                    success: 'success',
+                    message: 'Inserted one PR'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function createLog(req, res, next) {
+    db.none('INSERT INTO log_tbl (activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
+            'VALUES (${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description})',
+            req.body)
+        .then(function() {
+            res.status(200)
+                .json({
+                    success: 'success',
+                    message: 'Inserted one log'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
 //Update Methods
 function updateUser(req, res, next) {
-    db.none('UPDATE person_tbl SET shoe_id=$2, team_id=$3, device_id=$4, pr_id=$5, username=$6, password=$7, email=$8, sex=$9, ispublic=$10, iscoach=$11, birthdate=$12 WHERE person_id=$13',
-            [parseInt(req.body.shoe_id), parseInt(req.body.team_id), parseInt(req.body.device_id), req.body.username, req.body.password, req.body.email, req.body.sex, req.body.ispublic /*May need fixed*/ , req.body.iscoach, req.body.birthdate, parseInt(req.params.person_id)])
+    db.none('UPDATE person_tbl SET shoe_id=$2, team_id=$3, device_id=$4, pr_id=$5, username=$6, password=$7, email=$8, sex=$9, ispublic=$10, iscoach=$11, birthdate=$12 WHERE person_id=$13', [parseInt(req.body.shoe_id), parseInt(req.body.team_id), parseInt(req.body.device_id), req.body.username, req.body.password, req.body.email, req.body.sex, req.body.ispublic /*May need fixed*/ , req.body.iscoach, req.body.birthdate, parseInt(req.params.person_id)])
         .then(function() {
             res.status(200)
                 .json({

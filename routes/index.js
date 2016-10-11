@@ -14,6 +14,9 @@ router.get(apipath + 'users', db.getAllUsers);
 router.get(apipath + 'users/:id', db.getSingleUser);
 router.post(apipath + 'users', db.createUser);
 router.post(apipath + 'teams', db.createTeam);
+router.post(apipath + 'shoes', db.createShoe);
+router.post(apipath + 'prs', db.createPR);
+router.post(apipath + 'logs', db.createLog);
 router.put(apipath + 'users/:id', db.updateUser);
 router.delete(apipath + 'users/:id', db.removeUser);
 

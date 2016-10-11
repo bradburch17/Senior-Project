@@ -1,22 +1,37 @@
-<div class="center">
+<div class="center" ng-controller="logController as log">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <h1>This is where you log your activities!</h1>
-                <ul class="list-group">
-                    <li class="list-group-item borderless-userprofile">Activity: <select>
-                      <option value="Run">Run</option>
-                      <option value="Swim">Swim</option>
-                      <option value="Bike">Bike</option>
+                <form name="CreateLogForm" ng-submit="createLog();"
+                    <label>Activity: </label>
+                    <select name="activityselection" ng-model="logData.activity_id">
+                      <option value="4">None</option>
+                      <option value="1">Run</option>
+                      <option value="2">Bike</option>
+                      <option value="3">Swim</option>
                     </select>
-                    </li>
-                    <li class="list-group-item borderless-userprofile">Miles: <input type="text"></li>
-                    <li class="list-group-item borderless-userprofile">Time: <input type="text"></li>
-                    <li class="list-group-item borderless-userprofile">Sleep: <input type="text"></li>
-                    <li class="list-group-item borderless-userprofile">Heartrate: <input type="text"></li>
-                    <li class="list-group-item borderless-userprofile">Description: <input type="text"></li>
-                    <button class="btn btn-primary" ui-sref="home">Log Activity</button>
-                </ul>
+                    <br>
+                    <label>Date: </label>
+                    <input type="date" value="logdate" ng-model="logData.logdate">
+                    <br>
+                    <label>Miles: </label>
+                    <input type="number" value="distance" ng-model="logData.distance">
+                    <br>
+                    <label>Time: </label>
+                    <input type="text" value="activitytime" ng-model="logData.activitytime">
+                    <br>
+                    <label>Sleep: </label>
+                    <input type="number" value="sleep" ng-model="logData.sleep">
+                    <br>
+                    <label>Heartrate: </label>
+                    <input type="number" value="heartrate" ng-model="logData.heartrate">
+                    <br>
+                    <label>Description: </label>
+                    <input type="text" value="description" ng-model="logData.description">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Log Activity</button>
+                  </form>
             </div>
         </div>
     </div>

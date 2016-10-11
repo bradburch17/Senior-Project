@@ -1,17 +1,17 @@
-<div class="center">
+<div class="center" ng-controller="prController">
     <div class="container">
-      <!--Show current Personal Records -->
+        <!--Show current Personal Records -->
         <div class="row">
             <div class="col-md-12">
-              <h1>Personal Records</h1>
+                <h1>Personal Records</h1>
                 <table class="table table-striped table-format-userprofile">
                     <tr>
-                      <td><b>Event</b></td>
-                      <td><b>Time</b></td>
+                        <td><b>Event</b></td>
+                        <td><b>Time</b></td>
                     </tr>
                     <tr>
-                      <td>Sample</td>
-                      <td>Sample</td>
+                        <td>Sample</td>
+                        <td>Sample</td>
                     </tr>
                 </table>
             </div>
@@ -21,15 +21,18 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Add a Personal Record</h3>
-                <form>
+                <form name="AddPRForm" ng-submit="createPR();">
                     <label>Event: </label>
-                    <input type="text">
-                </form>
-                <form>
+                    <input type="text" value="prevent" ng-model="prData.prevent" required>
+                    <br>
                     <label>Time: </label>
-                    <input type="text">
+                    <input type="text" value="prtime" ng-model="prData.prtime" required>
+                    <br>
+                    <label>Date: </label>
+                    <input type="date" value="prdate" ng-model="prData.prdate">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add Personal Record</button>
                 </form>
-                <button class="btn btn-primary" ui-sref="home">Add Personal Record</button>
             </div>
         </div>
     </div>
