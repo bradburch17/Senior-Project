@@ -63,14 +63,14 @@ function getSingleUser(req, res, next) {
 
 //Create Methods
 function createUser(req, res, next) {
-    db.none('INSERT INTO person_tbl (person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, isPublic, isCoach, birthdate)' +
-            'values(${person_id}, ${shoe_id}, ${device_id}, ${pr_id}, ${username}, ${password}, ${email}, ${sex}, ${isPublic}, ${isCoach}, ${birthdate})',
+    db.none('INSERT INTO person_tbl (shoe_id, team_id, device_id, pr_id, username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
+            'VALUES (null, null, null, null, ${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
             req.body)
         .then(function() {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Inserted one user'
+                    message: 'Inserted one person'
                 });
         })
         .catch(function(err) {

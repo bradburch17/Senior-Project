@@ -1,6 +1,6 @@
 CREATE TABLE Activity_tbl
 (
-    activity_id integer not null,
+    activity_id SERIAL,
     activity varchar(50) not null,
 
     primary key (activity_id)
@@ -8,7 +8,7 @@ CREATE TABLE Activity_tbl
 
 CREATE TABLE Log_tbl
 (
-	log_id integer not null,
+	log_id SERIAL,
 	activity_id integer not null,
 	logDate date not null,
 	distance decimal,
@@ -23,7 +23,7 @@ CREATE TABLE Log_tbl
 
 CREATE TABLE Team_tbl
 (
-	team_id integer not null,
+	team_id SERIAL,
 	coach_id integer not null,
 	teamName varchar(50) not null,
 	teamDescription varchar(250) not null,
@@ -34,7 +34,7 @@ CREATE TABLE Team_tbl
 
 CREATE TABLE Shoe_tbl
 (
-	shoe_id integer not null,
+	shoe_id SERIAL,
 	shoeName varchar(50) not null,
 	maxMileage decimal,
 	currentMileage decimal not null,
@@ -47,7 +47,7 @@ CREATE TABLE Shoe_tbl
 
 CREATE TABLE PersonalRecord_tbl
 (
-	pr_id integer not null,
+	pr_id SERIAL,
 	prTime varchar(10) not null,
 	prEvent varchar(50) not null,
 	prDate date,
@@ -57,7 +57,7 @@ CREATE TABLE PersonalRecord_tbl
 
 CREATE TABLE DeviceInfo_tbl
 (
-	device_id integer not null,
+	device_id SERIAL,
 	deviceName varchar(25) not null,
 
 	primary key (device_id)
@@ -65,7 +65,7 @@ CREATE TABLE DeviceInfo_tbl
 
 CREATE TABLE Person_tbl
 (
-    person_id integer not null,
+    person_id SERIAL,
     shoe_id integer,
     team_id integer,
     device_id integer,

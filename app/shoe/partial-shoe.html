@@ -1,8 +1,9 @@
-<div class="center" ng-controller="shoeController as shoe">
-    <div class="container">
+<h1 class="registration-h1">Enter a New Shoe: </h1>
+<div class="content-registration" ng-controller="shoeController as shoe">
+    <div class="form-container">
 
         <!--Show current Shoes -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
                 <h1>Shoes</h1>
                 <table class="table table-striped table-format-userprofile">
@@ -22,29 +23,31 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </div> -->
 
         <!-- Add a new Shoe -->
-        <div class="row">
-            <div class="col-md-12">
-                <form name="AddShoeForm" ng-submit="createShoe();">
-                    <label>Enter a new shoe:</label>
-                    <input type="text" name="shoename" ng-model="shoeData.shoename" required>
-                    <br>
-                    <label>What is the maximum mileage?</label>
-                    <input type="number" name="maxmileage" ng-model="shoeData.maxmileage">
-                    <br>
-                    <label>When did you purchase the shoes?</label>
-                    <input type="date" name="purchasedate" ng-model="shoeData.purchasedate">
-                    <br>
-                    <label>Will this be your current shoe?</label>
-                    <input type="radio" name="currentshoe" value="True" ng-model="shoeData.currentshoe" checked> Yes
-                    <input type="radio" name="currentshoe" value="False" ng-model="shoeData.currentshoe"> No
-                    <br>
-                    <button type="submit" class="btn btn-primary">Add Shoe</button>
-                </form>
-
+        <form name="AddShoeForm" ng-submit="createShoe();">
+            <div class="form-group">
+                <label>Enter the shoe model:</label>
+                <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" required>
             </div>
-        </div>
+            <div class="form-group">
+                <label>What is the maximum mileage?</label>
+                <input type="number" name="maxmileage" class="form-control" ng-model="shoeData.maxmileage">
+            </div>
+            <div class="form-group">
+                <label>When did you purchase the shoes?</label>
+                <input type="date" name="purchasedate" class="form-control" ng-model="shoeData.purchasedate">
+            </div>
+            <div class="form-group">
+                <label>Will this be your current shoe?</label>
+                <input type="radio" name="currentshoe" value="True" ng-model="shoeData.currentshoe" checked> Yes
+                <input type="radio" name="currentshoe" value="False" ng-model="shoeData.currentshoe"> No
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Shoe</button>
+            </div>
+        </form>
+
     </div>
 </div>

@@ -21,7 +21,7 @@
     });
 
     //This is how I am routing through the website
-    app.config(function($stateProvider, $urlRouterProvider) {
+    app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider.otherwise('/home');
 
         $stateProvider
@@ -36,8 +36,8 @@
             templateUrl: '/about/partial-about.html'
         })
 
-        .state('sign-in', {
-            url: '/sign-in',
+        .state('login', {
+            url: '/login',
             templateUrl: '/sign-in/partial-signin.html'
         })
 
@@ -49,6 +49,12 @@
         .state('register', {
             url: '/register',
             templateUrl: '/sign-up/partial-signup.html'
+        })
+
+        .state('forgot-password', {
+          url: '/forgot-password',
+          templateUrl: 'forgotpass/partial-forgotpass.html',
+          abstract: true
         })
 
         .state('log', {
@@ -66,6 +72,7 @@
             templateUrl: '/personalrecord/partial-personalrecord.html'
         })
 
+        //$locationProvider.html5Mode(true); //Removes # from URL. Forces HTML5 Mode.
     });
 
     app.controller('userController', ($scope, $http) => {
@@ -82,23 +89,29 @@
                 console.log('Error: ' + error);
             });
 
-        $scope.createUser = function(person_id) {
-            $http.post('api/v1/users', $scope.formData)
-                .success((data) => {
-                    $scope.userData = data.data;
-                    console.log("Inserted");
-                })
-                .error((error) => {
-                    console.log('Error: ' + error);
-                });
-        };
-
         $scope.deleteUser = function(person_id) {
             console.log(person_id);
             $http.delete('api/v1/users/' + person_id)
                 .success((data) => {
                     $scope.userData = data.data;
                     console.log("Deleted");
+                })
+                .error((error) => {
+                    console.log('Error: ' + error);
+                });
+        };
+    });
+
+    app.controller('loginController', ($scope, $http, $state) => {
+        $scope.userData = {};
+
+        $scope.loginUser = function() {
+            $http.post('api/v1/login', $scope.userData)
+                .success((data) => {
+                    $scope.userData = data.data;
+                    console.log('Successful login.');
+                    console.log(data);
+                    $state.go('home');
                 })
                 .error((error) => {
                     console.log('Error: ' + error);
@@ -150,21 +163,4 @@
                 });
         };
     });
-
-    // var testData = [{
-    //     name: "Bradley Burch",
-    //     username: "bradburch",
-    //     sex: "Male",
-    //     shoe: "Brooks Ravenna 6",
-    //     prs: [{
-    //         "Cross Country": "29:00",
-    //     }, {
-    //         Mile: "4:48",
-    //     }, ],
-    //     images: [{
-    //         profile: "images/bradburch.jpg",
-    //     }, ],
-    //     device: "FitBit",
-    //     teams: "Team Tiger"
-    // }];
 })();
