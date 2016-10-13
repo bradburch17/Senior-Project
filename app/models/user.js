@@ -106,7 +106,6 @@ User.findOne = function(username, callback) {
         }
 
         client.end();
-        console.log(user.password);
         return callback(false, isNotAvailable, this);
     });
 };

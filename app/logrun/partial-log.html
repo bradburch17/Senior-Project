@@ -1,9 +1,10 @@
 <h1 class="registration-h1">This is where you log your activities!</h1>
 <div class="content-registration" ng-controller="logController as log">
-  <div class="form-container">
-                <form name="CreateLogForm" ng-submit="createLog();" <div class="form-group">
-                    <label>Activity: </label>
-                    <select name="activityselection" class="form-control" ng-model="logData.activity_id">
+    <div class="form-container">
+        <form name="CreateLogForm" ng-submit="createLog();">
+            <div class="form-group">
+                <label>Activity: </label>
+                <select name="activityselection" class="form-control" ng-model="logData.activity_id">
                       <option value="1">None</option>
                       <option value="2">Run</option>
                       <option value="3">Bike</option>
@@ -12,7 +13,7 @@
             </div>
             <div class="form-group">
                 <label>Date: </label>
-                <input type="date" value="logdate" class="form-control" ng-model="logData.logdate">
+                <input type="date" value="logdate" class="form-control" ng-model="logData.logdate" required>
             </div>
             <div class="form-group">
                 <label>Miles: </label>
@@ -37,8 +38,8 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Log Activity</button>
             </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 </div>
 </div>

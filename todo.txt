@@ -1,7 +1,7 @@
 TODO:
 * Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
 * Add Activities - Create a SQL script for adding some default activities
-* Add Passport integration
+* `Add Passport integration
 * Fix general API activities
 * Refactor API code modules
 * `Create page for logging an activity

@@ -36,4 +36,11 @@ router.post(apipath + 'login', passport.authenticate('local-login', {
   failureFlash: true
 }));
 
+router.get(apipath + 'logout', function(req, res) {
+  req.logout();
+  res.status(200).json({
+    status: 'Bye!'
+  });
+});
+
 module.exports = router;
