@@ -1,0 +1,30 @@
+TODO:
+* Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
+* Add Activities - Create a SQL script for adding some default activities
+* `Add Passport integration
+* Fix general API activities
+* Refactor API code modules
+* `Create page for logging an activity
+  * `Connect the page to update the database
+* `Create page for adding a shoe
+  * Create a table for already existing shoes
+  * `Connect to Database
+* `Create page for personal records
+  * `Connect page to database
+  * Show already existing PRs
+* Add profile pictures
+***REIFY THE DATABASE TABLES - ADD Person_Shoe_tbl, Person_log_tbl, Person_team_tbl, etc.
+
+********Bonus*********
+* Create an API route to return current mileage information to transfer to another site
+
+
+
+CHECKPOINT REQUIREMENTS:
+•	Show the login page connected to database – users, passwords, and user settings stored in Person_tbl.
+o	Show creating a new user
+o	Show a user logging in
+•	Show page for logging a run and store in Log_tbl.
+o	Show logging a run or different activity.
+•	Show page for adding shoe and store in Shoe_tbl.
+•	Show page for adding personal record and store in PersonalRecord_tbl.

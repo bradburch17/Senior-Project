@@ -1,0 +1,40 @@
+<h1 class="registration-h1">Add a Personal Record</h1>
+<div class="content-registration" ng-controller="prController">
+    <div class="form-container">
+        <!--Show current Personal Records -->
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <h1>Personal Records</h1>
+                <table class="table table-striped table-format-userprofile">
+                    <tr>
+                        <td><b>Event</b></td>
+                        <td><b>Time</b></td>
+                    </tr>
+                    <tr>
+                        <td>Sample</td>
+                        <td>Sample</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+-->
+        <!--Add a Personal Record -->
+        <form name="AddPRForm" ng-submit="createPR();">
+            <div class="form-group">
+                <label>Event: </label>
+                <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" required>
+            </div>
+            <div class="form-group">
+                <label>Time: </label>
+                <input type="text" value="prtime" class="form-control" ng-model="prData.prtime" required>
+            </div>
+            <div class="form-group">
+                <label>Date: </label>
+                <input type="date" value="prdate" class="form-control" ng-model="prData.prdate">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Personal Record</button>
+            </div>
+        </form>
+    </div>
+</div>

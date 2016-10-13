@@ -1,44 +1,74 @@
-(function()
-{
-  	var app = angular.module('myApp', []);
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var flash = require('connect-flash');
 
-  	app.controller('UserController', function()
-  	{
-  		this.users = testData;
-  	});
+var routes = require('./routes/index');
+// var users = require('./routes/users');
 
-	app.directive("xtHeader", function() {
-	    return {
-	        restrict : "E",
-	        templateUrl : "partials/header.html"
-	    };
-	});
+//passport stuff
+var session = require('express-session');
+var pg = require('pg');
+var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+var client = new pg.Client(conString);
 
-	app.directive("xtFooter", function() {
-	    return {
-	        restrict : "E",
-	        templateUrl : "partials/footer.html"
-	    };
-	});
+var app = express();
 
-	var testData =
-	[{
-		name: "Bradley Burch",
-    username: "bradburch",
-		sex: "Male",
-		shoe: "Brooks Ravenna 6",
-		prs:
-		{
-			"Cross Country": "29:00",
-			Mile: "4:48",
-		},
-    images:
-    [
-      {
-        profile: "images/bradburch.jpg",
-      },
-    ],
-    device: "FitBit",
-    teams: "Team Tiger"
-	}];
-})();
+require('./config/passport')(passport);
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(cookieParser());
+//Passport Stuff////////////////////////////////////////////////////////////////////
+app.use(session({
+    secret: 'ilovescotchscotchyscotchscotch'
+})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+///////////////////////////////////////////////////////////////////////////////////
+app.use(express.static(path.join(__dirname, 'app')));
+
+app.use('/', routes);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.code || 500)
+            .json({
+                status: 'error',
+                message: err
+            });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500)
+        .json({
+            status: 'error',
+            message: err.message
+        });
+});
+
+
+module.exports = app;
