@@ -27,13 +27,10 @@ function User() {
 
         var client = new pg.Client(conString);
         client.connect();
-
-        console.log(this.email + ' will be saved');
-
         var hashedPassword = bcrypt.hashSync(this.password, salt);
 
-        client.query('INSERT INTO person_tbl (shoe_id, team_id, device_id, pr_id, username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
-            'VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', [this.shoe_id, this.team_id, this.device_id, this.pr_id, this.username, hashedPassword, this.email, this.sex, this.firstname, this.lastname, this.ispublic, this.iscoach, this.birthdate],
+        client.query('INSERT INTO person_tbl (username, password, email, sex, firstname, lastname, ispublic, birthdate)' +
+            'VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [this.username, hashedPassword, this.email, this.sex, this.firstname, this.lastname, this.ispublic, this.birthdate],
             function(err, result) {
                 if (err) {
                     console.log(err);
@@ -56,20 +53,19 @@ function User() {
                 console.log(result.rows[0] + ' is found! in the select all');
                 var user = new User();
                 user.email = result.rows[0]['email'];
-                user.shoe_id = result.rows[0]['shoe_id'];
+                // user.shoe_id = result.rows[0]['shoe_id'];
                 user.password = result.rows[0]['password'];
                 user.person_id = result.rows[0]['person_id'];
                 user.firstname = result.rows[0]['firstname'];
                 user.lastname = result.rows[0]['lastname'];
                 user.birthdate = result.rows[0]['birthdate'];
                 user.sex = result.rows[0]['sex'];
-                user.team_id = result.rows[0]['team_id'];
-                user.device_id = result.rows[0]['device_id'];
-                user.pr_id = result.rows[0]['pr_id'];
+                // user.team_id = result.rows[0]['team_id'];
+                // user.device_id = result.rows[0]['device_id'];
+                // user.pr_id = result.rows[0]['pr_id'];
                 user.ispublic = result.rows[0]['ispublic'];
-                user.iscoach = result.rows[0]['iscoach'];
+                // user.iscoach = result.rows[0]['iscoach'];
                 user.username = result.rows[0]['username'];
-                console.log(user.email);
                 client.end();
                 return callback(user);
             }
@@ -128,18 +124,18 @@ User.findByUsername = function(username, callback) {
         if (result.rows.length > 0) {
             var user = new User();
             user.email = result.rows[0]['email'];
-            user.shoe_id = result.rows[0]['shoe_id'];
+            // user.shoe_id = result.rows[0]['shoe_id'];
             user.password = result.rows[0]['password'];
             user.person_id = result.rows[0]['person_id'];
             user.firstname = result.rows[0]['firstname'];
             user.lastname = result.rows[0]['lastname'];
             user.birthdate = result.rows[0]['birthdate'];
             user.sex = result.rows[0]['sex'];
-            user.team_id = result.rows[0]['team_id'];
+            // user.team_id = result.rows[0]['team_id'];
             user.device_id = result.rows[0]['device_id'];
-            user.pr_id = result.rows[0]['pr_id'];
+            // user.pr_id = result.rows[0]['pr_id'];
             user.ispublic = result.rows[0]['ispublic'];
-            user.iscoach = result.rows[0]['iscoach'];
+            // user.iscoach = result.rows[0]['iscoach'];
             user.username = username;
             console.log(username + ' was found');
         } else {
@@ -169,18 +165,18 @@ User.findById = function(id, callback) {
             console.log(result.rows[0] + ' is found!');
             var user = new User();
             user.email = result.rows[0]['email'];
-            user.shoe_id = result.rows[0]['shoe_id'];
+            // user.shoe_id = result.rows[0]['shoe_id'];
             user.password = result.rows[0]['password'];
             user.person_id = result.rows[0]['person_id'];
             user.firstname = result.rows[0]['firstname'];
             user.lastname = result.rows[0]['lastname'];
             user.birthdate = result.rows[0]['birthdate'];
             user.sex = result.rows[0]['sex'];
-            user.team_id = result.rows[0]['team_id'];
-            user.device_id = result.rows[0]['device_id'];
-            user.pr_id = result.rows[0]['pr_id'];
+            // user.team_id = result.rows[0]['team_id'];
+            // user.device_id = result.rows[0]['device_id'];
+            // user.pr_id = result.rows[0]['pr_id'];
             user.ispublic = result.rows[0]['ispublic'];
-            user.iscoach = result.rows[0]['iscoach'];
+            // user.iscoach = result.rows[0]['iscoach'];
             user.username = result.rows[0]['username'];
             console.log(user.email);
             return callback(null, user);

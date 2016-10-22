@@ -4,6 +4,7 @@ var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 var client = new pg.Client(conString);
+var jwt = require('jsonwebtoken');
 
 // load up the user model
 var User = require('../app/models/user');
@@ -77,7 +78,6 @@ module.exports = function(passport) {
                         user.birthdate = req.body.birthdate;
                         user.firstname = req.body.firstname;
                         user.lastname = req.body.lastname;
-
                         user.save(function(newUser) {
                             console.log("the object user is: ", newUser);
                             passport.authenticate();
@@ -128,8 +128,10 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
                 }
                 // all is well, return successful user
+
                 console.log('Logged In :)');
-                return done(null, user);
+                var token = jwt.sign(user, app.get('superSecret'), {expiresInMinutes: 1440 });
+                return done(null, user, token);
             });
         }));
 

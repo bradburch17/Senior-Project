@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var flash = require('connect-flash');
+var jwt = require('jsonwebtoken');
 
 var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -20,7 +21,7 @@ var app = express();
 require('./config/passport')(passport);
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.set('superSecret', config.secret);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
