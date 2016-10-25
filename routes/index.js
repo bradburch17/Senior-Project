@@ -24,17 +24,19 @@ router.post(apipath + 'logs', isLoggedIn, db.createLog);
 router.put(apipath + 'users/:id', isLoggedIn, db.updateUser);
 router.delete(apipath + 'users/:id', isLoggedIn, db.removeUser);
 
-router.post(apipath + 'register', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/#/signup',
-    failureFlash: true
-}));
+router.post(apipath + 'register', passport.authenticate('local-signup'), function(req, res, err) {
+  res.json(req.user);
+});
 
-router.post(apipath + 'login', passport.authenticate('local-login', {
-    successRedirect: '/',
-    failureRedirect: '/#/login',
-    failureFlash: true
-}));
+// router.post(apipath + 'login', passport.authenticate('local-login', {
+//     successRedirect: '/',
+//     failureRedirect: '/#/login',
+//     failureFlash: true
+// }));
+
+router.post(apipath + 'login', passport.authenticate('local-login'), function(req, res, err) {
+  res.json(req.user);
+});
 
 router.get(apipath + 'logout', function(req, res) {
     req.logout();

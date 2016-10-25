@@ -1,10 +1,11 @@
 //NOT IN USE
-{
-angular.module('xuserModule').controller('xuserController', function() {
+var app = angular.module('app.controllers', []);
+
+app.controller('xuserController', function() {
     this.users = testData;
 });
 
-angular.module('userModule').controller('userController', ($scope, $http) => {
+app.controller('userController', ($scope, $http) => {
     $scope.formData = {};
     $scope.userData = {};
 
@@ -31,7 +32,7 @@ angular.module('userModule').controller('userController', ($scope, $http) => {
     };
 });
 
-angular.module('loginModule').controller('loginController', ($scope, $http, $state) => {
+app.controller('loginController', ($scope, $http, $state) => {
     $scope.userData = {};
 
     $scope.loginUser = function() {
@@ -48,7 +49,7 @@ angular.module('loginModule').controller('loginController', ($scope, $http, $sta
     };
 });
 
-angular.module('shoeModule').controller('shoeController', ($scope, $http) => {
+app.controller('shoeController', ($scope, $http) => {
     $scope.shoeData = {};
 
     $scope.createShoe = function() {
@@ -63,7 +64,7 @@ angular.module('shoeModule').controller('shoeController', ($scope, $http) => {
     };
 });
 
-angular.module('prModule').controller('prController', ($scope, $http) => {
+app.controller('prController', ($scope, $http) => {
     $scope.prData = {};
 
     $scope.createPR = function() {
@@ -78,7 +79,7 @@ angular.module('prModule').controller('prController', ($scope, $http) => {
     };
 });
 
-angular.module('logModule').controller('logController', ($scope, $http) => {
+app.controller('logController', ($scope, $http) => {
     $scope.logData = {};
 
     $scope.createLog = function() {
@@ -92,4 +93,18 @@ angular.module('logModule').controller('logController', ($scope, $http) => {
             });
     };
 });
-}
+
+app.controller('registerController', function($scope, $http, $location) {
+    $scope.userData = {};
+
+    $scope.register = function(user) {
+        $http.post('/api/v1/register', $scope.userData)
+            .success((data) => {
+                $scope.userData = data.data;
+                console.log("Inserted");
+            })
+            .error((error) => {
+                console.log('Error: ' + error);
+            });
+    }
+});

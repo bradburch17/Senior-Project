@@ -16,6 +16,7 @@ CREATE TABLE Log_tbl
 	activityTime varchar(10),
 	sleep varchar(10),
 	heartRate integer,
+  logTitle varchar(30),
 	description varchar(500),
 
 	primary key	(log_id),

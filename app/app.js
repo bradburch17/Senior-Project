@@ -1,6 +1,6 @@
 ///THIS IS ANGULAR STUFF
 (function() {
-    var app = angular.module('myApp', ['ui.router'/*, 'userModule', 'loginModule', 'shoeModule', 'prModule', 'logModule'*/]);
+    var app = angular.module('myApp', ['ui.router' /*, 'userModule', 'loginModule', 'shoeModule', 'prModule', 'logModule'*/ ]);
 
     app.controller('xuserController', function() {
         this.users = testData;
@@ -39,43 +39,44 @@
         .state('login', {
             url: '/login',
             templateUrl: '/sign-in/partial-signin.html',
-            controller: 'loginController'
+            //controller: 'loginController'
         })
 
         .state('user-profile', {
             url: '/user-profile',
             templateUrl: '/userprofile/partial-userprofile.html',
-            controller: 'userController'
+            //controller: 'userController'
         })
 
         .state('register', {
             url: '/register',
-            templateUrl: '/sign-up/partial-signup.html'
+            templateUrl: '/sign-up/partial-signup.html',
+            //controller: 'registerController'
         })
 
         .state('forgot-password', {
             url: '/forgot-password',
             templateUrl: 'forgotpass/partial-forgotpass.html',
             abstract: true,
-            controller: 'forgotController'
+            //controller: 'forgotController'
         })
 
         .state('log', {
             url: '/log',
             templateUrl: '/logrun/partial-log.html',
-            controller: 'logController'
+            //controller: 'logController'
         })
 
         .state('shoe', {
             url: '/shoes',
             templateUrl: '/shoe/partial-shoe.html',
-            controller: 'shoeController'
+            //controller: 'shoeController'
         })
 
         .state('personalrecord', {
             url: '/personal_records',
             templateUrl: '/personalrecord/partial-personalrecord.html',
-            controller: 'prController'
+            //controller: 'prController'
         })
 
         //$locationProvider.html5Mode(true); //Removes # from URL. Forces HTML5 Mode.
@@ -168,5 +169,36 @@
                     console.log('Error: ' + error);
                 });
         };
+    });
+
+    app.controller('registerController', ($scope, $http) => {
+        $scope.userData = {};
+
+        $scope.createUser = function() {
+            $http.post('/api/v1/register', $scope.userData)
+                .success((data) => {
+                    $scope.userData = data.data;
+                    console.log("Inserted");
+                })
+                .error((error) => {
+                    console.log('Error: ' + error);
+                });
+        };
+    });
+
+    app.controller('loginController', ($scope, $http, $location) => {
+      $scope.userData ={};
+
+      $scope.login = function() {
+        $http.post('/api/v1/login', $scope.userData)
+        .success((data) => {
+          $scope.userData = data.data;
+          console.log("Logged In");
+          $location.path('#/home');
+        })
+        .error((error) => {
+          console.log('Error: ' + error);
+        });
+      };
     });
 })();

@@ -1,6 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy;
 var pg = require('pg');
-var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+var config = require('./config');
+var conString = config.database;
+//var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 var client = new pg.Client(conString);

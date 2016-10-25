@@ -1,6 +1,7 @@
 var pg = require('pg');
-
-var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+var config = require('../../config/config');
+var conString = config.database;
+//var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 
 var client = new pg.Client(conString);
 var bcrypt = require('bcrypt-node');
@@ -24,7 +25,7 @@ function User() {
     this.token = ""; //I think I need to declare this in order to return it.
 
     this.save = function(callback) {
-        var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+        //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 
         var client = new pg.Client(conString);
         client.connect();
@@ -75,7 +76,7 @@ function User() {
 }
 
 User.findOne = function(username, callback) {
-    var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
@@ -108,7 +109,7 @@ User.findOne = function(username, callback) {
 };
 
 User.findByUsername = function(username, callback) {
-    var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
@@ -152,7 +153,7 @@ User.findByUsername = function(username, callback) {
 
 User.findById = function(id, callback) {
     console.log("We are in findbyid " + id);
-    var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
 
     client.connect();

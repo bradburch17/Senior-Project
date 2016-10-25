@@ -3,9 +3,10 @@ var promise = require('bluebird');
 var options = {
     promiseLib: promise
 };
-
+var config = require('./config/config');
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:s@localhost:5432/JoggersLoggersDB';
+var connectionString = config.database;
+//var connectionString = 'postgres://postgres:s@localhost:5432/JoggersLoggersDB';
 var db = pgp(connectionString);
 
 // add query functions
@@ -63,8 +64,8 @@ function getSingleUser(req, res, next) {
 
 //Create Methods
 function createUser(req, res, next) {
-    db.none('INSERT INTO person_tbl (shoe_id, team_id, device_id, pr_id, username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
-            'VALUES (null, null, null, null, ${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
+    db.none('INSERT INTO person_tbl (username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
+            'VALUES (${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
             req.body)
         .then(function() {
             res.status(200)
@@ -79,8 +80,8 @@ function createUser(req, res, next) {
 }
 
 function createTeam(req, res, next) {
-    db.none('INSERT INTO team_tbl (team_id, coach_id, teamName, teamDescription, isRestricted)' +
-            'VALUES (${team_id}, ${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
+    db.none('INSERT INTO team_tbl (coach_id, teamName, teamDescription, isRestricted)' +
+            'VALUES (${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
             req.body)
         .then(function() {
             res.status(200)
@@ -173,20 +174,3 @@ function removeUser(req, res, next) {
             return next(err);
         });
 }
-
-// function isAuthenticated(req, res, next) {
-//     console.log('In Authentication');
-//     if (req.user)
-//       res.status(401)
-//       .json({
-//         status: 'fail',
-//         message: 'Is this working?'
-//       });
-//
-//     if (req.user.authenticated) {
-//         console.log('User is authenticated');
-//         return next();
-//     }
-//
-//     res.redirect('/');
-// }
