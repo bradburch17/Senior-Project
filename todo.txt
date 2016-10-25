@@ -3,18 +3,15 @@ FROM CHECKPOINT 2:
 * Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
 * Add Activities - Create a SQL script for adding some default activities
 * Fix general API activities
-* Refactor API code modules
-* `Create page for adding a shoe
-  * Create a table for already existing shoes
-* `Create page for personal records
-  * Show already existing PRs
 * Validate input on all screens
-* Add Log Title 
-***REIFY THE DATABASE TABLES - ADD Person_Shoe_tbl, Person_log_tbl, Person_team_tbl, etc.
+* Add Log Title
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site
 * Add profile pictures
+* Refactor API code modules
+* Show already existing PRs
+* Create a table for already existing shoes
 
 Checkpoint 3:
 * Connect FitBit

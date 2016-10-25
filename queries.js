@@ -173,3 +173,20 @@ function removeUser(req, res, next) {
             return next(err);
         });
 }
+
+// function isAuthenticated(req, res, next) {
+//     console.log('In Authentication');
+//     if (req.user)
+//       res.status(401)
+//       .json({
+//         status: 'fail',
+//         message: 'Is this working?'
+//       });
+//
+//     if (req.user.authenticated) {
+//         console.log('User is authenticated');
+//         return next();
+//     }
+//
+//     res.redirect('/');
+// }

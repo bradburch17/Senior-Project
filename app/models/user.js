@@ -21,6 +21,7 @@ function User() {
     this.iscoach = false;
     this.username = "";
     this.password = ""; //need to declare the things that i want to be remembered for each user in the database
+    this.token = ""; //I think I need to declare this in order to return it.
 
     this.save = function(callback) {
         var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";

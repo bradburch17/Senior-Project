@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var passport = require('passport');
 var flash = require('connect-flash');
 var jwt = require('jsonwebtoken');
@@ -15,13 +16,14 @@ var session = require('express-session');
 var pg = require('pg');
 var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 var client = new pg.Client(conString);
+var config = require('./config/config');
 
 var app = express();
 
 require('./config/passport')(passport);
 
 // uncomment after placing your favicon in /public
-// app.set('superSecret', config.secret);
+app.set('superSecret', config.secret);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -30,7 +32,9 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 //Passport Stuff////////////////////////////////////////////////////////////////////
 app.use(session({
-    secret: 'ilovescotchscotchyscotchscotch'
+    secret: config.secret,
+    resave: false,
+    saveUninitialized: false
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

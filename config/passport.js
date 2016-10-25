@@ -12,12 +12,6 @@ var User = require('../app/models/user');
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
-    // =========================================================================
-    // passport session setup ==================================================
-    // =========================================================================
-    // required for persistent login sessions
-    // passport needs ability to serialize and unserialize users out of session
-
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
         console.log(user.person_id + " was seralized");
@@ -105,11 +99,9 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
-            console.log("In Local-Login with " + username + " " + password);
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.findByUsername(username, function(err, user) {
-                console.log("In findByUsername with " + username + " " + password + " " + user.password);
                 // if there are any errors, return the error before anything else
                 if (err) {
                     console.log('Error: ' + err);
@@ -122,7 +114,6 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
                 }
                 // if the user is found but the password is wrong
-                console.log(user.password + " " + password);
                 if (!isValidPassword(user, password)) {
                     console.log("Wrong Password");
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
@@ -130,12 +121,16 @@ module.exports = function(passport) {
                 // all is well, return successful user
 
                 console.log('Logged In :)');
-                var token = jwt.sign(user, app.get('superSecret'), {expiresInMinutes: 1440 });
-                return done(null, user, token);
+                // var token = jwt.sign(user, 'ilovescotchscotchyscotchscotch', {
+                //     expiresIn: 86400
+                // });
+                // console.log('Token: ' + token + " END OF TOKEN*******");
+                // user.token = token;
+                return done(null, user);
             });
         }));
 
-        var isValidPassword = function(user, password) {
-          return bcrypt.compareSync(password, user.password);
-        }
+    var isValidPassword = function(user, password) {
+        return bcrypt.compareSync(password, user.password);
+    }
 }

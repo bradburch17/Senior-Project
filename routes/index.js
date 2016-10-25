@@ -14,33 +14,40 @@ router.get('/login', (req, res, next) => {
     res.sendFile(path.join(__dirname, '..', 'app', 'sign-in', 'partial-signin.html'));
 });
 
-router.get(apipath + 'users', db.getAllUsers);
-router.get(apipath + 'users/:id', db.getSingleUser);
-router.post(apipath + 'users', db.createUser);
-router.post(apipath + 'teams', db.createTeam);
-router.post(apipath + 'shoes', db.createShoe);
-router.post(apipath + 'prs', db.createPR);
-router.post(apipath + 'logs', db.createLog);
-router.put(apipath + 'users/:id', db.updateUser);
-router.delete(apipath + 'users/:id', db.removeUser);
+router.get(apipath + 'users',  isLoggedIn, db.getAllUsers);
+router.get(apipath + 'users/:id', isLoggedIn, db.getSingleUser);
+router.post(apipath + 'users', isLoggedIn, db.createUser);
+router.post(apipath + 'teams', isLoggedIn, db.createTeam);
+router.post(apipath + 'shoes', isLoggedIn, db.createShoe);
+router.post(apipath + 'prs',  isLoggedIn, db.createPR);
+router.post(apipath + 'logs', isLoggedIn, db.createLog);
+router.put(apipath + 'users/:id', isLoggedIn, db.updateUser);
+router.delete(apipath + 'users/:id', isLoggedIn, db.removeUser);
 
 router.post(apipath + 'register', passport.authenticate('local-signup', {
     successRedirect: '/',
-    //failureRedirect: '#/signup',
+    failureRedirect: '/#/signup',
     failureFlash: true
 }));
 
 router.post(apipath + 'login', passport.authenticate('local-login', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
+    successRedirect: '/',
+    failureRedirect: '/#/login',
+    failureFlash: true
 }));
 
 router.get(apipath + 'logout', function(req, res) {
-  req.logout();
-  res.status(200).json({
-    status: 'Bye!'
-  });
+    req.logout();
+    res.status(200).json({
+        status: 'Bye!'
+    });
 });
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/#/login');
+}
 
 module.exports = router;
