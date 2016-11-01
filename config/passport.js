@@ -1,8 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy;
+var FitBitStrategy = require('passport-fitbit-oauth2').FitbitOAuth2Strategy;
 var pg = require('pg');
 var config = require('./config');
 var conString = config.database;
-//var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 var client = new pg.Client(conString);
@@ -49,10 +49,9 @@ module.exports = function(passport) {
             process.nextTick(function(callback) {
 
 
-                // find a user whose email is the same as the forms email
+                // find a user whose username is the same as the forms username
                 // we are checking to see if the user trying to login already exists
                 User.findOne(email, function(err, isNotAvailable, user) {
-                    //console.log('userfound: ' + isNotAvailable);
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
