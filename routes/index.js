@@ -14,18 +14,19 @@ router.get('/login', (req, res, next) => {
     res.sendFile(path.join(__dirname, '..', 'app', 'sign-in', 'partial-signin.html'));
 });
 
-router.get(apipath + 'users',  isLoggedIn, db.getAllUsers);
+router.get(apipath + 'users', isLoggedIn, db.getAllUsers);
 router.get(apipath + 'users/:id', isLoggedIn, db.getSingleUser);
+router.get(apipath + 'team', db.getTeamMembers)
 router.post(apipath + 'users', isLoggedIn, db.createUser);
-router.post(apipath + 'teams', isLoggedIn, db.createTeam);
+router.post(apipath + 'teams', db.createTeam);
 router.post(apipath + 'shoes', isLoggedIn, db.createShoe);
-router.post(apipath + 'prs',  isLoggedIn, db.createPR);
+router.post(apipath + 'prs', isLoggedIn, db.createPR);
 router.post(apipath + 'logs', isLoggedIn, db.createLog);
 router.put(apipath + 'users/:id', isLoggedIn, db.updateUser);
 router.delete(apipath + 'users/:id', isLoggedIn, db.removeUser);
 
 router.post(apipath + 'register', passport.authenticate('local-signup'), function(req, res, err) {
-  res.json(req.user);
+    res.json(req.user);
 });
 
 // router.post(apipath + 'login', passport.authenticate('local-login', {
@@ -35,13 +36,24 @@ router.post(apipath + 'register', passport.authenticate('local-signup'), functio
 // }));
 
 router.post(apipath + 'login', passport.authenticate('local-login'), function(req, res, err) {
-  res.json(req.user);
+    res.json(req.user);
+});
+
+router.get(apipath + 'auth', function(req, res) {
+    if (req.isAuthenticated())
+        return res.status(200).json({
+            status: true
+        });
+
+    res.status(200).json({
+        status: false
+    });
 });
 
 router.get(apipath + 'logout', function(req, res) {
     req.logout();
     res.status(200).json({
-        status: 'Bye!'
+        status: 'Logged out!'
     });
 });
 

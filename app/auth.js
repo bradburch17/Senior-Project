@@ -6,19 +6,19 @@ angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http', funct
             // return available functions for use in the controllers
             return ({
                 isLoggedIn: isLoggedIn,
-                getUserStatus: getUserStatus,
-                logout: logout
+                getUserStatus: getUserStatus
             });
 
             function isLoggedIn() {
-                if (user)
-                    return true
-                else
-                    return false
+                if (user) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             function getUserStatus() {
-                return $http.get('api/v1/users')
+                return $http.get('api/v1/auth')
                     .success(function(data) {
                         if (data.status)
                             user = true;
@@ -28,20 +28,6 @@ angular.module('myApp').factory('AuthService', ['$q', '$timeout', '$http', funct
                     })
                     .error(function(data) {
                         user = false;
-                    });
-            }
-
-            function logout() {
-                var deferred = $q.defer();
-
-                $http.get('/api/v1/logout')
-                    .success(function(data) {
-                        user = false;
-                        deferred.resolve();
-                    })
-                    .error(function(data) {
-                        user = false;
-                        deferred.reject();
                     });
             }
         });

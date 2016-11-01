@@ -28,29 +28,44 @@
 
             .state('home', {
             url: '/home',
-            templateUrl: '/home/partial-home.html'
+            templateUrl: '/home/partial-home.html',
+            access: {
+                restricted: false
+            }
         })
 
         .state('about', {
             url: '/about',
-            templateUrl: '/about/partial-about.html'
+            templateUrl: '/about/partial-about.html',
+            access: {
+                restricted: false
+            }
         })
 
         .state('login', {
             url: '/login',
             templateUrl: '/sign-in/partial-signin.html',
+            access: {
+                restricted: false
+            }
             //controller: 'loginController'
         })
 
         .state('user-profile', {
             url: '/user-profile',
             templateUrl: '/userprofile/partial-userprofile.html',
+            access: {
+                restricted: true
+            }
             //controller: 'userController'
         })
 
         .state('register', {
             url: '/register',
             templateUrl: '/sign-up/partial-signup.html',
+            access: {
+                restricted: false
+            }
             //controller: 'registerController'
         })
 
@@ -58,32 +73,51 @@
             url: '/forgot-password',
             templateUrl: 'forgotpass/partial-forgotpass.html',
             abstract: true,
+            access: {
+                restricted: false
+            }
             //controller: 'forgotController'
         })
 
         .state('log', {
             url: '/log',
             templateUrl: '/logrun/partial-log.html',
+            access: {
+                restricted: true
+            }
             //controller: 'logController'
         })
 
         .state('shoe', {
             url: '/shoes',
             templateUrl: '/shoe/partial-shoe.html',
+            access: {
+                restricted: true
+            }
             //controller: 'shoeController'
         })
 
         .state('personalrecord', {
             url: '/personal_records',
             templateUrl: '/personalrecord/partial-personalrecord.html',
+            access: {
+                restricted: true
+            }
             //controller: 'prController'
+        })
+
+        .state('team', {
+          url: '/team',
+          templateUrl: '/teamview/partial-teamview.html',
+          access: {
+            restricted: true
+          }
         })
 
         //$locationProvider.html5Mode(true); //Removes # from URL. Forces HTML5 Mode.
     });
 
     app.controller('userController', ($scope, $http) => {
-        $scope.formData = {};
         $scope.userData = {};
 
         $http.get('/api/v1/users')
@@ -171,6 +205,20 @@
         };
     });
 
+    app.controller('teamViewController', ($scope, $http) => {
+        $scope.teamData = {};
+
+            $http.get('/api/v1/team')
+                .success((data) => {
+                    $scope.teamData = data.data;
+                    console.log(data);
+                    console.log(data.data);
+                })
+                .error((error) => {
+                    console.log('Error: ' + error);
+                });
+    });
+
     app.controller('registerController', ($scope, $http) => {
         $scope.userData = {};
 
@@ -187,18 +235,82 @@
     });
 
     app.controller('loginController', ($scope, $http, $location) => {
-      $scope.userData ={};
+        $scope.userData = {};
 
-      $scope.login = function() {
-        $http.post('/api/v1/login', $scope.userData)
-        .success((data) => {
-          $scope.userData = data.data;
-          console.log("Logged In");
-          $location.path('#/home');
-        })
-        .error((error) => {
-          console.log('Error: ' + error);
-        });
-      };
+        $scope.login = function() {
+            $http.post('/api/v1/login', $scope.userData)
+                .success((data) => {
+                    $scope.userData = data.data;
+                    console.log("Logged In");
+                    $location.path('#/home');
+                })
+                .error((error) => {
+                    console.log('Error: ' + error);
+                });
+        };
     });
+
+    app.controller('authController', ($scope, $http, $location) => {
+        $scope.userData = {};
+
+        $scope.authenticated = function() {
+            $http.get('/api/v1/auth', $scope.userData)
+                .success((data) => {
+                    $scope.userData = data.data;
+                    console.log("Authenticated");
+                })
+                .error((error) => {
+                    console.log('User not authenticated: ' + error);
+                    $location.path('#/login');
+                });
+        };
+    });
+    /*
+            app.run('routeChange', ($rootScope, $location, $route, AuthService) => {
+                $rootScope.$on('$routeChangeStart', function(event, next, current) {
+                        AuthService.getUserStatus()
+                            .then(function() {
+                                if (/*next.access.restricted && *-/!AuthService.isLoggedIn()) {
+                                    $location.path('#/login');
+                                    $route.reload();
+                                }
+                            });
+                    });
+            });
+
+
+            app.factory('AuthService', ($q, $timeout, $http) => {
+                console.log("I'm in the auth service");
+                    // create user variable
+                    var user = null;
+
+                    // return available functions for use in the controllers
+                    return ({
+                        isLoggedIn: isLoggedIn,
+                        getUserStatus: getUserStatus
+                    });
+
+                    var isLoggedIn = function() {
+                        if (user) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+
+                    var getUserStatus = function() {
+                        return $http.get('api/v1/auth')
+                            .success((data) => {
+                                if (data.status)
+                                    user = true;
+                                else {
+                                    user = false;
+                                }
+                            })
+                            .error((error) => {
+                                user = false;
+                            });
+                    }
+                });
+    */
 })();

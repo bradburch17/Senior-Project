@@ -14,6 +14,7 @@ var db = pgp(connectionString);
 module.exports = {
     getAllUsers: getAllUsers,
     getSingleUser: getSingleUser,
+    getTeamMembers: getTeamMembers,
     createUser: createUser,
     createTeam: createTeam,
     createShoe: createShoe,
@@ -54,6 +55,28 @@ function getSingleUser(req, res, next) {
                     status: 'success',
                     data: data,
                     message: 'Retrieved ONE user'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
+function getTeamMembers(req, res, next) {
+    db.any('SELECT p.username, json_agg(json_build_object(\'log\', l.*, \'activity\', a.activity)) as logs ' +
+            'FROM person_log_tbl pl ' +
+            'INNER JOIN person_tbl p ON pl.person_id = p.person_id ' +
+            'INNER JOIN log_tbl l ON pl.log_id = l.log_id ' +
+            'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
+            'GROUP BY p.username ' +
+            'ORDER BY p.username')
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved team members'
                 });
         })
         .catch(function(err) {
