@@ -1,10 +1,12 @@
 TODO:
 FROM CHECKPOINT 2:
 * Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
-* Add Activities - Create a SQL script for adding some default activities
-* Fix general API activities
+* Ability to add Activities from front end
 * Validate input on all screens
 * Add Log Title
+* Add User Auth on all screens
+* Store FitBit Data
+* Fix HTML5 bug 
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site
@@ -15,7 +17,7 @@ FROM CHECKPOINT 2:
 
 Checkpoint 3:
 * Connect FitBit
-* Deploy to Heroku
+* 'Deploy to Heroku
 * Create a Team view
   * Create a Team
   * Join a Team

@@ -1,5 +1,4 @@
 var LocalStrategy = require('passport-local').Strategy;
-var FitBitStrategy = require('passport-fitbit-oauth2').FitbitOAuth2Strategy;
 var pg = require('pg');
 var config = require('./config');
 var conString = config.database;
@@ -34,7 +33,6 @@ module.exports = function(passport) {
     // =========================================================================
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
-
     passport.use('local-signup', new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
             usernameField: 'username',
@@ -93,7 +91,6 @@ module.exports = function(passport) {
     // =========================================================================
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
-
     passport.use('local-login', new LocalStrategy({
             usernameField: 'username',
             passwordField: 'password',

@@ -59,10 +59,9 @@ CREATE TABLE PersonalRecord_tbl
 
 CREATE TABLE DeviceInfo_tbl
 (
-	device_id SERIAL,
-	deviceName varchar(25) not null,
-
-	primary key (device_id)
+	device_id SERIAL primary key,
+	deviceName varchar(25),
+	data jsonb
 );
 
 CREATE TABLE Person_tbl

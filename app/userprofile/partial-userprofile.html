@@ -1,50 +1,6 @@
-<div class="add-padding" ng-controller="userController as user">
-	<div class="container"  ng-repeat="users in userData">
-		<div class="row">
-			<div class="col-md-6">
-				<ul>
-					<li>{{users.username}}</li>
-				</ul>
-				<h1>{{users.firstname}} {{users.lastname}}'s Profile</h1>
-			</div>
-			<div class="col-md-6">
-				<img ng-src="{{users.images[0].profile}}" class="img-responsive img-format-userprofile">
-			</div>
-		</div>
+<div class="add-padding" ng-controller="userController as userz">
+		<p>Hello</p>
+		<p>{{user}}</p>
 
-		<!-- USER INFORMATION -->
-		<div class="row">
-			<div class="col-md-12">
-				<ul class="list-group">
-					<li class="list-group-item borderless-userprofile">Username: {{users.username}}</li>
-					<li class="list-group-item borderless-userprofile">Sex: {{users.sex}}</li>
-					<li class="list-group-item borderless-userprofile">Current Shoe: {{users.shoe}}</li>
-					<li class="list-group-item borderless-userprofile">Device: {{users.device}}</li>
-					<li class="list-group-item borderless-userprofile">Team: {{users.teams.teamname}}</li>
-					<li class="list-group-item borderless-userprofile">Do you want your account to be private?
-						<input type="radio" name="privateAccount" value="Yes"> Yes
-						<input type="radio" name="privateAccount" value="No" checked> No
-					</li>
-					<li class="list-group-item borderless-userprofile">Are you a coach?
-						<input type="radio" name="privateAccount" value="Yes"> Yes
-						<input type="radio" name="privateAccount" value="No" checked> No
-					</li>
-					<li>{{users.person_id}}</li>
-					<li><button name="deletebutton" class="delete-button" ng-click="deleteUser(2)">&nbsp;Delete {{ users.username }}</li>
-				</ul>
-
-				<!-- PR TABLE -->
-				<br><br>
-				<table class="table table-striped table-format-userprofile" ng-repeat="(key, val) in users.prs">
-					<h3>Personal Records:</h3>
-					<tr>
-						<th>{{key}}</th>
-					</tr>
-					<tr>
-						<td>{{val}}</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
+		<button class="btn btn-primary" ui-sref="fitbit">Login</button>
 </div>

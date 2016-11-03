@@ -2,10 +2,6 @@
 (function() {
     var app = angular.module('myApp', ['ui.router' /*, 'userModule', 'loginModule', 'shoeModule', 'prModule', 'logModule'*/ ]);
 
-    app.controller('xuserController', function() {
-        this.users = testData;
-    });
-
     app.directive("xtHeader", function() {
         return {
             restrict: "E",
@@ -107,11 +103,18 @@
         })
 
         .state('team', {
-          url: '/team',
-          templateUrl: '/teamview/partial-teamview.html',
-          access: {
-            restricted: true
-          }
+            url: '/team',
+            templateUrl: '/teamview/partial-teamview.html',
+            access: {
+                restricted: true
+            }
+        })
+
+        .state('fitbit', {
+            url: '/api/v1/fitbit',
+            access: {
+                restricted: true
+            }
         })
 
         //$locationProvider.html5Mode(true); //Removes # from URL. Forces HTML5 Mode.
@@ -124,11 +127,14 @@
             .success((data) => {
                 $scope.userData = data.data;
                 console.log(data.data);
-                console.log(data);
             })
             .error((error) => {
                 console.log('Error: ' + error);
             });
+    });
+
+    app.controller('userDeleteController', ($scope, $http) => {
+        $scope.userData = {};
 
         $scope.deleteUser = function(person_id) {
             console.log(person_id);
@@ -141,7 +147,7 @@
                     console.log('Error: ' + error);
                 });
         };
-    });
+    })
 
     app.controller('loginController', ($scope, $http, $state) => {
         $scope.userData = {};
@@ -208,15 +214,15 @@
     app.controller('teamViewController', ($scope, $http) => {
         $scope.teamData = {};
 
-            $http.get('/api/v1/team')
-                .success((data) => {
-                    $scope.teamData = data.data;
-                    console.log(data);
-                    console.log(data.data);
-                })
-                .error((error) => {
-                    console.log('Error: ' + error);
-                });
+        $http.get('/api/v1/team')
+            .success((data) => {
+                $scope.teamData = data.data;
+                console.log(data);
+                console.log(data.data);
+            })
+            .error((error) => {
+                console.log('Error: ' + error);
+            });
     });
 
     app.controller('registerController', ($scope, $http) => {
@@ -264,6 +270,39 @@
                     $location.path('#/login');
                 });
         };
+    });
+
+    app.controller('fitbitController', ($scope, $http) => {
+        $scope.fitbitData = {};
+
+        $http.get('/api/v1/user', $scope.fitbitData)
+            .success((data) => {
+                $scope.fitbitData = data;
+                console.log(data);
+                console.log(data.data);
+            })
+            .error((error) => {
+                console.log('Error: ' + error);
+            });
+    });
+
+    app.controller('fitbitActivityController', ($scope, $http) => {
+        $scope.fitbitData = {};
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var date = year + '/' + day + '/' + month;
+        
+        $http.get('https://api.fitbit.com/1/user/-/activities/date/' + date + '.json', $scope.fitbitData)
+            .success((data) => {
+                $scope.fitbitData = data;
+                console.log(data);
+                console.log(data.data);
+            })
+            .error((error) => {
+                console.log('Error: ' + error);
+            });
     });
     /*
             app.run('routeChange', ($rootScope, $location, $route, AuthService) => {

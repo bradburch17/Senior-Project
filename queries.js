@@ -6,7 +6,6 @@ var options = {
 var config = require('./config/config');
 var pgp = require('pg-promise')(options);
 var connectionString = config.database;
-//var connectionString = 'postgres://postgres:s@localhost:5432/JoggersLoggersDB';
 var db = pgp(connectionString);
 
 // add query functions
@@ -20,25 +19,22 @@ module.exports = {
     createShoe: createShoe,
     createPR: createPR,
     createLog: createLog,
+    createDeviceInfo: createDeviceInfo,
     updateUser: updateUser,
-    removeUser: removeUser
+    removeUser: removeUser,
+    addDeviceInfo: addDeviceInfo
 };
 
 // Read Functions
 function getAllUsers(req, res, next) {
-    db.any('SELECT p.*, row_to_json(t.*) as teams, s.*, d.*, row_to_json(pr.*) as prs FROM person_tbl AS p ' +
-            'JOIN team_tbl AS t on p.team_id = t.team_id ' +
-            'JOIN shoe_tbl AS s on p.shoe_id = s.shoe_id ' +
-            'JOIN personalrecord_tbl AS pr on p.pr_id = pr.pr_id ' +
-            'JOIN deviceinfo_tbl AS d on p.device_id = d.device_id ' +
-            'WHERE p.person_id = 1 AND s.currentshoe = TRUE')
+    db.any('SELECT * FROM person_tbl')
         .then(function(data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    data: data
+                    data: data,
+                    message: 'Retrieved ALL users'
                 });
-            console.log("success");
         })
         .catch(function(err) {
             console.log(err);
@@ -162,6 +158,31 @@ function createLog(req, res, next) {
                 });
         })
         .catch(function(err) {
+            return next(err);
+        });
+}
+
+function createDeviceInfo(data, req, res, next) {
+    db.none('INSERT INTO deviceinfo_tbl(deviceName, data) VALUES (${devicename}, ${data})', req.body, data)
+        .then(function() {
+            res.status(200)
+                .json({
+                    success: 'success',
+                    message: 'Inserted device info'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function addDeviceInfo(req, res, next) {
+    db.none('INSERT INTO deviceinfo_tbl(data) VALUES (${data})', res.jsondata)
+        .then(function() {
+            console.log("Added!");
+        })
+        .catch(function(err) {
+            console.log(err);
             return next(err);
         });
 }
