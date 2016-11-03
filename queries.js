@@ -3,9 +3,9 @@ var promise = require('bluebird');
 var options = {
     promiseLib: promise
 };
-
+var config = require('./config/config');
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://postgres:s@localhost:5432/JoggersLoggersDB';
+var connectionString = config.database;
 var db = pgp(connectionString);
 
 // add query functions
@@ -13,30 +13,28 @@ var db = pgp(connectionString);
 module.exports = {
     getAllUsers: getAllUsers,
     getSingleUser: getSingleUser,
+    getTeamMembers: getTeamMembers,
     createUser: createUser,
     createTeam: createTeam,
     createShoe: createShoe,
     createPR: createPR,
     createLog: createLog,
+    createDeviceInfo: createDeviceInfo,
     updateUser: updateUser,
-    removeUser: removeUser
+    removeUser: removeUser,
+    addDeviceInfo: addDeviceInfo
 };
 
 // Read Functions
 function getAllUsers(req, res, next) {
-    db.any('SELECT p.*, row_to_json(t.*) as teams, s.*, d.*, row_to_json(pr.*) as prs FROM person_tbl AS p ' +
-            'JOIN team_tbl AS t on p.team_id = t.team_id ' +
-            'JOIN shoe_tbl AS s on p.shoe_id = s.shoe_id ' +
-            'JOIN personalrecord_tbl AS pr on p.pr_id = pr.pr_id ' +
-            'JOIN deviceinfo_tbl AS d on p.device_id = d.device_id ' +
-            'WHERE p.person_id = 1 AND s.currentshoe = TRUE')
+    db.any('SELECT * FROM person_tbl')
         .then(function(data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    data: data
+                    data: data,
+                    message: 'Retrieved ALL users'
                 });
-            console.log("success");
         })
         .catch(function(err) {
             console.log(err);
@@ -61,10 +59,32 @@ function getSingleUser(req, res, next) {
         });
 }
 
+function getTeamMembers(req, res, next) {
+    db.any('SELECT p.username, json_agg(json_build_object(\'log\', l.*, \'activity\', a.activity)) as logs ' +
+            'FROM person_log_tbl pl ' +
+            'INNER JOIN person_tbl p ON pl.person_id = p.person_id ' +
+            'INNER JOIN log_tbl l ON pl.log_id = l.log_id ' +
+            'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
+            'GROUP BY p.username ' +
+            'ORDER BY p.username')
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved team members'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
 //Create Methods
 function createUser(req, res, next) {
-    db.none('INSERT INTO person_tbl (shoe_id, team_id, device_id, pr_id, username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
-            'VALUES (null, null, null, null, ${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
+    db.none('INSERT INTO person_tbl (username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
+            'VALUES (${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
             req.body)
         .then(function() {
             res.status(200)
@@ -79,8 +99,8 @@ function createUser(req, res, next) {
 }
 
 function createTeam(req, res, next) {
-    db.none('INSERT INTO team_tbl (team_id, coach_id, teamName, teamDescription, isRestricted)' +
-            'VALUES (${team_id}, ${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
+    db.none('INSERT INTO team_tbl (coach_id, teamName, teamDescription, isRestricted)' +
+            'VALUES (${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
             req.body)
         .then(function() {
             res.status(200)
@@ -138,6 +158,31 @@ function createLog(req, res, next) {
                 });
         })
         .catch(function(err) {
+            return next(err);
+        });
+}
+
+function createDeviceInfo(data, req, res, next) {
+    db.none('INSERT INTO deviceinfo_tbl(deviceName, data) VALUES (${devicename}, ${data})', req.body, data)
+        .then(function() {
+            res.status(200)
+                .json({
+                    success: 'success',
+                    message: 'Inserted device info'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function addDeviceInfo(req, res, next) {
+    db.none('INSERT INTO deviceinfo_tbl(data) VALUES (${data})', res.jsondata)
+        .then(function() {
+            console.log("Added!");
+        })
+        .catch(function(err) {
+            console.log(err);
             return next(err);
         });
 }

@@ -106,6 +106,37 @@ body,html
 	text-align: center;
 }
 
+/* Team View CSS */
+.team-table table, th, td
+{
+	border: 1px solid #ddd;
+}
+.team-table table
+{
+	table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.team-table th, td
+{
+}
+
+.team-table tr:nth-child(even)
+{
+	background-color: #f2f2f2
+}
+
+.team-table th
+{
+	width: 100%;
+}
+
+.team-table td
+{
+	width: 14.3%;
+}
+
 /* User Profile CSS */
 .content-userprofile
 {

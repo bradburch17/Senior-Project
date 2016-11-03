@@ -1,21 +1,17 @@
 var LocalStrategy = require('passport-local').Strategy;
 var pg = require('pg');
-var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
+var config = require('./config');
+var conString = config.database;
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 var client = new pg.Client(conString);
+var jwt = require('jsonwebtoken');
 
 // load up the user model
 var User = require('../app/models/user');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
-
-    // =========================================================================
-    // passport session setup ==================================================
-    // =========================================================================
-    // required for persistent login sessions
-    // passport needs ability to serialize and unserialize users out of session
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
@@ -37,7 +33,6 @@ module.exports = function(passport) {
     // =========================================================================
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
-
     passport.use('local-signup', new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
             usernameField: 'username',
@@ -52,10 +47,9 @@ module.exports = function(passport) {
             process.nextTick(function(callback) {
 
 
-                // find a user whose email is the same as the forms email
+                // find a user whose username is the same as the forms username
                 // we are checking to see if the user trying to login already exists
                 User.findOne(email, function(err, isNotAvailable, user) {
-                    //console.log('userfound: ' + isNotAvailable);
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
@@ -77,7 +71,6 @@ module.exports = function(passport) {
                         user.birthdate = req.body.birthdate;
                         user.firstname = req.body.firstname;
                         user.lastname = req.body.lastname;
-
                         user.save(function(newUser) {
                             console.log("the object user is: ", newUser);
                             passport.authenticate();
@@ -98,18 +91,15 @@ module.exports = function(passport) {
     // =========================================================================
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
-
     passport.use('local-login', new LocalStrategy({
             usernameField: 'username',
             passwordField: 'password',
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
-            console.log("In Local-Login with " + username + " " + password);
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.findByUsername(username, function(err, user) {
-                console.log("In findByUsername with " + username + " " + password + " " + user.password);
                 // if there are any errors, return the error before anything else
                 if (err) {
                     console.log('Error: ' + err);
@@ -122,18 +112,23 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
                 }
                 // if the user is found but the password is wrong
-                console.log(user.password + " " + password);
                 if (!isValidPassword(user, password)) {
                     console.log("Wrong Password");
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
                 }
                 // all is well, return successful user
+
                 console.log('Logged In :)');
+                // var token = jwt.sign(user, 'ilovescotchscotchyscotchscotch', {
+                //     expiresIn: 86400
+                // });
+                // console.log('Token: ' + token + " END OF TOKEN*******");
+                // user.token = token;
                 return done(null, user);
             });
         }));
 
-        var isValidPassword = function(user, password) {
-          return bcrypt.compareSync(password, user.password);
-        }
+    var isValidPassword = function(user, password) {
+        return bcrypt.compareSync(password, user.password);
+    }
 }

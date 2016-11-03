@@ -1,25 +1,17 @@
-INSERT INTO personalrecord_tbl (pr_ID, prTime, prEvent, prDate)
-	VALUES (2, '5:20', 'Mile', '2016-05-24');
+INSERT INTO personalrecord_tbl (prTime, prEvent, prDate)
+	VALUES ('5:20', 'Mile', '2016-05-24');
 
-INSERT INTO personalrecord_tbl (pr_id, prTime, prEvent, prDate)
-	VALUES (3, '12:15', '3k', '2015-06-19');
+INSERT INTO personalrecord_tbl (prTime, prEvent, prDate)
+	VALUES ('12:15', '3k', '2015-06-19');
 
-ALTER TABLE deviceinfo_tbl ADD person_id integer
 
-CREATE SEQUENCE person_id_seq;
-alter table person_tbl alter person_id set default nextval('person_id_seq');
-Select setval('person_id_seq', 4 ); --set to the highest current value of playerID
+select p.username, t.teamname from person_tbl AS p, team_tbl as t where p.person_id in (select person_id from person_team_tbl) and t.team_id in (select team_id from person_team_tbl)
 
-UPDATE deviceinfo_tbl
-SET person_id = 1
+select p.username, l.*, t.teamname from person_tbl AS p, team_tbl as t, log_tbl as l where p.person_id in (select person_id from person_team_tbl) and t.team_id in (select team_id from person_team_tbl) and p.person_id in (select person_id from person_log_tbl) and l.log_id in (select log_id from person_log_tbl)
 
-SELECT p.*, t.*, s.*, row_to_json(pr.*) as prs, d.* FROM person_tbl AS p
-	JOIN team_tbl AS t on p.team_id = t.team_id
-	JOIN shoe_tbl AS s on p.shoe_id = s.shoe_id
-	JOIN personalrecord_tbl AS pr on p.pr_id = pr.pr_id
-	JOIN deviceinfo_tbl AS d on p.device_id = d.device_id
-	WHERE p.person_id = 1 AND s.currentshoe = TRUE
-
---Add person 2 back after Delete
-	INSERT INTO Person_tbl (person_id, shoe_id, team_id, device_id, pr_id, username, password, email, sex, ispublic, iscoach, birthdate, firstname, lastname)
-		VALUES (2, 1, 1, 1, 1, 'brad', 'pass', 'bburch@salesforce.com', 'male', FALSE, FALSE, '1994-03-26', 'Brad', 'Lewis')
+SELECT p.username, json_agg(json_build_array(l.*, a.activity)) as logs
+FROM person_log_tbl pl
+INNER JOIN person_tbl p ON pl.person_id = p.person_id
+INNER JOIN log_tbl l ON pl.log_id = l.log_id
+INNER JOIN activity_tbl a ON l.activity_id = a.activity_id
+GROUP BY p.username;

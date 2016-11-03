@@ -1,3 +1,4 @@
+--Creating Primary tables Activity, Log, Team, Shoe, PersonalRecord, Device, and Person
 CREATE TABLE Activity_tbl
 (
     activity_id SERIAL,
@@ -15,6 +16,7 @@ CREATE TABLE Log_tbl
 	activityTime varchar(10),
 	sleep varchar(10),
 	heartRate integer,
+  logTitle varchar(30),
 	description varchar(500),
 
 	primary key	(log_id),
@@ -57,19 +59,18 @@ CREATE TABLE PersonalRecord_tbl
 
 CREATE TABLE DeviceInfo_tbl
 (
-	device_id SERIAL,
-	deviceName varchar(25) not null,
-
-	primary key (device_id)
+	device_id SERIAL primary key,
+	deviceName varchar(25),
+	data jsonb
 );
 
 CREATE TABLE Person_tbl
 (
     person_id SERIAL,
-    shoe_id integer,
-    team_id integer,
-    device_id integer,
-    pr_id integer,
+    -- shoe_id integer,
+    -- team_id integer,
+    -- device_id integer,
+    -- pr_id integer,
     username varchar(25) not null,
     password varchar(64) not null,
     email varchar(50) not null,
@@ -77,43 +78,68 @@ CREATE TABLE Person_tbl
     firstname varchar(25) not null,
     lastname varchar(40) not null,
     isPublic boolean not null,
-    isCoach boolean not null,
+    -- isCoach boolean not null,
     birthdate date not null,
 
-    primary key (person_id),
-    foreign key (shoe_id) references Shoe_tbl on delete no action,
-    foreign key (team_id) references Team_tbl on delete no action,
-    foreign key (pr_id) references PersonalRecord_tbl on delete no action,
-    foreign key (device_id) references DeviceInfo_tbl on delete no action
+    primary key (person_id)
+    -- foreign key (shoe_id) references Shoe_tbl on delete no action,
+    -- foreign key (team_id) references Team_tbl on delete no action,
+    -- foreign key (pr_id) references PersonalRecord_tbl on delete no action,
+    -- foreign key (device_id) references DeviceInfo_tbl on delete no action
 );
 
-ALTER TABLE Team_tbl ADD FOREIGN KEY (coach_id) references Person_tbl
+--Adding foreign key constraint to Team table
+ALTER TABLE Team_tbl ADD FOREIGN KEY (coach_id) references Person_tbl;
 
---Add Autoincrement sequences
-CREATE SEQUENCE person_id_seq;
-ALTER TABLE person_tbl ALTER person_id set default nextval('person_id_seq');
---Select setval('person_id_seq', 1);
 
-CREATE SEQUENCE shoe_id_seq;
-ALTER TABLE shoe_tbl ALTER shoe_id set default nextval('shoe_id_seq');
---Select setval('shoe_id_seq', 1);
+--Creating associative tables for Person and Log, Team, Shoe, PR, Device
+CREATE TABLE Person_Log_tbl
+(
+  person_id integer not null,
+  log_id integer not null,
 
-CREATE SEQUENCE activity_id_seq;
-alter table activity_tbl alter activity_id set default nextval('activity_id_seq');
---Select setval('activity_id_seq', 1);
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (log_id) references Log_tbl on delete cascade,
+  primary key (person_id, log_id)
+);
 
-CREATE SEQUENCE log_id_seq;
-alter table log_tbl alter log_id set default nextval('log_id_seq');
---Select setval('log_id_seq', 1);
+CREATE TABLE Person_Team_tbl
+(
+  person_id integer not null,
+  team_id integer not null,
+  isCoach boolean not null,
 
-CREATE SEQUENCE team_id_seq;
-alter table team_tbl alter team_id set default nextval('team_id_seq');
---Select setval('team_id_seq', 1);
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (team_id) references Team_tbl on delete cascade,
+  primary key (person_id, team_id)
+);
 
-CREATE SEQUENCE personalrecord_id_seq;
-ALTER TABLE personalrecord_tbl ALTER pr_id SET default nextval('personalrecord_id_seq');
---Select setval('personalrecord_id_seq', 1);
+CREATE TABLE Person_Shoe_tbl
+(
+  person_id integer not null,
+  shoe_id integer not null,
 
-CREATE SEQUENCE device_id_seq;
-ALTER TABLE deviceinfo_tbl ALTER device_id SET default nextval('device_id_seq');
---Select setval('device_id_seq', 1);
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (shoe_id) references Shoe_tbl on delete cascade,
+  primary key (person_id, shoe_id)
+);
+
+CREATE TABLE Person_PR_tbl
+(
+  person_id integer not null,
+  pr_id integer not null,
+
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (pr_id) references PersonalRecord_tbl on delete cascade,
+  primary key (person_id, pr_id)
+);
+
+CREATE TABLE Person_Device_tbl
+(
+  person_id integer not null,
+  device_id integer not null,
+
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (device_id) references DeviceInfo_tbl on delete cascade,
+  primary key (person_id, device_id)
+);
