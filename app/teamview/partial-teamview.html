@@ -1,15 +1,15 @@
 <div class="add-padding" ng-controller="teamViewController as team">
 
 	<!-- USER INFORMATION - CHANGE THIS -->
-
+	<h1>Team Tiger</h1>
 	<table class="team-table" ng-repeat="users in teamData">
 		<tr>
-			<th>User: <b>{{users.username}}</b></th>
+			<td class="team-table-user">User: <b>{{users.username}}</b></td>
 		</tr>
 		<tr ng-repeat="logs in users.logs">
-			<td>Activity: {{logs.activity}}</td>
 			<td>Date: {{logs.log.logdate}}</td>
-			<td>Distance: {{logs.log.distance}}</td>
+			<td>Activity: {{logs.activity}}</td>
+			<td>Distance: {{logs.log.distance}} miles</td>
 			<td>Time: {{logs.log.activitytime}}</td>
 			<td>Sleep: {{logs.log.sleep}}</td>
 			<td>Heartrate: {{logs.log.heartrate}}</td>

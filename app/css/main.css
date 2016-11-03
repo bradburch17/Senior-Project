@@ -114,12 +114,8 @@ body,html
 .team-table table
 {
 	table-layout: fixed;
-    border-collapse: collapse;
+    border-collapse:collapse;
     width: 100%;
-}
-
-.team-table th, td
-{
 }
 
 .team-table tr:nth-child(even)
@@ -127,9 +123,11 @@ body,html
 	background-color: #f2f2f2
 }
 
-.team-table th
+.team-table-user
 {
-	width: 100%;
+	/*width: 100%;*/
+	font-size: 18px;
+	border: none;
 }
 
 .team-table td

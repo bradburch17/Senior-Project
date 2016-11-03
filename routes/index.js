@@ -126,7 +126,6 @@ router.get(apipath + 'fitbit/heartrate', function(req, res) {
 });
 
 router.get(apipath + 'fitbit/profile.json', function(req, res) {
-    console.log(req.session.access_token);
     if (req.session.authorized) {
         client.get('/profile.json', req.session.access_token).then(function(results) {
             data = results[0];
@@ -142,6 +141,43 @@ router.get(apipath + 'fitbit/profile.json', function(req, res) {
         });
     }
 });
+
+router.get(apipath + 'fitbit/sleep/today', function(req, res) {
+    if (req.session.authorized) {
+        client.get('/sleep/date/today.json', req.session.access_token).then(function(results) {
+            data = results[0];
+            addDeviceInfo(data);
+            res.json(results[0]);
+        });
+    } else {
+        res.status(403);
+        res.json({
+            errors: [{
+                message: 'not authorized'
+            }]
+        });
+    }
+});
+
+router.get(apipath + 'fitbit/sleep/:date', function(req, res) {
+    if (req.session.authorized) {
+        var date = req.params.date;
+        client.get('/sleep/date/' + date + '.json', req.session.access_token).then(function(results) {
+            data = results[0];
+            addDeviceInfo(data);
+            res.json(results[0]);
+        })
+    } else {
+        res.status(403);
+        res.json({
+            errors: [{
+                message: 'not authorized'
+            }]
+        });
+    }
+});
+
+
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
