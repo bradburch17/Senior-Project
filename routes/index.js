@@ -19,15 +19,15 @@ router.get('/login', (req, res, next) => {
 });
 
 router.get(apipath + 'users', db.getAllUsers);
-router.get(apipath + 'users/:id', isLoggedIn, db.getSingleUser);
+router.get(apipath + 'users/:id', db.getSingleUser);
 router.get(apipath + 'team', db.getTeamMembers);
 router.post(apipath + '/deviceinfo', db.addDeviceInfo);
 router.post(apipath + 'teams', db.createTeam);
-router.post(apipath + 'shoes', isLoggedIn, db.createShoe);
-router.post(apipath + 'prs', isLoggedIn, db.createPR);
-router.post(apipath + 'logs', isLoggedIn, db.createLog);
-router.put(apipath + 'users/:id', isLoggedIn, db.updateUser);
-router.delete(apipath + 'users/:id', isLoggedIn, db.removeUser);
+router.post(apipath + 'shoes', db.createShoe);
+router.post(apipath + 'prs', db.createPR);
+router.post(apipath + 'logs', db.createLog);
+router.put(apipath + 'users/:id', db.updateUser);
+router.delete(apipath + 'users/:id', db.removeUser);
 
 router.post(apipath + 'register', passport.authenticate('local-signup'), function(req, res, err) {
     res.json(req.user);

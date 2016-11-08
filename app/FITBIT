@@ -1,0 +1,48 @@
+app.controller('authController', ($scope, $http, $location) => {
+    $scope.userData = {};
+
+    $scope.authenticated = function() {
+        $http.get('/api/v1/auth', $scope.userData)
+            .success((data) => {
+                $scope.userData = data.data;
+                console.log("Authenticated");
+            })
+            .error((error) => {
+                console.log('User not authenticated: ' + error);
+                $location.path('#/login');
+            });
+    };
+});
+
+app.controller('fitbitController', ($scope, $http) => {
+    $scope.fitbitData = {};
+
+    $http.get('/api/v1/user', $scope.fitbitData)
+        .success((data) => {
+            $scope.fitbitData = data;
+            console.log(data);
+            console.log(data.data);
+        })
+        .error((error) => {
+            console.log('Error: ' + error);
+        });
+});
+
+app.controller('fitbitActivityController', ($scope, $http) => {
+    $scope.fitbitData = {};
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+    var date = year + '/' + day + '/' + month;
+
+    $http.get('https://api.fitbit.com/1/user/-/activities/date/' + date + '.json', $scope.fitbitData)
+        .success((data) => {
+            $scope.fitbitData = data;
+            console.log(data);
+            console.log(data.data);
+        })
+        .error((error) => {
+            console.log('Error: ' + error);
+        });
+});
