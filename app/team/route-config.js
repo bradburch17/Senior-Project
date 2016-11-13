@@ -13,9 +13,6 @@
                 url: '/team',
                 templateUrl: '/team/team.html',
                 controller: 'TeamController',
-                // access: {
-                //     restricted: true
-                // }
             })
     }
 }());

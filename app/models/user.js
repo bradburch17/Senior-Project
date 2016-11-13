@@ -1,32 +1,24 @@
 var pg = require('pg');
 var config = require('../../config/config');
 var conString = config.database;
-//var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
 
 var client = new pg.Client(conString);
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 
 function User() {
-    //this.person_id = 0;
+    this.person_id = "";
     this.firstname = ""
-    this.lastname = '';
+    this.lastname = "";
     this.birthdate = "";
     this.sex = "";
-    this.shoe_id = null;
-    this.team_id = null;
-    this.device_id = null;
-    this.pr_id = null;
     this.email = "";
     this.ispublic = false;
-    this.iscoach = false;
     this.username = "";
     this.password = ""; //need to declare the things that i want to be remembered for each user in the database
-    this.token = ""; //I think I need to declare this in order to return it.
+    this.token = ""; //I think I need to declare this in order to return it. Currently not in use
 
     this.save = function(callback) {
-        //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
-
         var client = new pg.Client(conString);
         client.connect();
         var hashedPassword = bcrypt.hashSync(this.password, salt);
@@ -55,18 +47,13 @@ function User() {
                 console.log(result.rows[0] + ' is found! in the select all');
                 var user = new User();
                 user.email = result.rows[0]['email'];
-                // user.shoe_id = result.rows[0]['shoe_id'];
                 user.password = result.rows[0]['password'];
                 user.person_id = result.rows[0]['person_id'];
                 user.firstname = result.rows[0]['firstname'];
                 user.lastname = result.rows[0]['lastname'];
                 user.birthdate = result.rows[0]['birthdate'];
                 user.sex = result.rows[0]['sex'];
-                // user.team_id = result.rows[0]['team_id'];
-                // user.device_id = result.rows[0]['device_id'];
-                // user.pr_id = result.rows[0]['pr_id'];
                 user.ispublic = result.rows[0]['ispublic'];
-                // user.iscoach = result.rows[0]['iscoach'];
                 user.username = result.rows[0]['username'];
                 client.end();
                 return callback(user);
@@ -76,7 +63,6 @@ function User() {
 }
 
 User.findOne = function(username, callback) {
-    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
@@ -94,7 +80,6 @@ User.findOne = function(username, callback) {
             var user = new User();
             isNotAvailable = true; // update the user for return in callback
             user.username = username;
-            //password = bcrypt.hashSync(result.rows[0].password, salt);
             user.password = result.rows[0].password;
             console.log(username + ' was found');
         } else {
@@ -109,7 +94,6 @@ User.findOne = function(username, callback) {
 };
 
 User.findByUsername = function(username, callback) {
-    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
@@ -126,18 +110,14 @@ User.findByUsername = function(username, callback) {
         if (result.rows.length > 0) {
             var user = new User();
             user.email = result.rows[0]['email'];
-            // user.shoe_id = result.rows[0]['shoe_id'];
             user.password = result.rows[0]['password'];
             user.person_id = result.rows[0]['person_id'];
             user.firstname = result.rows[0]['firstname'];
             user.lastname = result.rows[0]['lastname'];
             user.birthdate = result.rows[0]['birthdate'];
             user.sex = result.rows[0]['sex'];
-            // user.team_id = result.rows[0]['team_id'];
             user.device_id = result.rows[0]['device_id'];
-            // user.pr_id = result.rows[0]['pr_id'];
             user.ispublic = result.rows[0]['ispublic'];
-            // user.iscoach = result.rows[0]['iscoach'];
             user.username = username;
             console.log(username + ' was found');
         } else {
@@ -153,7 +133,6 @@ User.findByUsername = function(username, callback) {
 
 User.findById = function(id, callback) {
     console.log("We are in findbyid " + id);
-    //var conString = "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
     var client = new pg.Client(conString);
 
     client.connect();
@@ -167,18 +146,13 @@ User.findById = function(id, callback) {
             console.log(result.rows[0] + ' is found!');
             var user = new User();
             user.email = result.rows[0]['email'];
-            // user.shoe_id = result.rows[0]['shoe_id'];
             user.password = result.rows[0]['password'];
             user.person_id = result.rows[0]['person_id'];
             user.firstname = result.rows[0]['firstname'];
             user.lastname = result.rows[0]['lastname'];
             user.birthdate = result.rows[0]['birthdate'];
             user.sex = result.rows[0]['sex'];
-            // user.team_id = result.rows[0]['team_id'];
-            // user.device_id = result.rows[0]['device_id'];
-            // user.pr_id = result.rows[0]['pr_id'];
             user.ispublic = result.rows[0]['ispublic'];
-            // user.iscoach = result.rows[0]['iscoach'];
             user.username = result.rows[0]['username'];
             console.log(user.email);
             return callback(null, user);

@@ -1,13 +1,14 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular.module('homeModule').config(configFunction);
+    angular.module('homeModule').config(configFunction);
 
-  configFunction.$inject = ['$stateProvider'];
-  function configFunction($stateProvider) {
-    $stateProvider.state('home', {
-      url: '/home',
-      templateUrl: 'home/home.html',
-    });
-  }
+    configFunction.$inject = ['$stateProvider'];
+
+    function configFunction($stateProvider) {
+        $stateProvider.state('home', {
+            url: '/home',
+            templateUrl: 'home/home.html',
+        });
+    }
 }());

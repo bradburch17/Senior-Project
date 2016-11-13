@@ -5,7 +5,6 @@ var conString = config.database;
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 var client = new pg.Client(conString);
-var jwt = require('jsonwebtoken');
 
 // load up the user model
 var User = require('../app/models/user');
@@ -119,11 +118,7 @@ module.exports = function(passport) {
                 // all is well, return successful user
 
                 console.log('Logged In :)');
-                // var token = jwt.sign(user, 'ilovescotchscotchyscotchscotch', {
-                //     expiresIn: 86400
-                // });
-                // console.log('Token: ' + token + " END OF TOKEN*******");
-                // user.token = token;
+
                 return done(null, user);
             });
         }));

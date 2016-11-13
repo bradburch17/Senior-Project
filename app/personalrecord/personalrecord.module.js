@@ -1,7 +1,5 @@
 (function() {
-  'use strict';
+    'use strict';
 
-
-  angular.module('personalrecordModule', []);
-
+    angular.module('personalrecordModule', []);
 }());

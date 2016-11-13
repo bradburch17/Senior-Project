@@ -13,11 +13,6 @@
                 url: '/login',
                 templateUrl: '/sign-in/signin.html',
                 controller: 'SigninController'
-                    // access: {
-                    //     restricted: false
-                    // }
-
             })
     }
-
 }());

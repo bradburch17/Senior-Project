@@ -31,23 +31,27 @@
                 <label>Enter the shoe model:</label>
                 <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" required>
             </div>
+
             <div class="form-group">
                 <label>What is the maximum mileage?</label>
                 <input type="number" name="maxmileage" class="form-control" ng-model="shoeData.maxmileage">
             </div>
+
             <div class="form-group">
                 <label>When did you purchase the shoes?</label>
                 <input type="date" name="purchasedate" class="form-control" ng-model="shoeData.purchasedate">
             </div>
+
             <div class="form-group">
                 <label>Will this be your current shoe?</label>
                 <input type="radio" name="currentshoe" value="True" ng-model="shoeData.currentshoe" checked> Yes
                 <input type="radio" name="currentshoe" value="False" ng-model="shoeData.currentshoe"> No
             </div>
+
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Add Shoe</button>
             </div>
+            
         </form>
-
     </div>
 </div>

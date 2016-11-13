@@ -40,12 +40,18 @@ router.post(apipath + 'login', passport.authenticate('local-login'), function(re
 router.get(apipath + 'auth', function(req, res) {
     if (req.isAuthenticated())
         return res.status(200).json({
-            status: true
+            status: true,
+            data: req.user,
+            message: 'Returned one user'
+        })
+    else {
+        res.status(403);
+        res.json({
+            errors: [{
+                message: 'not authorized'
+            }]
         });
-
-    res.status(200).json({
-        status: false
-    });
+    }
 });
 
 router.get(apipath + 'logout', function(req, res) {
@@ -54,6 +60,8 @@ router.get(apipath + 'logout', function(req, res) {
         status: 'Logged out!'
     });
 });
+
+///////////////////////////////////////////
 
 router.get(apipath + 'fitbit', function(req, res) {
     // request access to the user's activity, heartrate, location, nutrion, profile, settings, sleep, social, and weight scopes

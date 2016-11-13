@@ -1,12 +1,13 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular.module('teamModule')
-  .controller('TeamController', TeamController);
+    angular
+        .module('teamModule')
+        .controller('TeamController', TeamController);
 
-  TeamController.$inject = ['$scope', '$http'];
+    TeamController.$inject = ['$scope', '$http'];
 
-  function TeamController($scope, $http) {
+    function TeamController($scope, $http) {
         $scope.teamData = {};
 
         $http.get('/api/v1/team')
@@ -19,5 +20,4 @@
                 console.log('Error: ' + error);
             });
     }
-
 }());

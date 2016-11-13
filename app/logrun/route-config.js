@@ -1,21 +1,18 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('logrunModule')
-    .config(configFunction);
+    angular
+        .module('logrunModule')
+        .config(configFunction);
 
-    configFunction.$inject =['$stateProvider'];
+    configFunction.$inject = ['$stateProvider'];
+
     function configFunction($stateProvider) {
-      $stateProvider
-        .state('log', {
-            url: '/log',
-            templateUrl: '/logrun/logrun.html',
-            controller: 'LogrunController',
-            // access: {
-            //     restricted: true
-            // }
-      });
+        $stateProvider
+            .state('log', {
+                url: '/log',
+                templateUrl: '/logrun/logrun.html',
+                controller: 'LogrunController',
+            });
     }
-
 }());

@@ -1,14 +1,13 @@
 (function() {
-  'use strict';
+    'use strict';
 
+    angular
+        .module('signupModule')
+        .controller('SignupController', SignupController);
 
-  angular
-  .module('signupModule')
-  .controller('SignupController', SignupController);
+    SignupController.$inject = ['$scope', '$http', '$state'];
 
-  SignupController.$inject = ['$scope', '$http'];
-
-  function SignupController($scope, $http) {
+    function SignupController($scope, $http, $state) {
         $scope.userData = {};
 
         $scope.createUser = function() {
@@ -16,11 +15,11 @@
                 .success((data) => {
                     $scope.userData = data.data;
                     console.log("Inserted");
+                    $state.go('home');
                 })
                 .error((error) => {
                     console.log('Error: ' + error);
                 });
         };
     }
-
 }());
