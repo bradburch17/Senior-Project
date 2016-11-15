@@ -6,7 +6,9 @@
         .directive("xtHeader", function() {
             return {
                 restrict: "E",
-                templateUrl: "layout/navbar/navbar.directive.html"
+                templateUrl: "layout/navbar/navbar.directive.html",
+                controller: "NavController",
+                controllerAs: "vm",
             };
         });
 }());

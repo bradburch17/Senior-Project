@@ -5,12 +5,13 @@
         .module('shoeModule')
         .controller('ShoeController', ShoeController);
 
-    ShoeController.$inject = ['$scope', '$http'];
+    ShoeController.$inject = ['$scope', '$http', 'Auth'];
 
-    function ShoeController($scope, $http) {
+    function ShoeController($scope, $http, Auth) {
         $scope.shoeData = {};
 
         $scope.createShoe = function() {
+          console.log('Scope: ' + Auth.getUserData());
             $http.post('api/v1/shoes', $scope.shoeData)
                 .success((data) => {
                     $scope.shoeData = data.data;

@@ -15,10 +15,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a ui-sref="home">Home</a></li>
-                <li><a ui-sref="log">Log A Run</a></li>
-                <li><a ui-sref="team">Teams</a></li>
-                <li><a ui-sref="shoe">Shoes</a></li>
-                <li><a ui-sref="personalrecord">Personal Records</a></li>
+                <li><a ng-show="loggedIn" ui-sref="log">Log A Run</a></li>
+                <li><a ng-show="loggedIn" ui-sref="team">Teams</a></li>
+                <li><a ng-show="loggedIn" ui-sref="shoe">Shoes</a></li>
+                <li><a ng-show="loggedIn" ui-sref="personalrecord">Personal Records</a></li>
                 <li><a ui-sref="about">About</a></li>
                 <!-- THIS IS A DROPDOWN BOX
           <li class="dropdown">
@@ -37,8 +37,8 @@
       </form> -->
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="user-profile">{{user}}</a></li>
-                <li><a ui-sref="login">Sign in</a></li>
+                <li><a ng-show="loggedIn" ui-sref="user-profile">{{vm.getUserData.userData.username}}</a></li>
+                <li><a ng-show="!loggedIn" ui-sref="login">Sign in</a></li>
 
                 <!-- THIS IS A DROPDOWN BOX AT THE RIGHT
         <li class="dropdown">

@@ -19,7 +19,6 @@ function User() {
     this.token = ""; //I think I need to declare this in order to return it. Currently not in use
 
     this.save = function(callback) {
-        var client = new pg.Client(conString);
         client.connect();
         var hashedPassword = bcrypt.hashSync(this.password, salt);
 

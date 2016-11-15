@@ -13,6 +13,7 @@
                 url: '/log',
                 templateUrl: '/logrun/logrun.html',
                 controller: 'LogrunController',
+                requireAuth: true,
             });
     }
 }());

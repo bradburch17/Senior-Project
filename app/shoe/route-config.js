@@ -14,6 +14,7 @@
                 url: '/shoe',
                 templateUrl: '/shoe/shoe.html',
                 controller: 'ShoeController',
+                requireAuth: true,
             })
     }
 }());

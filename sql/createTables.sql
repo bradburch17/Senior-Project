@@ -67,10 +67,7 @@ CREATE TABLE DeviceInfo_tbl
 CREATE TABLE Person_tbl
 (
     person_id SERIAL,
-    -- shoe_id integer,
-    -- team_id integer,
-    -- device_id integer,
-    -- pr_id integer,
+
     username varchar(25) not null,
     password varchar(64) not null,
     email varchar(50) not null,
@@ -78,14 +75,9 @@ CREATE TABLE Person_tbl
     firstname varchar(25) not null,
     lastname varchar(40) not null,
     isPublic boolean not null,
-    -- isCoach boolean not null,
     birthdate date not null,
 
     primary key (person_id)
-    -- foreign key (shoe_id) references Shoe_tbl on delete no action,
-    -- foreign key (team_id) references Team_tbl on delete no action,
-    -- foreign key (pr_id) references PersonalRecord_tbl on delete no action,
-    -- foreign key (device_id) references DeviceInfo_tbl on delete no action
 );
 
 --Adding foreign key constraint to Team table

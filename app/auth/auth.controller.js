@@ -1,22 +1,15 @@
 (function() {
     'use strict';
 
-    angular.module('authModule')
+    angular
+        .module('authModule')
         .controller('AuthController', AuthController);
 
-    AuthController.$inject = ['$scope', '$http', '$state'];
+    AuthController.$inject = ['$scope', 'Auth'];
 
-    function AuthController($scope, $http, $state) {
-        console.log("here");
-        $http.get('/api/v1/auth')
-            .success(function(data) {
-                $scope.userData = data.data;
-                console.log(data.data);
-                console.log("Recieved user data");
-            })
-            .error(function(error) {
-                console.log(error);
-                $state.go('login');
-            })
+    function AuthController($scope, Auth) {
+        $scope.loggedIn = Auth.getAuthStatus();
+        console.log('Scope: ' + $scope.loggedIn);
+        $scope.userData = Auth.getUserData();
     }
 }());

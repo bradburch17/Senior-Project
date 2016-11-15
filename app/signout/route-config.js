@@ -2,18 +2,17 @@
     'use strict';
 
     angular
-        .module('teamModule')
+        .module('signoutModule')
         .config(configFunction);
 
     configFunction.$inject = ['$stateProvider'];
 
     function configFunction($stateProvider) {
         $stateProvider
-            .state('team', {
-                url: '/team',
-                templateUrl: '/team/team.html',
-                controller: 'TeamController',
-                requireAuth: true,
+            .state('logout', {
+                url: '/logout',
+                //templateUrl: '/sign-in/signin.html',
+                controller: 'SignoutController'
             })
     }
 }());

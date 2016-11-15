@@ -7,24 +7,21 @@ var favicon = require('serve-favicon');
 
 var passport = require('passport');
 var flash = require('connect-flash');
-var jwt = require('jsonwebtoken');
+//var jwt = require('jsonwebtoken');
 
 var routes = require('./routes/index');
-// var users = require('./routes/users');
 var config = require('./config/config');
 //passport stuff
 var session = require('express-session');
-var pg = require('pg');
-var conString = config.database;
-//var conString = process.env.DATABASE_URL || "postgres://postgres:s@localhost:5432/JoggersLoggersDB";
-var client = new pg.Client(conString);
+// var pg = require('pg');
+// var conString = config.database;
+// var client = new pg.Client(conString);
 
 
 var app = express();
 
 require('./config/passport')(passport);
 
-// uncomment after placing your favicon in /public
 app.set('superSecret', config.secret);
 app.use(favicon(path.join(__dirname, 'app', 'images', 'favicon.ico')));
 app.use(logger('dev'));

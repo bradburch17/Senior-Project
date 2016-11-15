@@ -3,18 +3,15 @@ var promise = require('bluebird');
 var options = {
     promiseLib: promise
 };
-var config = require('./config/config');
+var config = require('./config');
 var pgp = require('pg-promise')(options);
 var connectionString = config.database;
 var db = pgp(connectionString);
-
-// add query functions
 
 module.exports = {
     getAllUsers: getAllUsers,
     getSingleUser: getSingleUser,
     getTeamMembers: getTeamMembers,
-    createUser: createUser,
     createTeam: createTeam,
     createShoe: createShoe,
     createPR: createPR,
@@ -82,22 +79,6 @@ function getTeamMembers(req, res, next) {
 }
 
 //Create Methods
-function createUser(req, res, next) {
-    db.none('INSERT INTO person_tbl (username, password, email, sex, firstname, lastname, ispublic, iscoach, birthdate)' +
-            'VALUES (${username}, ${password}, ${email}, ${sex}, ${firstname}, ${lastname}, false, false, ${birthdate})',
-            req.body)
-        .then(function() {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'Inserted one person'
-                });
-        })
-        .catch(function(err) {
-            return next(err);
-        });
-}
-
 function createTeam(req, res, next) {
     db.none('INSERT INTO team_tbl (coach_id, teamName, teamDescription, isRestricted)' +
             'VALUES (${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
@@ -147,8 +128,8 @@ function createPR(req, res, next) {
 }
 
 function createLog(req, res, next) {
-    db.none('INSERT INTO log_tbl (activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
-            'VALUES (${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description})',
+    db.none('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
+            'VALUES (${logtitle}, ${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description})',
             req.body)
         .then(function() {
             res.status(200)
@@ -207,7 +188,6 @@ function removeUser(req, res, next) {
     var userID = parseInt(req.params.id);
     db.result('DELETE FROM person_tbl WHERE person_id=$1', userID)
         .then(function(result) {
-            /* jshint ignore:start */
             res.status(200)
                 .json({
                     status: 'success',

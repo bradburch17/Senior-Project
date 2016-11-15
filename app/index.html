@@ -6,38 +6,32 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<base href="/" />
-	<title>Joggers and Loggers - Home</title>
+	<title>Joggers and Loggers</title>
 
 	<!-- CSS Styling - Bootstrap, Navbar -->
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 
-	<!-- JavaScript - AngularJS, UI Router, App.js -->
-
-
+	<!-- JavaScript - AngularJS, UI Router -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
 
 	<!-- mainModule -->
 	<script src="mainModule.js"></script>
 
-	<!-- HomeModule -->
+	<!-- layoutModule -->
+	<script src="layout\layoutModule.js"></script>
+	<script src="layout\navbar\navbar.directive.js"></script>
+	<script src="layout\navbar\navbar.controller.js"></script>
+	<script src="layout\footer\footer.directive.js"></script>
+
+	<!-- homeModule -->
 	<script src="home\homeModule.js"></script>
 	<script src="home\route-config.js"></script>
 
 	<!-- aboutModule -->
 	<script src="about\about.module.js"></script>
 	<script src="about\route-config.js"></script>
-
-	<!-- layoutModule -->
-	<script src="layout\layoutModule.js"></script>
-	<script src="layout\navbar\navbar.directive.js"></script>
-	<script src="layout\footer\footer.directive.js"></script>
-
-	<!-- shoeModule -->
-	<script src="shoe\shoe.module.js"></script>
-	<script src="shoe\shoe.controller.js"></script>
-	<script src="shoe\route-config.js"></script>
 
 	<!-- logrunModule -->
 	<script src="logrun\logrun.module.js"></script>
@@ -54,6 +48,21 @@
 	<script src="personalrecord\personalrecord.controller.js"></script>
 	<script src="personalrecord\route-config.js"></script>
 
+	<!-- shoeModule -->
+	<script src="shoe\shoe.module.js"></script>
+	<script src="shoe\shoe.controller.js"></script>
+	<script src="shoe\route-config.js"></script>
+
+	<!-- teamModule -->
+	<script src="team\team.module.js"></script>
+	<script src="team\team.controller.js"></script>
+	<script src="team\route-config.js"></script>
+
+	<!-- userprofileModule -->
+	<script src="userprofile\userprofile.module.js"></script>
+	<script src="userprofile\userprofile.controller.js"></script>
+	<script src="userprofile\route-config.js"></script>
+
 	<!-- signinModule -->
 	<script src="sign-in\signin.module.js"></script>
 	<script src="sign-in\signin.controller.js"></script>
@@ -68,16 +77,7 @@
 	<script src="auth\auth.module.js"></script>
 	<script src="auth\auth.controller.js"></script>
 	<script src="auth\route-config.js"></script>
-
-	<!-- teamModule -->
-	<script src="team\team.module.js"></script>
-	<script src="team\team.controller.js"></script>
-	<script src="team\route-config.js"></script>
-
-	<!-- userprofileModule -->
-	<script src="userprofile\userprofile.module.js"></script>
-	<script src="userprofile\userprofile.controller.js"></script>
-	<script src="userprofile\route-config.js"></script>
+	<script src="auth\auth.service.js"></script>
 
 </head>
 

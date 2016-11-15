@@ -7,6 +7,7 @@
 			<td class="team-table-user">User: <b>{{users.username}}</b></td>
 		</tr>
 		<tr ng-repeat="logs in users.logs">
+			<td><b>{{logs.log.logtitle}}</b></td>
 			<td>Date: {{logs.log.logdate}}</td>
 			<td>Activity: {{logs.activity}}</td>
 			<td>Distance: {{logs.log.distance}} miles</td>

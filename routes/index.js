@@ -3,7 +3,7 @@ var passport = require('passport');
 var FitbitApiClient = require('fitbit-node');
 var router = express.Router();
 
-var db = require('../queries');
+var db = require('../config/queries');
 var config = require('../config/config');
 var apipath = '/api/v1/';
 const path = require('path');
@@ -45,8 +45,9 @@ router.get(apipath + 'auth', function(req, res) {
             message: 'Returned one user'
         })
     else {
-        res.status(403);
+        res.status(200);
         res.json({
+            status: false,
             errors: [{
                 message: 'not authorized'
             }]
@@ -60,8 +61,6 @@ router.get(apipath + 'logout', function(req, res) {
         status: 'Logged out!'
     });
 });
-
-///////////////////////////////////////////
 
 router.get(apipath + 'fitbit', function(req, res) {
     // request access to the user's activity, heartrate, location, nutrion, profile, settings, sleep, social, and weight scopes
@@ -184,8 +183,6 @@ router.get(apipath + 'fitbit/sleep/:date', function(req, res) {
         });
     }
 });
-
-
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())

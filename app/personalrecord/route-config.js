@@ -13,6 +13,7 @@
                 url: '/personalrecords',
                 templateUrl: '/personalrecord/personalrecord.html',
                 controller: 'PersonalrecordController',
+                requireAuth: true,
             })
     }
 }());

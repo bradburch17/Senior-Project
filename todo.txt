@@ -1,12 +1,16 @@
 TODO:
-FROM CHECKPOINT 2:
-* Write a SQL script to pull all information from all tables into the JSON object - Fix the PR and add the same thing to Team
+* Write a SQL script to pull all information from all tables into the JSON object
 * Ability to add Activities from front end
 * Validate input on all screens
-* Add Log Title
-* Add User Auth on all screens
-* Store FitBit Data
-* Fix HTML5 bug 
+* Create Userprofile HTML to show:
+  - User information
+  - Log into FitBit
+* Delete users from team if Coach
+* Change Team view
+* Add front end logout capability
+** Fix user.js to close connections
+* Get Connect Flash to work
+* Fix wrong password crash
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site
@@ -14,20 +18,13 @@ FROM CHECKPOINT 2:
 * Refactor API code modules
 * Show already existing PRs
 * Create a table for already existing shoes
+* Fix HTML5 bug
+* Add Misfit information
+* Redo UI
 
-Checkpoint 3:
-* Connect FitBit
-* 'Deploy to Heroku
-* Create a Team view
-  * Create a Team
-  * Join a Team
-  * See teammate's logs
-
-
+Checkpoint 4:
+*	Show any CRUD operations on necessary web pages not already shown, where necessary – do not need to test static pages or pages where there is no database integration.
+*	Show full site deployed on Heroku, with working database integration.
+*	Show all dynamic web pages to verify database back-end.
 
 CHECKPOINT REQUIREMENTS:
-•	Show the connection of FitBit API to the web application.
-•	Use FitBit information to populate fields in the running log.
-•	Store FitBit information in Device_tbl.
-•	Show a Team view webpage.
-•	Show the deployment of current stage on Heroku for production testing.

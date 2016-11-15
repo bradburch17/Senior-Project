@@ -3,6 +3,11 @@
     <div class="form-container">
         <form name="CreateLogForm" ng-submit="createLog();">
             <div class="form-group">
+                <label>Log Title</label>
+                <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle">
+            </div>
+
+            <div class="form-group">
                 <label>Activity: </label>
                 <select name="activityselection" class="form-control" ng-model="logData.activity_id">
                       <option value="1">None</option>

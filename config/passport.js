@@ -1,10 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
-var pg = require('pg');
-var config = require('./config');
-var conString = config.database;
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
-var client = new pg.Client(conString);
 
 // load up the user model
 var User = require('../app/models/user');
