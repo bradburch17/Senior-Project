@@ -11,7 +11,7 @@
         $stateProvider
             .state('logout', {
                 url: '/logout',
-                //templateUrl: '/sign-in/signin.html',
+                templateUrl: '/signout/signout.html',
                 controller: 'SignoutController'
             })
     }

@@ -5,9 +5,9 @@
         .module('signinModule')
         .controller('SigninController', SigninController);
 
-    SigninController.$inject = ['$scope', '$rootScope', '$window', '$http', '$state'];
+    SigninController.$inject = ['$scope', '$window', '$http', '$state', 'Auth'];
 
-    function SigninController($scope, $rootScope, $window, $http, $state) {
+    function SigninController($scope, $window, $http, $state, Auth) {
         $scope.userData = {};
 
         $scope.loginUser = function() {
@@ -16,8 +16,8 @@
                     $scope.userData = data.data;
                     console.log('Successful login');
                     console.log(data);
-                    $rootScope.loggedIn = true;
-                    $rootScope.userData = data;
+                    window.localStorage.setItem('userData', angular.toJson(data));
+                    Auth.setLoggedIn(true);
                     $state.go('home');
                 })
                 .error((error) => {

@@ -5,9 +5,17 @@
         .module('layoutModule')
         .controller('NavController', NavbarController);
 
-    NavbarController.$inject = ['$scope', '$window', 'Auth'];
+    NavbarController.$inject = ['$scope', 'Auth'];
 
-    function NavbarController($scope, $window, Auth) {
-        $scope.loggedIn = Auth.getAuthStatus();
+    function NavbarController($scope, Auth) {
+        $scope.loggedIn = function(){
+          console.log('In navbar: ' + Auth.isLoggedIn());
+          return Auth.isLoggedIn();
+        }
+
+        $scope.userData = function() {
+          return Auth.getUserData();
+        }
+
     }
 }());

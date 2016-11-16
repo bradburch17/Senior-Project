@@ -13,6 +13,7 @@
             'personalrecordModule',
             'signinModule',
             'signupModule',
+            'signoutModule',
             'teamModule',
             'userprofileModule',
             'authModule',
@@ -20,12 +21,13 @@
         .config(configFunction)
         .run(['$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {
             $rootScope.$on('$stateChangeStart', function(event, next) {
-              console.log('Next: ' + next.requireAuth + ' Auth: ' + Auth.getAuthStatus());
-                if (next.requireAuth && !Auth.getAuthStatus()) {
+              console.log('Next: ' + next.requireAuth + ' Auth: ' + Auth.isLoggedIn());
+              console.log(Auth.getUserData());
+                if (next.requireAuth && !Auth.isLoggedIn()) {
                     console.log('DENY');
                     event.preventDefault();
                     $state.go('login');
-                } else if (Auth.getAuthStatus() || !Auth.getAuthStatus()) {
+                } else if (Auth.isLoggedIn() || !Auth.isLoggedIn()) {
                     console.log('ALLOW');
                 }
             });

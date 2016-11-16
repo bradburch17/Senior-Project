@@ -15,6 +15,7 @@
 	<!-- JavaScript - AngularJS, UI Router -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-cookie/4.1.0/angular-cookie.js"></script>
 
 	<!-- mainModule -->
 	<script src="mainModule.js"></script>
@@ -73,6 +74,11 @@
 	<script src="sign-up\signup.controller.js"></script>
 	<script src="sign-up\route-config.js"></script>
 
+	<!-- signoutModule -->
+	<script src="signout\signout.module.js"></script>
+	<script src="signout\signout.controller.js"></script>
+	<script src="signout\route-config.js"></script>
+
 	<!-- authModule -->
 	<script src="auth\auth.module.js"></script>
 	<script src="auth\auth.controller.js"></script>
@@ -86,7 +92,7 @@
 		<xt-header></xt-header>
 
 		<div class="content">
-				<ui-view></ui-view>
+			<ui-view></ui-view>
 		</div>
 
 		<xt-footer></xt-footer>
