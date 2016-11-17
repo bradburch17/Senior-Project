@@ -63,6 +63,7 @@ router.get(apipath + 'logout', function(req, res) {
 });
 
 router.get(apipath + 'fitbit', function(req, res) {
+    console.log('FITBIT IS IN HERE---------------------------------');
     // request access to the user's activity, heartrate, location, nutrion, profile, settings, sleep, social, and weight scopes
     res.redirect(client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', config.CALLBACK_URL));
 });

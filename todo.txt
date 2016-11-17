@@ -7,7 +7,6 @@ TODO:
   - Log into FitBit
 * Delete users from team if Coach
 * Change Team view
-* Add front end logout capability
 ** Fix user.js to close connections
 * Get Connect Flash to work
 * Fix wrong password crash

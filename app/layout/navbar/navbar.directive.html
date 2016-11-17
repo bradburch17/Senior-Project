@@ -37,7 +37,7 @@
       </form> -->
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a ng-show="loggedIn()" ui-sref="user-profile">{{userData.data.username}}</a></li>
+                <li><a ng-show="loggedIn()" ui-sref="user-profile">{{userData().username}}</a></li>
                 <li><a ng-controller="SignoutController" ng-click="logout()" ng-show="loggedIn()" ui-sref="logout">Logout</a></li>
                 <li><a ng-show="!loggedIn()" ui-sref="login">Sign in</a></li>
 

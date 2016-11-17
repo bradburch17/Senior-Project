@@ -9,10 +9,12 @@
 
     function ShoeController($scope, $http, Auth) {
         $scope.shoeData = {};
+        $scope.userData = Auth.getUserData();
+        var data = {};
 
         $scope.createShoe = function() {
-          console.log('Scope: ' + Auth.getUserData());
-            $http.post('api/v1/shoes', $scope.shoeData)
+          data = {'shoeData': $scope.shoeData, 'userData': $scope.userData };
+            $http.post('api/v1/shoes', Indata)
                 .success((data) => {
                     $scope.shoeData = data.data;
                     console.log("Inserted");

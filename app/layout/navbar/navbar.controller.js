@@ -9,7 +9,6 @@
 
     function NavbarController($scope, Auth) {
         $scope.loggedIn = function(){
-          console.log('In navbar: ' + Auth.isLoggedIn());
           return Auth.isLoggedIn();
         }
 

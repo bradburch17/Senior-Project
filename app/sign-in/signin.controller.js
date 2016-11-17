@@ -17,7 +17,6 @@
                     console.log('Successful login');
                     console.log(data);
                     window.localStorage.setItem('userData', angular.toJson(data));
-                    Auth.setLoggedIn(true);
                     $state.go('home');
                 })
                 .error((error) => {

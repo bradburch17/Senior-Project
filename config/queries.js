@@ -93,16 +93,38 @@ function createTeam(req, res, next) {
         .catch(function(err) {
             return next(err);
         });
-}
 
-function createShoe(req, res, next) {
-    db.none('INSERT INTO shoe_tbl (shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe)' +
-            'VALUES (${shoename}, ${maxmileage}, 0, ${purchasedate}, FALSE, ${currentshoe})',
+    db.none('INSERT INTO person_team_tbl (person_id, team_id, isCoach) ' +
+            'VALUES (${person_id}, ${team_id}, false)',
             req.body)
         .then(function() {
             res.status(200)
                 .json({
                     status: 'success',
+                    message: 'Inserted into person_team'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        })
+}
+
+//Turn this into a transaction with batch
+function createShoe(req, res, next) {
+    db.task(function(t) {
+            return t.one('INSERT INTO shoe_tbl (shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe)' +
+                    'VALUES (${shoename}, ${maxmileage}, 0, ${purchasedate}, FALSE, ${currentshoe}) returning shoe_id',
+                    req.body.shoeData)
+                .then(function(shoe) {
+                    return t.none('INSERT INTO person_shoe_tbl (person_id, shoe_id)' +
+                        'VALUES ($1, $2)', [req.body.userData.person_id, shoe.shoe_id]);
+                });
+        })
+        .then(function(events) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    events: events,
                     message: 'Inserted one shoe'
                 });
         })
@@ -112,13 +134,20 @@ function createShoe(req, res, next) {
 }
 
 function createPR(req, res, next) {
-    db.none('INSERT INTO personalrecord_tbl (prtime, prevent, prdate)' +
-            'VALUES (${prtime}, ${prevent}, ${prdate})',
-            req.body)
-        .then(function() {
+    db.task(function(t) {
+            return t.one('INSERT INTO personalrecord_tbl (prtime, prevent, prdate)' +
+                    'VALUES (${prtime}, ${prevent}, ${prdate}) returning pr_id',
+                    req.body.prData)
+                .then(function(pr) {
+                    return t.none('INSERT INTO person_pr_tbl (person_id, pr_id)' +
+                        'VALUES ($1, $2)', [req.body.userData.person_id, pr.pr_id]);
+                });
+        })
+        .then(function(events) {
             res.status(200)
                 .json({
                     success: 'success',
+                    events: events,
                     message: 'Inserted one PR'
                 });
         })
@@ -128,13 +157,20 @@ function createPR(req, res, next) {
 }
 
 function createLog(req, res, next) {
-    db.none('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
-            'VALUES (${logtitle}, ${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description})',
-            req.body)
-        .then(function() {
+    db.task(function(t) {
+            return t.one('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
+                    'VALUES (${logtitle}, ${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description}) returning log_id',
+                    req.body.logData)
+                .then(function(log) {
+                    return t.none('INSERT INTO person_log_tbl (person_id, log_id)' +
+                        'VALUES ($1, $2)', [req.body.userData.person_id, log.log_id]);
+                });
+        })
+        .then(function(events) {
             res.status(200)
                 .json({
                     success: 'success',
+                    events: events,
                     message: 'Inserted one log'
                 });
         })
@@ -170,11 +206,15 @@ function addDeviceInfo(req, res, next) {
 
 //Update Methods
 function updateUser(req, res, next) {
-    db.none('UPDATE person_tbl SET shoe_id=$2, team_id=$3, device_id=$4, pr_id=$5, username=$6, password=$7, email=$8, sex=$9, ispublic=$10, iscoach=$11, birthdate=$12 WHERE person_id=$13', [parseInt(req.body.shoe_id), parseInt(req.body.team_id), parseInt(req.body.device_id), req.body.username, req.body.password, req.body.email, req.body.sex, req.body.ispublic /*May need fixed*/ , req.body.iscoach, req.body.birthdate, parseInt(req.params.person_id)])
+  console.log('Heres!');
+  console.log(req.body);
+    db.none('UPDATE person_tbl SET firstname = ${firstname}, lastname = ${lastname}, email=${email}, ispublic=${ispublic} WHERE person_id=${person_id}',
+    req.body)
         .then(function() {
             res.status(200)
                 .json({
                     status: 'success',
+                    data: req.body,
                     message: 'Updated user'
                 });
         })

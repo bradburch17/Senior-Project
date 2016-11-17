@@ -6,7 +6,6 @@
         .factory('Auth', ['$http', '$window', '$state', function authFactory($http, $window, $state) {
             var factory = {};
 
-            var loggedIn = false;
             var userData = {};
 
             factory.getUserData = function() {
@@ -26,7 +25,6 @@
                 //     });
                 //     console.log(userData);
                 // return userData;
-                console.log(angular.fromJson(window.localStorage.getItem('userData')));
                 return angular.fromJson(window.localStorage.getItem('userData'));
             }
 
@@ -51,10 +49,6 @@
                 else {
                   return false
                 }
-            }
-
-            factory.setLoggedIn = function(val) {
-              loggedIn = val;
             }
 
             return factory;

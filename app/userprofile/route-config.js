@@ -12,10 +12,15 @@
             .state('user-profile', {
                 url: '/userprofile',
                 templateUrl: '/userprofile/userprofile.html',
-                // controller: 'UserprofileController',
-                controller: "NavController",
-                controllerAs: 'users',
-                // requireAuth: true,
+                controller: 'UserprofileController',
+                requireAuth: true,
+            })
+
+            .state('edit-profile', {
+              url:'/userprofile/edit',
+              templateUrl: '/userprofile/edit-userprofile.html',
+              controller: 'UserprofileController',
+              requireAuth: true,
             })
     }
-}());
+})();

@@ -4,19 +4,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
-
-var passport = require('passport');
 var flash = require('connect-flash');
-//var jwt = require('jsonwebtoken');
-
+var passport = require('passport');
 var routes = require('./routes/index');
 var config = require('./config/config');
-//passport stuff
 var session = require('express-session');
-// var pg = require('pg');
-// var conString = config.database;
-// var client = new pg.Client(conString);
-
 
 var app = express();
 
@@ -35,11 +27,10 @@ app.use(session({
     secret: config.secret,
     resave: false,
     saveUninitialized: false
-})); // session secret
+}));
+app.use(flash());
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-///////////////////////////////////////////////////////////////////////////////////
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'app')));
 
 app.use('/', routes);

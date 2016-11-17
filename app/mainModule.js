@@ -17,6 +17,7 @@
             'teamModule',
             'userprofileModule',
             'authModule',
+            'fitbitModule'
         ])
         .config(configFunction)
         .run(['$rootScope', '$state', 'Auth', function($rootScope, $state, Auth) {

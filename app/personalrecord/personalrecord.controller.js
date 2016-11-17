@@ -4,13 +4,16 @@
     angular.module('personalrecordModule')
         .controller('PersonalrecordController', PersonalrecordController);
 
-    PersonalrecordController.$inject = ['$scope', '$http'];
+    PersonalrecordController.$inject = ['$scope', '$http', 'Auth'];
 
-    function PersonalrecordController($scope, $http) {
+    function PersonalrecordController($scope, $http, Auth) {
         $scope.prData = {};
+        $scope.userData = Auth.getUserData();
+        var data = {};
 
         $scope.createPR = function() {
-            $http.post('/api/v1/prs', $scope.prData)
+          data = {'prData': $scope.prData, 'userData': $scope.userData };
+            $http.post('/api/v1/prs', data)
                 .success((data) => {
                     $scope.prData = data.data;
                     console.log("Inserted");

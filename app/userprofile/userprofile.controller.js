@@ -5,18 +5,28 @@
         .module('userprofileModule')
         .controller('UserprofileController', UserprofileController);
 
-    UserprofileController.$inject = ['$scope', '$http'];
+    UserprofileController.$inject = ['$http', '$scope', '$window', 'Auth', 'FitbitFactory'];
 
-    function UserprofileController($scope, $http) {
-        $scope.userData = {};
+    function UserprofileController($http, $scope, $window, Auth, FitbitFactory) {
+        $scope.newuserData = Auth.getUserData();
 
-        $http.get('/api/v1/users')
-            .success((data) => {
-                $scope.userData = data.data;
-                console.log(data.data);
-            })
-            .error((error) => {
-                console.log('Error: ' + error);
-            });
+        $scope.userData = function() {
+            return Auth.getUserData();
+        }
+
+        $scope.fitbitLogin = function() {
+            return FitbitFactory.fitbitLogin();
+        }
+
+        $scope.editProfile = function() {
+            $http.put('/api/v1/users/' + $scope.newuserData.person_id, $scope.newuserData)
+                .success((data) => {
+                  console.log(data.data);
+                  window.localStorage.setItem('userData', angular.toJson(data.data));
+                })
+                .error((error) => {
+                    console.log(error);
+                });
+        }
     }
 }());
