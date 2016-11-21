@@ -8,7 +8,6 @@ var favicon = require('serve-favicon');
 var flash = require('connect-flash');
 var passport = require('passport');
 var routes = require('./routes/index');
-var config = require('./config/config');
 var session = require('express-session');
 
 var app = express();

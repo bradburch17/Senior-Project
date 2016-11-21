@@ -1,5 +1,4 @@
 var pg = require('pg');
-var config = require('../../config/config');
 var conString = process.env.DATABASE_URL;
 
 var client = new pg.Client(conString);
