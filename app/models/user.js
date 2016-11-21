@@ -26,7 +26,6 @@ function User() {
             function(err, result) {
                 if (err) {
                     console.log(err);
-                    client.end();
                     return console.error('error running query', err);
                 }
                 if (result.rows.length > 0) {
@@ -39,7 +38,6 @@ function User() {
         client.query('SELECT * FROM person_tbl ORDER BY person_id DESC LIMIT 1', null, function(err, result) {
 
             if (err) {
-                client.end();
                 return callback(null);
             }
             //if no rows were returned from query, then new user
