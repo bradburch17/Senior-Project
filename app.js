@@ -1,4 +1,5 @@
 var express = require('express');
+var dotenv = require('dotenv').load();
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -14,7 +15,7 @@ var app = express();
 
 require('./config/passport')(passport);
 
-app.set('superSecret', config.secret);
+app.set('superSecret', process.env.SECRET);
 app.use(favicon(path.join(__dirname, 'app', 'images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 //Passport Stuff////////////////////////////////////////////////////////////////////
 app.use(session({
-    secret: config.secret,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
 }));

@@ -10,7 +10,7 @@
             .state('register', {
                 url: '/register',
                 templateUrl: '/sign-up/signup.html',
-                controller: 'SignupController'
+                controller: 'SignupController',
             })
     }
 }());

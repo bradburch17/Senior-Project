@@ -1,6 +1,6 @@
 var pg = require('pg');
 var config = require('../../config/config');
-var conString = config.database;
+var conString = process.env.DATABASE_URL;
 
 var client = new pg.Client(conString);
 var bcrypt = require('bcrypt-node');
@@ -27,6 +27,7 @@ function User() {
             function(err, result) {
                 if (err) {
                     console.log(err);
+                    client.end();
                     return console.error('error running query', err);
                 }
                 if (result.rows.length > 0) {
@@ -39,6 +40,7 @@ function User() {
         client.query('SELECT * FROM person_tbl ORDER BY person_id DESC LIMIT 1', null, function(err, result) {
 
             if (err) {
+                client.end();
                 return callback(null);
             }
             //if no rows were returned from query, then new user
@@ -62,7 +64,6 @@ function User() {
 }
 
 User.findOne = function(username, callback) {
-    var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
     console.log(username + ' is in the findOne function in User.js');
@@ -93,7 +94,6 @@ User.findOne = function(username, callback) {
 };
 
 User.findByUsername = function(username, callback) {
-    var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
     console.log(username + ' is in the findOne function in User.js');

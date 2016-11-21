@@ -3,9 +3,9 @@ var promise = require('bluebird');
 var options = {
     promiseLib: promise
 };
-var config = require('./config');
+// var config = require('./config');
 var pgp = require('pg-promise')(options);
-var connectionString = config.database;
+var connectionString = process.env.DATABASE_URL;
 var db = pgp(connectionString);
 
 module.exports = {

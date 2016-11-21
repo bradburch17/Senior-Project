@@ -4,11 +4,10 @@ var FitbitApiClient = require('fitbit-node');
 var router = express.Router();
 
 var db = require('../config/queries');
-var config = require('../config/config');
 var apipath = '/api/v1/';
 const path = require('path');
 var data;
-var client = new FitbitApiClient(config.CLIENT_ID, config.CLIENT_SECRET);
+var client = new FitbitApiClient(process.env.CLIENT_ID, process.env.CLIENT_SECRET);
 
 router.get('/', (req, res, next) => {
     res.sendFile(path.join(__dirname, '..', 'app', 'index.html'));
@@ -63,14 +62,13 @@ router.get(apipath + 'logout', function(req, res) {
 });
 
 router.get(apipath + 'fitbit', function(req, res) {
-    console.log('FITBIT IS IN HERE---------------------------------');
     // request access to the user's activity, heartrate, location, nutrion, profile, settings, sleep, social, and weight scopes
-    res.redirect(client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', config.CALLBACK_URL));
+    res.redirect(client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', process.env.CALLBACK_URL));
 });
 
 router.get(apipath + 'fitbit/callback', function(req, res) {
     // exchange the authorization code we just received for an access token
-    client.getAccessToken(req.query.code, config.CALLBACK_URL).then(function(result) {
+    client.getAccessToken(req.query.code, process.env.CALLBACK_URL).then(function(result) {
         // use the access token to fetch the user's profile information
         req.session.authorized = true;
         req.session.access_token = result.access_token;
@@ -204,7 +202,7 @@ var options = {
     promiseLib: promise
 };
 var pgp = require('pg-promise')(options);
-var connectionString = config.database;
+var connectionString = process.env.DATABASE_URL;
 var db = pgp(connectionString);
 
 function addDeviceInfo(data) {

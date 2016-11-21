@@ -5,9 +5,9 @@
         .module('userprofileModule')
         .controller('UserprofileController', UserprofileController);
 
-    UserprofileController.$inject = ['$http', '$scope', '$window', 'Auth', 'FitbitFactory'];
+    UserprofileController.$inject = ['$http', '$scope', '$location', '$window', 'Auth', 'FitbitFactory'];
 
-    function UserprofileController($http, $scope, $window, Auth, FitbitFactory) {
+    function UserprofileController($http, $scope, $location, $window, Auth, FitbitFactory) {
         $scope.newuserData = Auth.getUserData();
 
         $scope.userData = function() {
