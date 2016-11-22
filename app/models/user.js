@@ -1,23 +1,27 @@
 var pg = require('pg');
 var conString = process.env.DATABASE_URL;
-
-var client = new pg.Client(conString);
+//var client = new pg.Client(conString);
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 
 function User() {
-    this.person_id = "";
     this.firstname = ""
-    this.lastname = "";
+    this.lastname = '';
     this.birthdate = "";
     this.sex = "";
+    this.shoe_id = null;
+    this.team_id = null;
+    this.device_id = null;
+    this.pr_id = null;
     this.email = "";
     this.ispublic = false;
+    this.iscoach = false;
     this.username = "";
     this.password = ""; //need to declare the things that i want to be remembered for each user in the database
-    this.token = ""; //I think I need to declare this in order to return it. Currently not in use
+    this.token = ""; //I think I need to declare this in order to return it.
 
     this.save = function(callback) {
+        var client = new pg.Client(conString);
         client.connect();
         var hashedPassword = bcrypt.hashSync(this.password, salt);
 
@@ -61,6 +65,7 @@ function User() {
 }
 
 User.findOne = function(username, callback) {
+    var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
     console.log(username + ' is in the findOne function in User.js');
@@ -91,6 +96,7 @@ User.findOne = function(username, callback) {
 };
 
 User.findByUsername = function(username, callback) {
+    var client = new pg.Client(conString);
     var user = new User();
     var isNotAvailable = false; //we are assuming the email is taking
     console.log(username + ' is in the findOne function in User.js');
