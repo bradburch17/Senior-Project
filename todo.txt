@@ -7,9 +7,7 @@ TODO:
   - Log into FitBit
 * Delete users from team if Coach
 * Change Team view
-** Fix user.js to close connections
 * Get Connect Flash to work
-* Fix wrong password crash
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site
@@ -20,10 +18,3 @@ TODO:
 * Fix HTML5 bug
 * Add Misfit information
 * Redo UI
-
-Checkpoint 4:
-*	Show any CRUD operations on necessary web pages not already shown, where necessary – do not need to test static pages or pages where there is no database integration.
-*	Show full site deployed on Heroku, with working database integration.
-*	Show all dynamic web pages to verify database back-end.
-
-CHECKPOINT REQUIREMENTS:

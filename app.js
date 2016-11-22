@@ -1,11 +1,10 @@
 var express = require('express');
-//var dotenv = require('dotenv').load();
+var dotenv = require('dotenv').load();
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
-var flash = require('connect-flash');
 var passport = require('passport');
 var routes = require('./routes/index');
 var session = require('express-session');
@@ -28,7 +27,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'app')));

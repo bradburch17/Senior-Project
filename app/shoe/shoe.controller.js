@@ -14,7 +14,7 @@
 
         $scope.createShoe = function() {
           data = {'shoeData': $scope.shoeData, 'userData': $scope.userData };
-            $http.post('api/v1/shoes', Indata)
+            $http.post('api/v1/shoes', data)
                 .success((data) => {
                     $scope.shoeData = data.data;
                     console.log("Inserted");
