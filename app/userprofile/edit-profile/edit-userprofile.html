@@ -1,14 +1,8 @@
 <h1 class="registration-h1">Edit User Settings</h1>
 <div class="content-registration">
 	<div class="form-container">
-		<!-- <% if (message.length > 0) { %>
-			<div class="alert alert-danger">
-				<%= message %>
-			</div>
-			<% } %> -->
-
-		<!-- <form action="api/v1/login" method="post"> -->
 		<form name="ProfileEditForm" ng-submit="editProfile();" novalidate>
+			<flash-message></flash-message>
 			<div class="form-group">
 				<label for="firstname">First Name</label>
 				<input type="text" value="firstname" class="form-control" ng-model="newuserData.firstname" required>

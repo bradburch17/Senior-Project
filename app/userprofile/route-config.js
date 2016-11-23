@@ -18,7 +18,14 @@
 
             .state('edit-profile', {
               url:'/userprofile/edit',
-              templateUrl: '/userprofile/edit-userprofile.html',
+              templateUrl: '/userprofile/edit-profile/edit-userprofile.html',
+              controller: 'EditProfileController',
+              requireAuth: true,
+            })
+
+            .state('other-profile', {
+              url:'/userprofile/:person_id',
+              templateUrl: '/userprofile/userprofile.html',
               controller: 'UserprofileController',
               requireAuth: true,
             })

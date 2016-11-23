@@ -20,6 +20,7 @@
 -->
         <!--Add a Personal Record -->
         <form name="AddPRForm" ng-submit="createPR();">
+            <flash-message></flash-message>
             <div class="form-group">
                 <label>Event: </label>
                 <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" required>

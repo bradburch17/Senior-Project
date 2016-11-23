@@ -2,6 +2,7 @@
 <div class="content-registration">
     <div class="form-container">
         <form name="CreateLogForm" ng-submit="createLog();">
+          <flash-message></flash-message>
             <div class="form-group">
                 <label>Log Title</label>
                 <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle">

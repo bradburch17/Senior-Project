@@ -4,10 +4,10 @@
             <h1>{{userData().firstname}} {{userData().lastname}}'s Profile</h1>
           </div>
           <div class="col-md-6">
-            <!-- ui-sref="fitbitLogin" -->
+            <flash-message></flash-message>
             <h1></h1>
             <button class="btn btn-primary" ui-sref="edit-profile">Edit Profile</button>
-            <a class="login btn btn-success" href="/api/v1/fitbit">Login</a>
+            <a class="login btn btn-success" href="/api/v1/fitbit">Login to FitBit</a>
         </div>
     </div>
     <div class="row">

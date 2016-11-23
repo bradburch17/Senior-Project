@@ -9,7 +9,6 @@
 
     function AuthController($scope, Auth) {
         $scope.loggedIn = Auth.getAuthStatus();
-        console.log('Scope: ' + $scope.loggedIn);
         $scope.userData = Auth.getUserData();
     }
 }());

@@ -2,6 +2,7 @@
 <div class="content-registration">
 	<div class="form-container">
 		<form name="LoginForm" ng-submit="loginUser();" novalidate>
+			<flash-message></flash-message>
 			<div class="form-group">
 				<label for="username">Username</label>
 				<input type="text" value="username" class="form-control" ng-model="userData.username" required>

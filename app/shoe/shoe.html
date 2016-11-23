@@ -27,6 +27,7 @@
 
         <!-- Add a new Shoe -->
         <form name="AddShoeForm" ng-submit="createShoe();">
+          <flash-message></flash-message>
             <div class="form-group">
                 <label>Enter the shoe model:</label>
                 <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" required>
@@ -51,7 +52,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Add Shoe</button>
             </div>
-            
+
         </form>
     </div>
 </div>

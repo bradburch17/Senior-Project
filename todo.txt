@@ -1,13 +1,13 @@
 TODO:
-* Write a SQL script to pull all information from all tables into the JSON object
 * Ability to add Activities from front end
 * Validate input on all screens
 * Create Userprofile HTML to show:
   - User information
-  - Log into FitBit
+  - User Profile sidebar 
 * Delete users from team if Coach
 * Change Team view
-* Get Connect Flash to work
+  - Create a 'Create Team' view
+  - Pick what team you want to see
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site

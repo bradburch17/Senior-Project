@@ -15,7 +15,6 @@ module.exports = {
     createShoe: createShoe,
     createPR: createPR,
     createLog: createLog,
-    createDeviceInfo: createDeviceInfo,
     updateUser: updateUser,
     removeUser: removeUser,
     addDeviceInfo: addDeviceInfo
@@ -57,9 +56,8 @@ function getSingleUser(req, res, next) {
 
 function getTeamMembers(req, res, next) {
     db.any('SELECT p.username, json_agg(json_build_object(\'log\', l.*, \'activity\', a.activity)) as logs ' +
-            'FROM person_log_tbl pl ' +
-            'INNER JOIN person_tbl p ON pl.person_id = p.person_id ' +
-            'INNER JOIN log_tbl l ON pl.log_id = l.log_id ' +
+            'FROM person_tbl p ' +
+            'INNER JOIN log_tbl l ON p.person_id = l.person_id ' +
             'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
             'GROUP BY p.username ' +
             'ORDER BY p.username')
@@ -79,8 +77,8 @@ function getTeamMembers(req, res, next) {
 
 //Create Methods
 function createTeam(req, res, next) {
-    db.none('INSERT INTO team_tbl (coach_id, teamName, teamDescription, isRestricted)' +
-            'VALUES (${coach_id}, ${teamName}, ${teamDescription}, ${isRestricted})',
+    db.none('INSERT INTO team_tbl (teamName, teamDescription, isRestricted)' +
+            'VALUES (${teamName}, ${teamDescription}, ${isRestricted})',
             req.body)
         .then(function() {
             res.status(200)
@@ -110,15 +108,8 @@ function createTeam(req, res, next) {
 
 //Turn this into a transaction with batch
 function createShoe(req, res, next) {
-    db.task(function(t) {
-            return t.one('INSERT INTO shoe_tbl (shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe)' +
-                    'VALUES (${shoename}, ${maxmileage}, 0, ${purchasedate}, FALSE, ${currentshoe}) returning shoe_id',
-                    req.body.shoeData)
-                .then(function(shoe) {
-                    return t.none('INSERT INTO person_shoe_tbl (person_id, shoe_id)' +
-                        'VALUES ($1, $2)', [req.body.userData.person_id, shoe.shoe_id]);
-                });
-        })
+    db.none('INSERT INTO shoe_tbl (shoename, maxMileage, currentMileage, purchaseDate, isRetired, currentShoe, person_id)' +
+            'VALUES ($1, $2, 0, $3, FALSE, $4, $5)', [req.body.shoeData.shoename, req.body.shoeData.maxmileage, req.body.shoeData.purchasedate, req.body.shoeData.currentshoe, req.body.userData.person_id])
         .then(function(events) {
             res.status(200)
                 .json({
@@ -133,15 +124,8 @@ function createShoe(req, res, next) {
 }
 
 function createPR(req, res, next) {
-    db.task(function(t) {
-            return t.one('INSERT INTO personalrecord_tbl (prtime, prevent, prdate)' +
-                    'VALUES (${prtime}, ${prevent}, ${prdate}) returning pr_id',
-                    req.body.prData)
-                .then(function(pr) {
-                    return t.none('INSERT INTO person_pr_tbl (person_id, pr_id)' +
-                        'VALUES ($1, $2)', [req.body.userData.person_id, pr.pr_id]);
-                });
-        })
+    db.none('INSERT INTO personalrecord_tbl (prtime, prevent, prdate, person_id)' +
+            'VALUES ($1, $2, $3, $4)', [req.body.prData.prtime, req.body.prData.prevent, req.body.prData.prdate, req.body.userData.person_id])
         .then(function(events) {
             res.status(200)
                 .json({
@@ -156,15 +140,10 @@ function createPR(req, res, next) {
 }
 
 function createLog(req, res, next) {
-    db.task(function(t) {
-            return t.one('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description)' +
-                    'VALUES (${logtitle}, ${activity_id}, ${logdate}, ${distance}, ${activitytime}, ${sleep}, ${heartrate}, ${description}) returning log_id',
-                    req.body.logData)
-                .then(function(log) {
-                    return t.none('INSERT INTO person_log_tbl (person_id, log_id)' +
-                        'VALUES ($1, $2)', [req.body.userData.person_id, log.log_id]);
-                });
-        })
+    db.none('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description, person_id)' +
+            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.logData.logtitle, req.body.logData.activity_id, req.body.logData.logdate,
+                req.body.logData.distance, req.body.logData.activitytime, req.body.logData.sleep, req.body.logData.heartrate, req.body.logData.description, req.body.userData.person_id
+            ])
         .then(function(events) {
             res.status(200)
                 .json({
@@ -174,20 +153,7 @@ function createLog(req, res, next) {
                 });
         })
         .catch(function(err) {
-            return next(err);
-        });
-}
-
-function createDeviceInfo(data, req, res, next) {
-    db.none('INSERT INTO deviceinfo_tbl(deviceName, data) VALUES (${devicename}, ${data})', req.body, data)
-        .then(function() {
-            res.status(200)
-                .json({
-                    success: 'success',
-                    message: 'Inserted device info'
-                });
-        })
-        .catch(function(err) {
+            console.log('Error here');
             return next(err);
         });
 }
@@ -205,10 +171,10 @@ function addDeviceInfo(req, res, next) {
 
 //Update Methods
 function updateUser(req, res, next) {
-  console.log('Heres!');
-  console.log(req.body);
+    console.log('Heres!');
+    console.log(req.body);
     db.none('UPDATE person_tbl SET firstname = ${firstname}, lastname = ${lastname}, email=${email}, ispublic=${ispublic} WHERE person_id=${person_id}',
-    req.body)
+            req.body)
         .then(function() {
             res.status(200)
                 .json({

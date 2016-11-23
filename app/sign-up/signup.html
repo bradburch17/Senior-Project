@@ -2,8 +2,8 @@
 <div class="content-registration">
 	<div class="form-container">
 				<form name="CreateUser" ng-submit="createUser();" novalidate>
+					<flash-message></flash-message>
 					<div class="form-group">
-
 						<div class="form-group">
 							<label>First Name: </label>
 							<input type="text" value="firstname" class="form-control" ng-model="userData.firstname" required>

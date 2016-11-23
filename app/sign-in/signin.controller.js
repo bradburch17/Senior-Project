@@ -5,10 +5,11 @@
         .module('signinModule')
         .controller('SigninController', SigninController);
 
-    SigninController.$inject = ['$scope', '$window', '$http', '$state', 'Auth'];
+    SigninController.$inject = ['$scope', '$window', '$http', '$state', 'Auth', 'Flash'];
 
-    function SigninController($scope, $window, $http, $state, Auth) {
+    function SigninController($scope, $window, $http, $state, Auth, Flash) {
         $scope.userData = {};
+        Flash.clear();
 
         $scope.loginUser = function() {
             $http.post('api/v1/login', $scope.userData)
@@ -20,6 +21,8 @@
                     $state.go('home');
                 })
                 .error((error) => {
+                    Flash.clear();
+                    Flash.create('danger', 'Wrong username and password combination.', 0, {}, true);
                     console.log('Error: ' + error);
                 });
         };
