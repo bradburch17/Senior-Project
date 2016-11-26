@@ -3,12 +3,12 @@
 
     angular
         .module('fitbitModule')
-        .factory('FitbitFactory', ['$http', '$window', '$state', 'Flash', function authFactory($http, $window, $state, Flash) {
+        .factory('FitbitFactory', ['$http', '$window', '$state', 'Flash', function FitbitFactory($http, $window, $state, Flash) {
             var factory = {};
+            var loggedIn = false;
             Flash.clear();
 
             factory.fitbitLogin = function() {
-              console.log('We are in the factory');
                 $http.get('/api/v1/fitbit')
                     .success((data) => {
                         Flash.clear();
@@ -21,16 +21,16 @@
                     });
             }
 
-            factory.fitbitSleep = function() {
-
+            factory.fitbitSleep = function(date) {
+              console.log(date);
+              var d = new Date(date);
+              var newDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+              console.log(newDate);
+              return $http.get('/api/v1/fitbit/sleep/' + newDate);
             }
 
             factory.isLoggedIn = function() {
-
-            }
-
-            factory.setLoggedIn = function(val) {
-                loggedIn = val;
+                return $http.get('/api/v1/fitbit/auth');
             }
 
             return factory;

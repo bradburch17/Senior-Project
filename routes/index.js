@@ -19,9 +19,10 @@ router.get('/login', (req, res, next) => {
 
 router.get(apipath + 'users', db.getAllUsers);
 router.get(apipath + 'users/:id', db.getSingleUser);
+router.get(apipath + 'users/:id/teams', db.getUserTeams)
 router.get(apipath + 'team', db.getTeamMembers);
 router.post(apipath + '/deviceinfo', db.addDeviceInfo);
-router.post(apipath + 'teams', db.createTeam);
+router.post(apipath + 'team', db.createTeam);
 router.post(apipath + 'shoes', db.createShoe);
 router.post(apipath + 'prs', db.createPR);
 router.post(apipath + 'logs', db.createLog);
@@ -67,9 +68,7 @@ router.get(apipath + 'fitbit', function(req, res) {
 });
 
 router.get(apipath + 'fitbit/callback', function(req, res) {
-    // exchange the authorization code we just received for an access token
     client.getAccessToken(req.query.code, process.env.CALLBACK_URL).then(function(result) {
-        // use the access token to fetch the user's profile information
         req.session.authorized = true;
         req.session.access_token = result.access_token;
         req.session.save();
@@ -77,6 +76,22 @@ router.get(apipath + 'fitbit/callback', function(req, res) {
     }).catch(function(error) {
         res.send(error);
     });
+});
+
+router.get(apipath + 'fitbit/auth', function(req, res) {
+    if (req.session.authorized) {
+      console.log('We are in the auth');
+        res.json({
+            status: req.session.authorized,
+            message: 'Returned authentication'
+        });
+    } else {
+      console.log('We are in the else auth');
+        res.json({
+            status: false,
+            message: 'Returned authentication'
+        });
+    }
 });
 
 router.get(apipath + 'fitbit/activity/today', function(req, res) {
@@ -170,7 +185,6 @@ router.get(apipath + 'fitbit/sleep/:date', function(req, res) {
         var date = req.params.date;
         client.get('/sleep/date/' + date + '.json', req.session.access_token).then(function(results) {
             data = results[0];
-            addDeviceInfo(data);
             res.json(results[0]);
         })
     } else {
@@ -194,24 +208,3 @@ function isLoggedIn(req, res, next) {
 }
 
 module.exports = router;
-
-//ADD THIS
-var promise = require('bluebird');
-
-var options = {
-    promiseLib: promise
-};
-var pgp = require('pg-promise')(options);
-var connectionString = process.env.DATABASE_URL;
-var db = pgp(connectionString);
-
-function addDeviceInfo(data) {
-    console.log('RESULT: ' + data);
-    db.none('INSERT INTO deviceinfo_tbl(data) VALUES ($1)', [data])
-        .then(function() {
-            console.log("Added");
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}

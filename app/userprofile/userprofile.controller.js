@@ -14,10 +14,6 @@
             return Auth.getUserData();
         }
 
-        $scope.fitbitLogin = function() {
-            return FitbitFactory.fitbitLogin();
-        }
-
         $scope.getUserDataProfile = function() {
             $http.get('/api/v1/users/:person_id')
                 .success((data) => {
@@ -28,19 +24,14 @@
                 })
         }
 
-        // $scope.editProfile = function() {
-        //     $http.put('/api/v1/users/' + $scope.newuserData.person_id, $scope.newuserData)
-        //         .success((data) => {
-        //             console.log(data.data);
-        //             window.localStorage.setItem('userData', angular.toJson(data.data));
-        //             Flash.clear();
-        //             Flash.create('success', 'You have successfully updated your profile.', 0, {}, true);
-        //         })
-        //         .error((error) => {
-        //             Flash.clear();
-        //             Flash.create('warning', 'Please enter all required information.', 0, {}, true);
-        //             console.log(error);
-        //         });
-        // }
+        FitbitFactory.isLoggedIn()
+            .then(
+                function(data) {
+                    console.log(data.data.status);
+                    $scope.fitbitStatus = data.data.status;
+                },
+                function(errorData) {
+                    console.log(errorData);
+                });
     }
 }());

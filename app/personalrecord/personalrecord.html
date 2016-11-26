@@ -22,15 +22,15 @@
         <form name="AddPRForm" ng-submit="createPR();">
             <flash-message></flash-message>
             <div class="form-group">
-                <label>Event: </label>
+                <label>Event: </label><label class="asterisk">*</label>
                 <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" required>
             </div>
             <div class="form-group">
-                <label>Time: </label>
+                <label>Time: </label><label class="asterisk">*</label>
                 <input type="text" value="prtime" class="form-control" ng-model="prData.prtime" required>
             </div>
             <div class="form-group">
-                <label>Date: </label>
+                <label>Date: </label><label class="asterisk">*</label>
                 <input type="date" value="prdate" class="form-control" ng-model="prData.prdate">
             </div>
             <div class="form-group">

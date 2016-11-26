@@ -4,11 +4,11 @@
 		<form name="LoginForm" ng-submit="loginUser();" novalidate>
 			<flash-message></flash-message>
 			<div class="form-group">
-				<label for="username">Username</label>
+				<label for="username">Username</label><label class="asterisk">*</label>
 				<input type="text" value="username" class="form-control" ng-model="userData.username" required>
 			</div>
 			<div class="form-group">
-				<label for="password">Password</label>
+				<label for="password">Password</label><label class="asterisk">*</label>
 				<input type="password" value="password" class="form-control" ng-model="userData.password" required>
 			</div>
 			<div class="form-group">

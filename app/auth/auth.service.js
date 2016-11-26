@@ -51,6 +51,11 @@
                 }
             }
 
+            factory.getAllUserData = function(id) {
+              console.log(id);
+              return $http.get('/api/v1/users/' + id + '/teams');
+            }
+
             return factory;
         }]);
 

@@ -3,11 +3,12 @@ TODO:
 * Validate input on all screens
 * Create Userprofile HTML to show:
   - User information
-  - User Profile sidebar 
+  - User Profile sidebar
 * Delete users from team if Coach
 * Change Team view
   - Create a 'Create Team' view
   - Pick what team you want to see
+* Actually add Fitbit integration 
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site

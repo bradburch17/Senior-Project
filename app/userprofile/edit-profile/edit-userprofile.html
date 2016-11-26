@@ -4,19 +4,19 @@
 		<form name="ProfileEditForm" ng-submit="editProfile();" novalidate>
 			<flash-message></flash-message>
 			<div class="form-group">
-				<label for="firstname">First Name</label>
+				<label for="firstname">First Name</label><label class="asterisk">*</label>
 				<input type="text" value="firstname" class="form-control" ng-model="newuserData.firstname" required>
 			</div>
 			<div class="form-group">
-				<label for="lastname">Last Name</label>
+				<label for="lastname">Last Name</label><label class="asterisk">*</label>
 				<input type="text" value="lastname" class="form-control" ng-model="newuserData.lastname" required>
 			</div>
 			<div class="form-group">
-				<label for="email">Email</label>
+				<label for="email">Email</label><label class="asterisk">*</label>
 				<input type="text" value="email" class="form-control" ng-model="newuserData.email" required>
 			</div>
 			<div class="form-group">
-				<label>Is your account Public or Private?</label>
+				<label>Is your account Public or Private?</label><label class="asterisk">*</label>
 				<div class="radio">
 					<label><input type="radio" name="ispublic" ng-value="true" ng-model="newuserData.ispublic"> Public</label>
 				</div>

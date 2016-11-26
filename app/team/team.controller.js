@@ -12,7 +12,7 @@
 
         $http.get('/api/v1/team')
             .success((data) => {
-                $scope.teamData = data.data;
+                $scope.teamData = data.data.teams;
                 console.log(data);
                 console.log(data.data);
             })

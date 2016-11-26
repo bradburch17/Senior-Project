@@ -11,6 +11,7 @@ module.exports = {
     getAllUsers: getAllUsers,
     getSingleUser: getSingleUser,
     getTeamMembers: getTeamMembers,
+    getUserTeams: getUserTeams,
     createTeam: createTeam,
     createShoe: createShoe,
     createPR: createPR,
@@ -38,14 +39,46 @@ function getAllUsers(req, res, next) {
 }
 
 function getSingleUser(req, res, next) {
-    var userID = parseInt(req.params.id);
-    db.one('SELECT * FROM person_tbl WHERE person_id=$1', userID)
+    var userID = req.params.id;
+    console.log(req.params);
+    db.one('SELECT p.username, p.sex, p.birthdate, p.firstname, p.lastname, json_agg(json_build_object(\'team\', t.*)) as teams, ' +
+            'json_agg(json_build_object(\'shoe\', s.*)) as shoes, json_agg(json_build_object(\'pr\', pr.*)) as prs, d.devicename FROM person_tbl p ' +
+            'LEFT JOIN person_team_tbl tp ON tp.person_id = p.person_id ' +
+            'LEFT JOIN team_tbl t ON tp.team_id = t.team_id ' +
+            'LEFT JOIN shoe_tbl s on s.person_id = p.person_id ' +
+            'LEFT JOIN personalrecord_tbl pr on pr.person_id = p.person_id ' +
+            'LEFT JOIN deviceinfo_tbl d on d.person_id = p.person_id ' +
+            'WHERE p.person_id = $1 ' +
+            'GROUP BY p.username, p.sex, p.birthdate, p.firstname, p.lastname, d.devicename', [userID])
         .then(function(data) {
             res.status(200)
                 .json({
                     status: 'success',
                     data: data,
                     message: 'Retrieved ONE user'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
+function getUserTeams(req, res, next) {
+  console.log(req.params.id);
+    db.one('SELECT p.username, json_agg(json_build_object(\'team\', t.*)) as teams ' +
+            'FROM person_tbl p ' +
+            'INNER JOIN person_team_tbl pt ON pt.person_id = p.person_id ' +
+            'INNER JOIN team_tbl t ON pt.team_id = t.team_id ' +
+            'WHERE p.person_id = $1' +
+            'GROUP BY p.username ' +
+            'ORDER BY p.username', [req.params.id])
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved all teams'
                 });
         })
         .catch(function(err) {
@@ -77,33 +110,27 @@ function getTeamMembers(req, res, next) {
 
 //Create Methods
 function createTeam(req, res, next) {
-    db.none('INSERT INTO team_tbl (teamName, teamDescription, isRestricted)' +
-            'VALUES (${teamName}, ${teamDescription}, ${isRestricted})',
-            req.body)
-        .then(function() {
+    db.task(function(t) {
+            console.log(req.body);
+            return t.one('INSERT INTO team_tbl (teamName, teamDescription, isRestricted)' +
+                    'VALUES (${teamName}, ${teamDescription}, ${isrestricted}) returning team_id',
+                    req.body.teamData)
+                .then(function(team) {
+                    return t.none('INSERT INTO person_team_tbl (person_id, team_id, isCoach)' +
+                        'VALUES ($1, $2, $3)', [req.body.userData.person_id, team.team_id, true]);
+                });
+        })
+        .then(function(events) {
             res.status(200)
                 .json({
                     status: 'success',
+                    events: events,
                     message: 'Inserted one team'
                 });
         })
         .catch(function(err) {
             return next(err);
         });
-
-    db.none('INSERT INTO person_team_tbl (person_id, team_id, isCoach) ' +
-            'VALUES (${person_id}, ${team_id}, false)',
-            req.body)
-        .then(function() {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'Inserted into person_team'
-                });
-        })
-        .catch(function(err) {
-            return next(err);
-        })
 }
 
 //Turn this into a transaction with batch

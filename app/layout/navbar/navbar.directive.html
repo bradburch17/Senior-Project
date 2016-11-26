@@ -14,7 +14,18 @@
             <ul class="nav navbar-nav">
                 <li><a ui-sref="home">Home</a></li>
                 <li><a ng-show="loggedIn()" ui-sref="log">Log A Run</a></li>
-                <li><a ng-show="loggedIn()" ui-sref="team">Teams</a></li>
+
+                <li class="dropdown" ng-show="loggedIn()" ng-click="retrieveData()">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <div ng-repeat="teams in allUserData">
+                        <li><a href="#">{{teams.team.teamname}}</a></li>
+                      </div>
+                        <li role="separator" class="divider"></li>
+                        <li><a ui-sref="create-team">Create Team</a></li>
+                    </ul>
+                </li>
+
                 <li><a ng-show="loggedIn()" ui-sref="shoe">Shoes</a></li>
                 <li><a ng-show="loggedIn()" ui-sref="personalrecord">Personal Records</a></li>
                 <li><a ui-sref="about">About</a></li>

@@ -11,7 +11,6 @@
         $stateProvider
             .state('fitbitLogin', {
                 url: '/api/v1/fitbit',
-                controller: 'FitbitLoginController',
                 requireAuth: true,
             })
     }

@@ -5,13 +5,42 @@
         .module('logrunModule')
         .controller('LogrunController', LogrunController);
 
-    LogrunController.$inject = ['$scope', '$http', 'Auth', 'Flash'];
+    LogrunController.$inject = ['$scope', '$http', 'Auth', 'FitbitFactory', 'Flash'];
 
-    function LogrunController($scope, $http, Auth, Flash) {
+    function LogrunController($scope, $http, Auth, FitbitFactory, Flash) {
         $scope.logData = {};
         $scope.userData = Auth.getUserData();
         Flash.clear();
         var data = {};
+
+        FitbitFactory.isLoggedIn()
+            .then(
+                function(data) {
+                    console.log(data.data.status);
+                    $scope.fitbitStatus = data.data.status;
+                },
+                function(errorData) {
+                    console.log(errorData);
+                });
+
+        $scope.retrieveData = function() {
+            if ($scope.logData.logdate !== undefined) {
+                FitbitFactory.fitbitSleep($scope.logData.logdate)
+                    .then(
+                        function(data) {
+                            var sleepHours = +((data.data.summary.totalMinutesAsleep/60).toFixed(1))
+                            $scope.logData.sleep = sleepHours;
+                            Flash.clear();
+                            Flash.create('success', 'Successfully retrieved Fitbit data', 5000, {}, true);
+                        },
+                        function(errorData) {
+                            console.log(errorData);
+                        });
+            } else {
+                Flash.clear();
+                Flash.create('warning', 'Please enter a date', 5000, {}, true);
+            }
+        }
 
         $scope.createLog = function() {
             data = {

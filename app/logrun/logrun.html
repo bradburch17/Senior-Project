@@ -1,13 +1,14 @@
-<h1 class="registration-h1">This is where you log your activities!</h1>
+<h1 class="registration-h1">Log an activity</h1>
 <div class="content-registration">
     <div class="form-container">
-        <form name="CreateLogForm" ng-submit="createLog();">
-          <flash-message></flash-message>
-            <div class="form-group">
-                <label>Log Title</label>
-                <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle">
+        <form name="CreateLogForm" ng-submit="createLog();" novalidate>
+            <flash-message></flash-message>
+            <div class="form-group required">
+              <button type="button" class="btn btn-primary right" ng-show="fitbitStatus" ng-click="retrieveData()">Retrieve Fitbit Data</button>
+              <br>
+                <label>Date:</label><label class="asterisk">*</label>
+                <input type="date" value="logdate" class="form-control" ng-model="logData.logdate" required>
             </div>
-
             <div class="form-group">
                 <label>Activity: </label>
                 <select name="activityselection" class="form-control" ng-model="logData.activity_id">
@@ -18,8 +19,8 @@
                     </select>
             </div>
             <div class="form-group">
-                <label>Date: </label>
-                <input type="date" value="logdate" class="form-control" ng-model="logData.logdate" required>
+                <label>Log Title</label>
+                <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle">
             </div>
             <div class="form-group">
                 <label>Miles: </label>

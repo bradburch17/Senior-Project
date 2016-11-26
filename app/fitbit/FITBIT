@@ -14,20 +14,6 @@ app.controller('authController', ($scope, $http, $location) => {
     };
 });
 
-app.controller('fitbitController', ($scope, $http) => {
-    $scope.fitbitData = {};
-
-    $http.get('/api/v1/user', $scope.fitbitData)
-        .success((data) => {
-            $scope.fitbitData = data;
-            console.log(data);
-            console.log(data.data);
-        })
-        .error((error) => {
-            console.log('Error: ' + error);
-        });
-});
-
 app.controller('fitbitActivityController', ($scope, $http) => {
     $scope.fitbitData = {};
     var currentDate = new Date();
