@@ -9,8 +9,8 @@
 
     function configFunction($stateProvider) {
         $stateProvider
-            .state('team', {
-                url: '/team',
+            .state('team/:id', {
+                url: '/team/:id',
                 templateUrl: '/team/team.html',
                 controller: 'TeamController',
                 requireAuth: true,

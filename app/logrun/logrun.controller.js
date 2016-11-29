@@ -10,13 +10,26 @@
     function LogrunController($scope, $http, Auth, FitbitFactory, Flash) {
         $scope.logData = {};
         $scope.userData = Auth.getUserData();
+
+        getShoes();
+
         Flash.clear();
         var data = {};
+
+        function getShoes() {
+          $http.get('/api/v1/shoes/' + $scope.userData.person_id)
+          .success((data) => {
+            $scope.shoes = data.data;
+            console.log(data.data);
+          })
+          .error((error) => {
+            console.log(error);
+          });
+        }
 
         FitbitFactory.isLoggedIn()
             .then(
                 function(data) {
-                    console.log(data.data.status);
                     $scope.fitbitStatus = data.data.status;
                 },
                 function(errorData) {

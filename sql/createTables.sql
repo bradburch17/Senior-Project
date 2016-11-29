@@ -7,31 +7,6 @@ CREATE TABLE Activity_tbl
     primary key (activity_id)
 );
 
-CREATE TABLE Log_tbl
-(
-	log_id SERIAL primary key,
-  person_id integer not null,
-	activity_id integer not null,
-	logDate date not null,
-	distance decimal,
-	activityTime varchar(10),
-	sleep varchar(10),
-	heartRate integer,
-  logTitle varchar(30),
-	description varchar(500),
-
-	foreign key (activity_id) references Activity_tbl on delete no action,
-  foreign key (person_id) references Person_tbl on delete no action
-);
-
-CREATE TABLE Team_tbl
-(
-	team_id SERIAL primary key,
-	teamName varchar(50) not null,
-	teamDescription varchar(250) not null,
-	isRestricted boolean not null
-);
-
 CREATE TABLE Shoe_tbl
 (
 	shoe_id SERIAL primary key,
@@ -45,6 +20,34 @@ CREATE TABLE Shoe_tbl
 
   foreign key (person_id) references Person_tbl on delete no action
 );
+
+CREATE TABLE Log_tbl
+(
+	log_id SERIAL primary key,
+  person_id integer not null,
+	activity_id integer not null,
+  shoe_id integer,
+	logDate date not null,
+	distance decimal,
+	activityTime varchar(10),
+	sleep varchar(10),
+	heartRate integer,
+  logTitle varchar(30),
+	description varchar(500),
+
+	foreign key (activity_id) references Activity_tbl on delete no action,
+  foreign key (person_id) references Person_tbl on delete no action,
+  foreign key (shoe_id) references Shoe_tbl on delete no action
+);
+
+CREATE TABLE Team_tbl
+(
+	team_id SERIAL primary key,
+	teamName varchar(50) not null,
+	teamDescription varchar(250) not null,
+	isRestricted boolean not null
+);
+
 
 CREATE TABLE PersonalRecord_tbl
 (

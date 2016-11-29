@@ -171,6 +171,11 @@ body,html
 	float: right;
 }
 
+.center
+{
+	float: center;
+}
+
 .asterisk
 {
 	padding-left:5px ;

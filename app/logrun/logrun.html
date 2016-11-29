@@ -3,12 +3,14 @@
     <div class="form-container">
         <form name="CreateLogForm" ng-submit="createLog();" novalidate>
             <flash-message></flash-message>
+
             <div class="form-group required">
               <button type="button" class="btn btn-primary right" ng-show="fitbitStatus" ng-click="retrieveData()">Retrieve Fitbit Data</button>
               <br>
                 <label>Date:</label><label class="asterisk">*</label>
                 <input type="date" value="logdate" class="form-control" ng-model="logData.logdate" required>
             </div>
+
             <div class="form-group">
                 <label>Activity: </label>
                 <select name="activityselection" class="form-control" ng-model="logData.activity_id">
@@ -16,35 +18,49 @@
                       <option value="2">Run</option>
                       <option value="3">Bike</option>
                       <option value="4">Swim</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Shoe: </label>
+                <select class="form-control" ng-model="logData.shoe" ng-options="shoe.shoename for shoe in shoes track by shoe.shoe_id">
                     </select>
             </div>
+
             <div class="form-group">
                 <label>Log Title</label>
                 <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle">
             </div>
+
             <div class="form-group">
                 <label>Miles: </label>
                 <input type="number" value="distance" class="form-control" ng-model="logData.distance">
             </div>
+
             <div class="form-group">
                 <label>Time: </label>
                 <input type="text" value="activitytime" class="form-control" ng-model="logData.activitytime">
             </div>
+
             <div class="form-group">
                 <label>Sleep: </label>
                 <input type="number" value="sleep" class="form-control" ng-model="logData.sleep">
             </div>
+
             <div class="form-group">
                 <label>Heartrate: </label>
                 <input type="number" value="heartrate" class="form-control" ng-model="logData.heartrate">
             </div>
+
             <div class="form-group">
                 <label>Description: </label>
                 <input type="text" value="description" class="form-control" ng-model="logData.description">
             </div>
+
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Log Activity</button>
             </div>
+
         </form>
     </div>
 </div>

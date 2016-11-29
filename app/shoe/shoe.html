@@ -1,33 +1,36 @@
-<h1 class="registration-h1">Enter a New Shoe: </h1>
-<div class="content-registration">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="center">Shoes</h1>
+            <table class="table table-striped  text-center center">
+                <tr>
+                    <td><b>Date Purchased</b></td>
+                    <td><b>Shoe</b></td>
+                    <td><b>Current Mileage</b></td>
+                    <td><b>Max Mileage</b></td>
+                    <td><b>Current Shoe</b></td>
+                    <!-- </b></td><b>Retired Shoe</b></td> -->
+                </tr>
+                <tr ng-repeat="shoe in shoes">
+                    <td>{{shoe.purchasedate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{shoe.shoename}}</td>
+                    <td>{{shoe.currentmileage}}</td>
+                    <td>{{shoe.maxmileage}}</td>
+                    <td>{{shoe.currentshoe}}</td>
+                    <!-- <td>{{shoe.retiredshoe}}</td> -->
+                </tr>
+            </table>
+            <button class="btn btn-primary right" ng-click="showAddShoe()">Add a Shoe</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add a new Shoe -->
+<div class="content-registration" ng-show="show">
     <div class="form-container">
-
-        <!--Show current Shoes -->
-        <!-- <div class="row">
-            <div class="col-md-12">
-                <h1>Shoes</h1>
-                <table class="table table-striped table-format-userprofile">
-                    <tr>
-                        <td><b>Shoe</b></td>
-                        <td><b>Current Mileage</b></td>
-                        <td><b>Max Mileage</b></td>
-                        <td><b>Current Shoe</b></td>
-                        <td><b>Retired Shoe</b></td>
-                    </tr>
-                    <tr>
-                        <td>Sample</td>
-                        <td>Sample</td>
-                        <td>Sample</td>
-                        <td>Sample</td>
-                        <td>Sample</td>
-                    </tr>
-                </table>
-            </div>
-        </div> -->
-
-        <!-- Add a new Shoe -->
+        <h1 class="registration-h1">Add a New Shoe </h1>
         <form name="AddShoeForm" ng-submit="createShoe();">
-          <flash-message></flash-message>
+            <flash-message></flash-message>
             <div class="form-group">
                 <label>Enter the shoe model:</label><label class="asterisk">*</label>
                 <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" required>

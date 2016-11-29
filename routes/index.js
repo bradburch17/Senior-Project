@@ -20,7 +20,9 @@ router.get('/login', (req, res, next) => {
 router.get(apipath + 'users', db.getAllUsers);
 router.get(apipath + 'users/:id', db.getSingleUser);
 router.get(apipath + 'users/:id/teams', db.getUserTeams)
-router.get(apipath + 'team', db.getTeamMembers);
+router.get(apipath + 'team/:id', db.getTeamMembers);
+router.get(apipath + 'shoes/:id', db.getUserShoes);
+router.get(apipath + 'prs/:id', db.getUserPRs);
 router.post(apipath + '/deviceinfo', db.addDeviceInfo);
 router.post(apipath + 'team', db.createTeam);
 router.post(apipath + 'shoes', db.createShoe);

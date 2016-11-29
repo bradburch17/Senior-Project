@@ -11,6 +11,8 @@ module.exports = {
     getAllUsers: getAllUsers,
     getSingleUser: getSingleUser,
     getTeamMembers: getTeamMembers,
+    getUserPRs: getUserPRs,
+    getUserShoes: getUserShoes,
     getUserTeams: getUserTeams,
     createTeam: createTeam,
     createShoe: createShoe,
@@ -65,7 +67,7 @@ function getSingleUser(req, res, next) {
 }
 
 function getUserTeams(req, res, next) {
-  console.log(req.params.id);
+    console.log(req.params.id);
     db.one('SELECT p.username, json_agg(json_build_object(\'team\', t.*)) as teams ' +
             'FROM person_tbl p ' +
             'INNER JOIN person_team_tbl pt ON pt.person_id = p.person_id ' +
@@ -100,6 +102,44 @@ function getTeamMembers(req, res, next) {
                     status: 'success',
                     data: data,
                     message: 'Retrieved team members'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
+function getUserPRs(req, res, next) {
+    db.any('SELECT pr.* FROM personalrecord_tbl pr ' +
+            'INNER JOIN person_tbl p ON p.person_id = pr.person_id ' +
+            'WHERE p.person_id = $1', [req.params.id])
+        .then(function(data) {
+            console.log(data);
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved PRs'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
+function getUserShoes(req, res, next) {
+    db.any('SELECT * FROM shoe_tbl s ' +
+            'INNER JOIN person_tbl p ON p.person_id = s.person_id ' +
+            'WHERE s.isretired = false AND s.person_id = $1', [req.params.id])
+        .then(function(data) {
+            console.log(data);
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved shoes'
                 });
         })
         .catch(function(err) {
@@ -167,21 +207,30 @@ function createPR(req, res, next) {
 }
 
 function createLog(req, res, next) {
-    db.none('INSERT INTO log_tbl (logtitle, activity_id, logdate, distance, activitytime, sleep, heartrate, description, person_id)' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [req.body.logData.logtitle, req.body.logData.activity_id, req.body.logData.logdate,
-                req.body.logData.distance, req.body.logData.activitytime, req.body.logData.sleep, req.body.logData.heartrate, req.body.logData.description, req.body.userData.person_id
-            ])
+    var newMileage;
+    db.task(function(t) {
+            return t.none('INSERT INTO log_tbl (logtitle, activity_id, shoe_id, logdate, distance, activitytime, sleep, heartrate, description, person_id)' +
+                    'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [req.body.logData.logtitle, req.body.logData.activity_id, req.body.logData.shoe.shoe_id, req.body.logData.logdate,
+                        req.body.logData.distance, req.body.logData.activitytime, req.body.logData.sleep, req.body.logData.heartrate, req.body.logData.description, req.body.userData.person_id
+                    ])
+                .then(function() {
+                    return t.one('SELECT currentmileage FROM shoe_tbl WHERE shoe_id = $1', [req.body.logData.shoe.shoe_id]);
+                })
+                .then(function(mileage) {
+                    newMileage = parseInt(req.body.logData.distance) + parseInt(mileage.currentmileage);
+                    return t.none('UPDATE shoe_tbl SET currentmileage = $1 WHERE shoe_id = $2', [newMileage, req.body.logData.shoe.shoe_id]);
+                });
+        })
         .then(function(events) {
             res.status(200)
                 .json({
-                    success: 'success',
+                    status: 'success',
                     events: events,
-                    message: 'Inserted one log'
+                    message: 'Inserted one team'
                 });
         })
-        .catch(function(err) {
-            console.log('Error here');
-            return next(err);
+        .catch(function(error) {
+            console.log("ERROR:", error.message || error);
         });
 }
 
