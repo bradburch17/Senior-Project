@@ -8,14 +8,10 @@ TODO:
 * Change Team view
   - Create a 'Create Team' view
   - Pick what team you want to see
-* Actually add Fitbit integration 
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site
 * Add profile pictures
-* Refactor API code modules
-* Show already existing PRs
-* Create a table for already existing shoes
 * Fix HTML5 bug
 * Add Misfit information
 * Redo UI

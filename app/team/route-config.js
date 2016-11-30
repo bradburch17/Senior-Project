@@ -29,5 +29,12 @@
             controller: 'EditTeamController',
             requireAuth: true,
         })
+
+        .state('all-teams', {
+          url: '/teams',
+          templateUrl: 'team/allteams/teams.html',
+          controller: 'AllTeamController',
+          requireAuth: true,
+        })
     }
 }());

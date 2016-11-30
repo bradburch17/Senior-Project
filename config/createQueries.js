@@ -81,11 +81,15 @@ function createLog(req, res, next) {
                         req.body.logData.distance, req.body.logData.activitytime, req.body.logData.sleep, req.body.logData.heartrate, req.body.logData.description, req.body.userData.person_id
                     ])
                 .then(function() {
-                    return t.one('SELECT currentmileage FROM shoe_tbl WHERE shoe_id = $1', [req.body.logData.shoe.shoe_id]);
+                    if (req.body.logData.shoe.shoe_id !== null) {
+                        return t.one('SELECT currentmileage FROM shoe_tbl WHERE shoe_id = $1', [req.body.logData.shoe.shoe_id]);
+                    }
                 })
                 .then(function(mileage) {
-                    newMileage = parseInt(req.body.logData.distance) + parseInt(mileage.currentmileage);
-                    return t.none('UPDATE shoe_tbl SET currentmileage = $1 WHERE shoe_id = $2', [newMileage, req.body.logData.shoe.shoe_id]);
+                    if (req.body.logData.shoe.shoe_id !== null) {
+                        newMileage = parseInt(req.body.logData.distance) + parseInt(mileage.currentmileage);
+                        return t.none('UPDATE shoe_tbl SET currentmileage = $1 WHERE shoe_id = $2', [newMileage, req.body.logData.shoe.shoe_id]);
+                    }
                 });
         })
         .then(function(events) {

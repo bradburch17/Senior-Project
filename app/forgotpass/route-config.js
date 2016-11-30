@@ -18,7 +18,8 @@
         .state('change-password', {
             url: '/passwordchange',
             templateUrl: 'forgotpass/change-pass.html',
-            controller: 'ForgotpassController'
+            controller: 'ForgotpassController',
+            requireAuth: false,
         })
     }
 }());

@@ -68,6 +68,11 @@
         }
 
         $scope.createLog = function() {
+          if (angular.isUndefined($scope.logData.shoe)) {
+            $scope.logData.shoe = {};
+            $scope.logData.shoe.shoe_id = null;
+          }
+
             data = {
                 'logData': $scope.logData,
                 'userData': $scope.userData

@@ -4,13 +4,12 @@
         <h1 class="center">Log an Activity</h1>
 
         <flash-message></flash-message>
-
-        <div class="panel panel-default">
-          <div class="panel-header">
-              <div class="panel-title-info text-center">Required Information</div>
-          </div>
-            <div class="panel-body">
-                <form name="CreateLogForm" ng-submit="createLog();" novalidate>
+        <form name="CreateLogForm" ng-submit="CreateLogForm.$valid && createLog();" novalidate>
+            <div class="panel panel-default">
+                <div class="panel-header">
+                    <div class="panel-title-info text-center">Required Information</div>
+                </div>
+                <div class="panel-body">
                     <div class="form-group" ng-show="fitbitStatus">
                         <button type="button" class="btn btn-primary right" ng-click="retrieveData()">Retrieve Fitbit Data</button>
                         <br>
@@ -31,49 +30,49 @@
                         <select class="form-control" ng-model="logData.shoe" ng-options="shoe.shoename for shoe in shoes track by shoe.shoe_id">
                           </select>
                     </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-header">
-              <div class="panel-title-info text-center">Optional Information</div>
-          </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label>Log Title</label>
-                    <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle" placeholder="Log Title">
-                </div>
-
-                <div class="form-group">
-                    <label>Miles: </label>
-                    <input type="number" value="distance" class="form-control" ng-model="logData.distance" placeholder="Distance">
-                </div>
-
-                <div class="form-group">
-                    <label>Time: </label>
-                    <input type="text" value="activitytime" class="form-control" ng-model="logData.activitytime" placeholder="Time">
-                </div>
-
-                <div class="form-group">
-                    <label>Sleep: </label>
-                    <input type="number" value="sleep" class="form-control" ng-model="logData.sleep" placeholder="Sleep">
-                </div>
-
-                <div class="form-group">
-                    <label>Heartrate: </label>
-                    <input type="number" value="heartrate" class="form-control" ng-model="logData.heartrate" placeholder="Heartrate">
-                </div>
-
-                <div class="form-group">
-                    <label>Description: </label>
-                    <textarea value="description" class="form-control" rows="4" ng-model="logData.description" placeholder="Description"></textarea>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Log Activity</button>
-        </div>
+            <div class="panel panel-default">
+                <div class="panel-header">
+                    <div class="panel-title-info text-center">Optional Information</div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Log Title</label>
+                        <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle" placeholder="Log Title">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Miles: </label>
+                        <input type="number" value="distance" class="form-control" ng-model="logData.distance" placeholder="Distance">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Time: </label>
+                        <input type="text" value="activitytime" class="form-control" ng-model="logData.activitytime" placeholder="Time">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sleep: </label>
+                        <input type="number" value="sleep" class="form-control" ng-model="logData.sleep" placeholder="Sleep">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Heartrate: </label>
+                        <input type="number" value="heartrate" class="form-control" ng-model="logData.heartrate" placeholder="Heartrate">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description: </label>
+                        <textarea value="description" class="form-control" rows="4" ng-model="logData.description" placeholder="Description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log Activity</button>
+            </div>
 
         </form>
     </div>
