@@ -1,6 +1,5 @@
 var pg = require('pg');
 var conString = process.env.DATABASE_URL;
-//var client = new pg.Client(conString);
 var bcrypt = require('bcrypt-node');
 var salt = bcrypt.genSaltSync(10);
 

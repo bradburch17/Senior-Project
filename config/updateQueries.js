@@ -1,4 +1,6 @@
 var promise = require('bluebird');
+var bcrypt = require('bcrypt-node');
+var salt = bcrypt.genSaltSync(10);
 
 var options = {
     promiseLib: promise
@@ -100,7 +102,8 @@ function updateTeam(req, res, next) {
 }
 
 function updatePassword(req, res, next) {
-  db.none('UPDATE person_tbl SET password = ${password} WHERE username = ${username}', req.body)
+  var hashedPassword = bcrypt.hashSync(req.body.password, salt);
+  db.none('UPDATE person_tbl SET password = $1 WHERE username = $2', [hashedPassword, req.body.username])
   .then(function() {
       res.status(200)
           .json({
