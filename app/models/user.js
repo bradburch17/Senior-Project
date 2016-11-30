@@ -103,7 +103,7 @@ User.findByUsername = function(username, callback) {
     //check if there is a user available for this email;
     client.connect();
 
-    client.query("SELECT * from person_tbl where username=$1", [username], function(err, result) {
+    client.query("SELECT * from person_tbl where username = $1", [username], function(err, result) {
         if (err) {
             console.log('Error: ' + err);
             return callback(err, isNotAvailable, this);
@@ -126,6 +126,35 @@ User.findByUsername = function(username, callback) {
             isNotAvailable = false;
             username = username;
             console.log(username + ' was not found');
+        }
+
+        client.end();
+        return callback(null, user);
+    });
+};
+
+User.findByEmail = function(email, callback) {
+    var client = new pg.Client(conString);
+    var user = new User();
+    var isNotAvailable = false; //we are assuming the email is taking
+    console.log(email + ' is in the findOne function in User.js');
+    //check if there is a user available for this email;
+    client.connect();
+
+    client.query("SELECT * from person_tbl where email = $1", [email], function(err, result) {
+        if (err) {
+            console.log('Error: ' + err);
+            return callback(err, isNotAvailable, this);
+        }
+        //if no rows were returned from query, then new user
+        if (result.rows.length > 0) {
+            var user = new User();
+            user.email = email;
+            console.log(email + ' was found');
+        } else {
+            isNotAvailable = false;
+            email = email;
+            console.log(email + ' was not found');
         }
 
         client.end();

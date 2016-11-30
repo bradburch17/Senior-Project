@@ -12,19 +12,31 @@
         $scope.userData = Auth.getUserData();
 
         getShoes();
+        getActivities();
 
         Flash.clear();
         var data = {};
 
         function getShoes() {
-          $http.get('/api/v1/shoes/' + $scope.userData.person_id)
-          .success((data) => {
-            $scope.shoes = data.data;
-            console.log(data.data);
-          })
-          .error((error) => {
-            console.log(error);
-          });
+            $http.get('/api/v1/user/shoes/' + $scope.userData.person_id)
+                .success((data) => {
+                    $scope.shoes = data.data;
+                    console.log(data.data);
+                })
+                .error((error) => {
+                    console.log(error);
+                });
+        }
+
+        function getActivities() {
+            $http.get('api/v1/activities')
+                .success((data) => {
+                    $scope.activities = data.data;
+                    console.log(data.data);
+                })
+                .error((error) => {
+                    console.log(error);
+                })
         }
 
         FitbitFactory.isLoggedIn()
@@ -41,7 +53,7 @@
                 FitbitFactory.fitbitSleep($scope.logData.logdate)
                     .then(
                         function(data) {
-                            var sleepHours = +((data.data.summary.totalMinutesAsleep/60).toFixed(1))
+                            var sleepHours = +((data.data.summary.totalMinutesAsleep / 60).toFixed(1))
                             $scope.logData.sleep = sleepHours;
                             Flash.clear();
                             Flash.create('success', 'Successfully retrieved Fitbit data', 5000, {}, true);

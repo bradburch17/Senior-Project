@@ -14,5 +14,11 @@
                 templateUrl: 'forgotpass/forgotpass.html',
                 controller: 'ForgotpassController',
             })
+
+        .state('change-password', {
+            url: '/passwordchange',
+            templateUrl: 'forgotpass/change-pass.html',
+            controller: 'ForgotpassController'
+        })
     }
 }());

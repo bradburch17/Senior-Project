@@ -1,20 +1,28 @@
 <div class="add-padding">
-
-	<!-- USER INFORMATION - CHANGE THIS -->
-	<h1>Team Tiger</h1>
-	<table class="team-table" ng-repeat="users in teamData">
-		<tr>
-			<td class="team-table-user">User: <b>{{users.username}}</b></td>
-		</tr>
-		<tr ng-repeat="logs in users.logs">
-			<td><b>{{logs.log.logtitle}}</b></td>
-			<td>Date: {{logs.log.logdate}}</td>
-			<td>Activity: {{logs.activity}}</td>
-			<td>Distance: {{logs.log.distance}} miles</td>
-			<td>Time: {{logs.log.activitytime}}</td>
-			<td>Sleep: {{logs.log.sleep}}</td>
-			<td>Heartrate: {{logs.log.heartrate}}</td>
-			<td>Description: {{logs.log.description}}</td>
-		</tr>
-	</table>
+	<h1>{{teamData[0].teamname}}</h1>
+	<div ng-repeat="users in teamData" class="table-responsive">
+		<h3>{{users.username}}</h3>
+		<table class="table table-striped">
+			<tr>
+				<th>Title</th>
+				<th>Date</th>
+				<th>Activity</th>
+				<th>Distance</th>
+				<th>Time</th>
+				<th>Sleep</th>
+				<th>Heartrate</th>
+				<th>Description</th>
+			</tr>
+			<tr ng-repeat="logs in users.logs | orderBy: 'log.logdate'">
+				<td><b>{{logs.log.logtitle}}</b></td>
+				<td>{{logs.log.logdate}}</td>
+				<td>{{logs.activity}}</td>
+				<td>{{logs.log.distance}} miles</td>
+				<td>{{logs.log.activitytime}}</td>
+				<td>{{logs.log.sleep}}</td>
+				<td>{{logs.log.heartrate}}</td>
+				<td>{{logs.log.description}}</td>
+			</tr>
+		</table>
+	</div>
 </div>

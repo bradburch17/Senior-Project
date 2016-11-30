@@ -2,61 +2,79 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="center">Shoes</h1>
-            <table class="table table-striped  text-center center">
-                <tr>
-                    <td><b>Date Purchased</b></td>
-                    <td><b>Shoe</b></td>
-                    <td><b>Current Mileage</b></td>
-                    <td><b>Max Mileage</b></td>
-                    <td><b>Current Shoe</b></td>
-                    <!-- </b></td><b>Retired Shoe</b></td> -->
-                </tr>
-                <tr ng-repeat="shoe in shoes">
-                    <td>{{shoe.purchasedate | date: 'yyyy-MM-dd'}}</td>
-                    <td>{{shoe.shoename}}</td>
-                    <td>{{shoe.currentmileage}}</td>
-                    <td>{{shoe.maxmileage}}</td>
-                    <td>{{shoe.currentshoe}}</td>
-                    <!-- <td>{{shoe.retiredshoe}}</td> -->
+            <div class="table-responsive">
+                <table class="table table-striped text-center center">
+                    <tr>
+                        <td><b>Date Purchased</b></td>
+                        <td><b>Shoe</b></td>
+                        <td><b>Current Mileage</b></td>
+                        <td><b>Max Mileage</b></td>
+                        <td><b>Current Shoe</b></td>
+                        <td><b>Edit</b></td>
+                    </tr>
+                    <tr ng-repeat="(index, shoe) in shoes">
+                        <td>{{shoe.purchasedate | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{shoe.shoename}}</td>
+                        <td>{{shoe.currentmileage}}</td>
+                        <td>{{shoe.maxmileage}}</td>
+                        <td>{{shoe.currentshoe}}</td>
+                        <td><button class="btn btn-primary center" ng-click="showEditShoe(index, shoe)">Edit</buton>
                 </tr>
             </table>
+          </div>
             <button class="btn btn-primary right" ng-click="showAddShoe()">Add a Shoe</button>
+            </div>
         </div>
     </div>
-</div>
+<br><br>
+    <!-- Add a new Shoe -->
+    <div class="container" ng-show="show">
+        <div class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
 
-<!-- Add a new Shoe -->
-<div class="content-registration" ng-show="show">
-    <div class="form-container">
-        <h1 class="registration-h1">Add a New Shoe </h1>
-        <form name="AddShoeForm" ng-submit="createShoe();">
             <flash-message></flash-message>
-            <div class="form-group">
-                <label>Enter the shoe model:</label><label class="asterisk">*</label>
-                <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" required>
-            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title text-center" ng-hide="edit"><b>Add a Shoe</b></div>
+                    <div class="panel-title text-center" ng-hide="!edit"><b>Edit Shoe</b></div>
+                </div>
 
-            <div class="form-group">
-                <label>What is the maximum mileage?</label><label class="asterisk">*</label>
-                <input type="number" name="maxmileage" class="form-control" ng-model="shoeData.maxmileage">
-            </div>
+                <div class="panel-body">
+                    <form name="AddShoeForm" ng-submit="submitShoe();">
+                        <div class="form-group">
+                            <label>Enter the shoe model:</label><label class="asterisk">*</label>
+                            <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" placeholder="Model" required>
+                        </div>
 
-            <div class="form-group">
-                <label>When did you purchase the shoes?</label><label class="asterisk">*</label>
-                <input type="date" name="purchasedate" class="form-control" ng-model="shoeData.purchasedate">
-            </div>
+                        <div class="form-group">
+                            <label>What is the maximum mileage?</label><label class="asterisk">*</label>
+                            <input type="number" name="maxmileage" class="form-control" ng-model="shoeData.maxmileage" placeholder="Maximum Mileage" required>
+                        </div>
 
-            <div class="form-group">
-                <label>Will this be your current shoe?</label><label class="asterisk">*</label>
-                <br>
-                <input type="radio" name="currentshoe" value="True" ng-model="shoeData.currentshoe" checked> Yes
-                <input type="radio" name="currentshoe" value="False" ng-model="shoeData.currentshoe"> No
-            </div>
+                        <div class="form-group">
+                            <label>When did you purchase the shoes?</label><label class="asterisk">*</label>
+                            <input type="date" name="purchasedate" class="form-control" ng-model="shoeData.purchasedate" required>
+                        </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add Shoe</button>
-            </div>
+                        <div class="form-group">
+                            <div ng-hide="edit"><label>Will this be your current shoe?</label><label class="asterisk">*</label></div>
+                            <div ng-hide="!edit"><label>Is this your current shoe?</label><label class="asterisk">*</label></div>
+                            <div class="radio">
+                                <label><input type="radio" name="currentshoe" ng-value="true" ng-model="shoeData.currentshoe"> Yes</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="currentshoe" ng-value="false" ng-model="shoeData.currentshoe"> No</label>
+                            </div>
+                        </div>
 
-        </form>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" ng-hide="edit">Add Shoe</button>
+                            <button type="submit" class="btn btn-primary" ng-hide="!edit">Save</button>
+                            <button type="button" ng-click="deleteShoe()" class="btn btn-danger" ng-hide="!edit">Delete Shoe</button>
+                            <button type="button" ng-click="cancel()" class="btn btn-primary">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</div>

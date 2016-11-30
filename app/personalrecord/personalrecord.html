@@ -1,47 +1,63 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="center">Personal Reocrds</h1>
-            <table class="table table-striped  text-center center">
-                <tr>
-                    <td><b>Date</b></td>
-                    <td><b>Event</b></td>
-                    <td><b>Time</b></td>
-                </tr>
-                <tr ng-repeat="pr in prs">
-                    <td>{{pr.prdate | date: 'yyyy-MM-dd'}}</td>
-                    <td>{{pr.prevent}}</td>
-                    <td>{{pr.prtime}}</td>
-                </tr>
-            </table>
+            <h1 class="center">Personal Records</h1>
+            <div class="table-responsive">
+                <table class="table table-striped  text-center center">
+                    <tr>
+                        <td><b>Date</b></td>
+                        <td><b>Event</b></td>
+                        <td><b>Time</b></td>
+                        <td><b>Edit</b></td>
+                    </tr>
+                    <tr ng-repeat="(index, pr) in prs">
+                        <td>{{pr.prdate | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{pr.prevent}}</td>
+                        <td>{{pr.prtime}}</td>
+                        <td><button class="btn btn-primary center" ng-click="showEditPR(index, pr)">Edit</buton>
+                    </tr>
+                </table>
+          </div>
             <button class="btn btn-primary right" ng-click="showAddPR()">Add a Personal Record</button>
+            </div>
         </div>
     </div>
-</div>
+    <br><br>
 
+    <!-- Add a new Shoe -->
+    <div class="container" ng-show="show">
+        <div class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
 
-<!--Add a Personal Record -->
-<div class="content-registration" ng-show="show">
-    <div class="form-container">
-        <h1 class="registration-h1">Add a Personal Record</h1>
-
-        <form name="AddPRForm" ng-submit="createPR();">
             <flash-message></flash-message>
-            <div class="form-group">
-                <label>Date: </label><label class="asterisk">*</label>
-                <input type="date" value="prdate" class="form-control" ng-model="prData.prdate">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title text-center" ng-hide="edit"><b>Add a Personal Record</b></div>
+                    <div class="panel-title text-center" ng-hide="!edit"><b>Edit Personal Record</b></div>
+                </div>
+
+                <div class="panel-body">
+                    <form name="AddPRForm" ng-submit="submitPR();">
+                        <flash-message></flash-message>
+                        <div class="form-group">
+                            <label>Date: </label><label class="asterisk">*</label>
+                            <input type="date" datetime="yyyy-MM-dd" ng-change="prData.prdate = prData.prdate.toISOString()" value="prdate" class="form-control" ng-model="prData.prdate">
+                        </div>
+                        <div class="form-group">
+                            <label>Event: </label><label class="asterisk">*</label>
+                            <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" placeholder="Event" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Time: </label><label class="asterisk">*</label>
+                            <input type="text" value="prtime" class="form-control" ng-model="prData.prtime" placeholder="Time" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" ng-hide="edit">Add Personal Record</button>
+                            <button type="submit" class="btn btn-primary" ng-hide="!edit">Save</button>
+                            <button type="button" class="btn btn-danger" ng-hide="!edit" ng-click="deletePR()">Delete PR</button>
+                            <button type="button" ng-click="cancel()" class="btn btn-primary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Event: </label><label class="asterisk">*</label>
-                <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" required>
-            </div>
-            <div class="form-group">
-                <label>Time: </label><label class="asterisk">*</label>
-                <input type="text" value="prtime" class="form-control" ng-model="prData.prtime" required>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add Personal Record</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>

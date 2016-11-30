@@ -1,29 +1,35 @@
-<h1 class="registration-h1">Create a new Team: </h1>
-<div class="content-registration">
-    <div class="form-container">
-        <form name="CreateTeamForm" ng-submit="createTeam();">
-          <flash-message></flash-message>
-            <div class="form-group">
-                <label>Enter the team name:</label><label class="asterisk">*</label>
-                <input type="text" name="teamName" class="form-control" ng-model="teamData.teamName" required>
-            </div>
+<!-- Add a new Shoe -->
+<div class="container">
+    <div class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+<h1 class="registration-h1">Create a New Team </h1>
+        <flash-message></flash-message>
+        <div class="panel panel-default">
 
-            <div class="form-group">
-                <label>How would you describe the team?</label><label class="asterisk">*</label>
-                <input type="text" name="teamDescription" class="form-control" ng-model="teamData.teamDescription">
-            </div>
+            <div class="panel-body">
+                <form name="CreateTeamForm" ng-submit="createTeam();">
+                    <div class="form-group">
+                        <label>Enter the team name:</label><label class="asterisk">*</label>
+                        <input type="text" name="teamName" class="form-control" ng-model="teamData.teamName" required>
+                    </div>
 
-            <div class="form-group">
-                <label>Is this team restricted?</label><label class="asterisk">*</label>
-                <br>
-                <input type="radio" name="isrestricted" value="True" ng-model="teamData.isrestricted" checked> Yes
-                <input type="radio" name="isrestricted" value="False" ng-model="teamData.isrestricted"> No
-            </div>
+                    <div class="form-group">
+                        <label>How would you describe the team?</label><label class="asterisk">*</label>
+                        <input type="text" name="teamDescription" class="form-control" ng-model="teamData.teamDescription">
+                    </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Create Team</button>
-            </div>
+                    <div class="form-group">
+                        <label>Is this team restricted?</label><label class="asterisk">*</label>
+                        <br>
+                        <input type="radio" name="isrestricted" value="True" ng-model="teamData.isrestricted" checked> Yes
+                        <input type="radio" name="isrestricted" value="False" ng-model="teamData.isrestricted"> No
+                    </div>
 
-        </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Create Team</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
 </div>

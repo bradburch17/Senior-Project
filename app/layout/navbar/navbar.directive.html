@@ -19,7 +19,7 @@
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <div ng-repeat="teams in allUserData">
-                        <li><a href="#">{{teams.team.teamname}}</a></li>
+                        <li><a ui-sref="team({id: {{teams.team.team_id}} })">{{teams.team.teamname}}</a></li>
                       </div>
                         <li role="separator" class="divider"></li>
                         <li><a ui-sref="create-team">Create Team</a></li>
