@@ -102,6 +102,7 @@ function createLog(req, res, next) {
         })
         .catch(function(error) {
             console.log("ERROR:", error.message || error);
+            return next(error);
         });
 }
 
@@ -117,5 +118,6 @@ function createActivity(req, res, next) {
         })
         .catch(function(error) {
             console.log("ERROR:", error.message || error);
+            return next(error);
         });
 }

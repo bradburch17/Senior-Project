@@ -29,6 +29,7 @@ router.get(apipath + 'team/:id', get.getTeamMembers);
 router.get(apipath + 'user/shoes/:id', get.getUserShoes);
 router.get(apipath + 'user/prs/:id', get.getUserPRs);
 router.get(apipath + 'activities', get.getActivities);
+router.get(apipath + 'teams', get.getAllTeams);
 
 router.post(apipath + 'team', create.createTeam);
 router.post(apipath + 'shoes', create.createShoe);

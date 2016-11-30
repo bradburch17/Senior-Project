@@ -32,7 +32,7 @@
 
         .state('all-teams', {
           url: '/teams',
-          templateUrl: 'team/allteams/teams.html',
+          templateUrl: 'team/all-teams/teams.html',
           controller: 'AllTeamController',
           requireAuth: true,
         })

@@ -9,6 +9,7 @@ var db = pgp(connectionString);
 
 module.exports = {
     getAllUsers: getAllUsers,
+    getAllTeams: getAllTeams,
     getSingleUser: getSingleUser,
     getTeamMembers: getTeamMembers,
     getUserPRs: getUserPRs,
@@ -32,6 +33,22 @@ function getAllUsers(req, res, next) {
             console.log(err);
             return next(err);
         });
+}
+
+function getAllTeams(req, res, next) {
+  db.any('SELECT * FROM team_tbl')
+      .then(function(data) {
+          res.status(200)
+              .json({
+                  status: 'success',
+                  data: data,
+                  message: 'Retrieved ALL users'
+              });
+      })
+      .catch(function(err) {
+          console.log(err);
+          return next(err);
+      });
 }
 
 function getSingleUser(req, res, next) {
