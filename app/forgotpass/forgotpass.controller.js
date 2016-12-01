@@ -31,7 +31,7 @@
                 .success((data) => {
                     $scope.userData = {};
                     Flash.clear();
-                    Flash.create('success', 'Your password was successfuly changed', 5000, {}, true);
+                    Flash.create('success', 'Your password was successfuly changed. Please <a ui-sref="login">login.</a>', 5000, {}, true);
                 })
                 .error((error) => {
                     console.log(error);
