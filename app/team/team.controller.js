@@ -9,7 +9,6 @@
 
     function TeamController($scope, $http, $stateParams) {
         $scope.team_id = $stateParams.id;
-        console.log('ID: ' + $scope.team_id);
         $scope.teamData = {};
 
         $http.get('/api/v1/team/' + $scope.team_id)

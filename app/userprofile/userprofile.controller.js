@@ -53,13 +53,13 @@
         }
 
         $scope.showLogs = function() {
-          if (!$scope.showLog) {
-            $scope.showLog = true;
-            $scope.showEdit = false;
-          } else {
-            $scope.showLog = false;
-            $scope.showEdit = false;
-          }
+            if (!$scope.showLog) {
+                $scope.showLog = true;
+                $scope.showEdit = false;
+            } else {
+                $scope.showLog = false;
+                $scope.showEdit = false;
+            }
         }
 
         $scope.editLog = function(index, log) {
@@ -70,7 +70,7 @@
         }
 
         $scope.cancel = function() {
-            $scope.show = false;
+            $scope.showEdit = false;
         }
 
         FitbitFactory.isLoggedIn()
