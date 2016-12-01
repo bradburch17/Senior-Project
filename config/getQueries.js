@@ -102,11 +102,12 @@ function getUserTeams(req, res, next) {
 }
 
 function getTeamMembers(req, res, next) {
-    db.any('SELECT p.username, t.teamname, json_agg(json_build_object(\'log\', l.*, \'activity\', a.activity)) as logs ' +
+    db.any('SELECT p.username, t.teamname, json_agg(json_build_object(\'log\', l.*, \'comments\', c.*, \'activity\', a.activity)) as logs ' +
             'FROM person_tbl p ' +
             'INNER JOIN log_tbl l ON p.person_id = l.person_id ' +
             'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
             'INNER JOIN person_team_tbl pt ON p.person_id = pt.person_id ' +
+            'LEFT JOIN comment_tbl c ON c.log_id = l.log_id AND c.person_id = p.person_id ' +
             'INNER JOIN team_tbl t ON t.team_id = pt.team_id ' +
             'WHERE t.team_id = $1 ' +
             'AND l.logdate > NOW()::date - 7 ' +

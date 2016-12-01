@@ -14,6 +14,7 @@
         $scope.commentData = {};
         $scope.logs = {};
         $scope.show = true;
+        Flash.clear();
 
         $http.get('/api/v1/team/' + $scope.team_id)
             .success((data) => {
@@ -25,6 +26,7 @@
             });
 
         $scope.showComment = function(logs) {
+            console.log(logs);
             $scope.logs = logs.log;
             $scope.show = true;
         }
@@ -35,8 +37,15 @@
             }
         }
 
+        $scope.isComment = function(llog, clog) {
+          console.log(clog + ' ' + llog);
+          if (clog == llog) {
+            return true;
+          }
+        }
+
         $scope.cancel = function(logid) {
-          $scope.show = false;
+            $scope.show = false;
         }
 
         $scope.saveComment = function(log_id) {

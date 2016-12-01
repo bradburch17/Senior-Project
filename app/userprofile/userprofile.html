@@ -22,28 +22,30 @@
     </div>
     <div class="row" ng-show="showLog">
         <div class="col-md-12">
-          <table class="table table-striped">
-      			<tr>
-      				<th>Title</th>
-      				<th>Date</th>
-      				<th>Activity</th>
-      				<th>Distance</th>
-      				<th>Time</th>
-      				<th>Sleep</th>
-      				<th>Heartrate</th>
-      				<th>Description</th>
-      			</tr>
-      			<tr ng-repeat="(index, log) in logs" ng-click="editLog(index, log)">
-      				<td><b>{{log.logtitle}}</b></td>
-      				<td>{{log.logdate | date: yyyy-MM-dd}}</td>
-      				<td>{{log.activity}}</td>
-      				<td>{{log.distance}}</td>
-      				<td>{{log.activitytime}}</td>
-      				<td>{{log.sleep}}</td>
-      				<td>{{log.heartrate}}</td>
-      				<td>{{log.description}}</td>
-      			</tr>
-      		</table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Activity</th>
+                        <th>Distance</th>
+                        <th>Time</th>
+                        <th>Sleep</th>
+                        <th>Heartrate</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr ng-repeat="(index, log) in logs" ng-click="editLog(index, log)">
+                        <td><b>{{log.logtitle}}</b></td>
+                        <td>{{log.logdate | date: yyyy-MM-dd}}</td>
+                        <td>{{log.activity}}</td>
+                        <td>{{log.distance}}</td>
+                        <td>{{log.activitytime}}</td>
+                        <td>{{log.sleep}}</td>
+                        <td>{{log.heartrate}}</td>
+                        <td>{{log.description}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -58,79 +60,79 @@
                 </div>
 
                 <div class="panel-body">
-                  <form name="CreateLogForm" ng-submit="updateLog();" novalidate>
-                      <div class="panel panel-default">
-                          <div class="panel-header">
-                              <div class="panel-title-info text-center">Required Information</div>
-                          </div>
-                          <div class="panel-body">
-                              <div class="form-group" ng-show="fitbitStatus">
-                                  <button type="button" class="btn btn-primary right" ng-click="retrieveData()">Retrieve Fitbit Data</button>
-                                  <br>
-                              </div>
-                              <div class="form-group">
-                                  <label>Date:</label><label class="asterisk">*</label>
-                                  <input type="date" datetime="yyyy-MM-dd" value="logdate" class="form-control" ng-model="logData.logdate" required>
-                              </div>
+                    <form name="CreateLogForm" ng-submit="updateLog();" novalidate>
+                        <div class="panel panel-default">
+                            <div class="panel-header">
+                                <div class="panel-title-info text-center">Required Information</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group" ng-show="fitbitStatus">
+                                    <button type="button" class="btn btn-primary right" ng-click="retrieveData()">Retrieve Fitbit Data</button>
+                                    <br>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date:</label><label class="asterisk">*</label>
+                                    <input type="date" datetime="yyyy-MM-dd" value="logdate" class="form-control" ng-model="logData.logdate" required>
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Activity: </label><label class="asterisk">*</label>
-                                  <select class="form-control" ng-model="logData.activity" ng-options="activity.activity for activity in activities track by activity.activity_id">
+                                <div class="form-group">
+                                    <label>Activity: </label><label class="asterisk">*</label>
+                                    <select class="form-control" ng-model="logData.activity" ng-options="activity.activity for activity in activities track by activity.activity_id">
                                     </select>
-                              </div>
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Shoe: </label>
-                                  <select class="form-control" ng-model="logData.shoe" ng-options="shoe.shoename for shoe in shoes track by shoe.shoe_id">
+                                <div class="form-group">
+                                    <label>Shoe: </label>
+                                    <select class="form-control" ng-model="logData.shoe" ng-options="shoe.shoename for shoe in shoes track by shoe.shoe_id">
                                     </select>
-                              </div>
-                          </div>
-                      </div>
+                                </div>
+                            </div>
+                        </div>
 
-                      <div class="panel panel-default">
-                          <div class="panel-header">
-                              <div class="panel-title-info text-center">Optional Information</div>
-                          </div>
-                          <div class="panel-body">
-                              <div class="form-group">
-                                  <label>Log Title</label>
-                                  <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle" placeholder="Log Title">
-                              </div>
+                        <div class="panel panel-default">
+                            <div class="panel-header">
+                                <div class="panel-title-info text-center">Optional Information</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label>Log Title</label>
+                                    <input type="text" value="logtitle" class="form-control" ng-model="logData.logtitle" placeholder="Log Title">
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Miles: </label>
-                                  <input type="number" value="distance" class="form-control" ng-model="logData.distance" placeholder="Distance">
-                              </div>
+                                <div class="form-group">
+                                    <label>Miles: </label>
+                                    <input type="number" value="distance" class="form-control" ng-model="logData.distance" placeholder="Distance">
+                                </div>
 
-                              <div class="form-group">
-                                <label>Time </label>
-                                      <input type="text" value="activitytime" mask="99:59:59" ng-value="000000" class="form-control" ng-model="logData.activitytime" palceholder="Time">
-                              </div>
+                                <div class="form-group">
+                                    <label>Time </label>
+                                    <input type="text" value="activitytime" mask="99:59:59" ng-value="000000" class="form-control" ng-model="logData.activitytime" palceholder="Time">
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Sleep: </label>
-                                  <input type="number" value="sleep" class="form-control" ng-model="logData.sleep" placeholder="Sleep">
-                              </div>
+                                <div class="form-group">
+                                    <label>Sleep: </label>
+                                    <input type="number" value="sleep" class="form-control" ng-model="logData.sleep" placeholder="Sleep">
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Heartrate: </label>
-                                  <input type="number" value="heartrate" class="form-control" ng-model="logData.heartrate" placeholder="Heartrate">
-                              </div>
+                                <div class="form-group">
+                                    <label>Heartrate: </label>
+                                    <input type="number" value="heartrate" class="form-control" ng-model="logData.heartrate" placeholder="Heartrate">
+                                </div>
 
-                              <div class="form-group">
-                                  <label>Description: </label>
-                                  <textarea value="description" class="form-control" rows="4" ng-model="logData.description" placeholder="Description"></textarea>
-                              </div>
-                          </div>
-                      </div>
+                                <div class="form-group">
+                                    <label>Description: </label>
+                                    <textarea value="description" class="form-control" rows="4" ng-model="logData.description" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                      <div class="form-group">
-                          <button type="submit" class="btn btn-primary">Save</button>
-                          <button type="button" class="btn btn-danger" ng-click="deleteLog()">Delete Log</button>
-                          <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
-                      </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteLog()">Delete Log</button>
+                            <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                        </div>
 
-                  </form>
+                    </form>
                 </div>
             </div>
         </div>

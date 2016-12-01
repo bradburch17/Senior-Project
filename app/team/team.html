@@ -1,12 +1,11 @@
 <div class="add-padding">
 	<h1>{{teamData[0].teamname}}</h1>
+	<flash-message></flash-message>
 	<div ng-repeat="users in teamData" class="table-responsive">
 		<h3>{{users.username}}</h3>
-
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
-					<flash-message></flash-message>
 				</div>
 			</div>
 		</div>
@@ -22,7 +21,7 @@
 				<th>Heartrate</th>
 				<th>Description</th>
 			</tr>
-			<tr ng-repeat-start="logs in users.logs | orderBy: 'log.logdate'" ng-click="showComment(index, logs)">
+			<tr ng-repeat-start="logs in users.logs | orderBy: 'log.logdate'" ng-click="showComment(logs)">
 				<td><b>{{logs.log.logtitle}}</b></td>
 				<td>{{logs.log.logdate | date: yyyy-MM-dd}}</td>
 				<td>{{logs.activity}}</td>
@@ -31,6 +30,10 @@
 				<td>{{logs.log.sleep}}</td>
 				<td>{{logs.log.heartrate}}</td>
 				<td>{{logs.log.description}}</td>
+			</tr>
+			<tr ng-show="isComment(logs.log.log_id, logs.comments.log_id)">
+				<td>{{logs.comments.description}}</td>
+				<td>{{userData.username}}
 			</tr>
 			<tr ng-repeat-end ng-show="isSelected(logs.log.log_id) && show">
 				<td><b>Enter a comment:</b></td>

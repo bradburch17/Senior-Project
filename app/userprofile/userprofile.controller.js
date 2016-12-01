@@ -11,6 +11,7 @@
         $scope.newuserData = Auth.getUserData();
         $scope.showLogs = false;
         $scope.showEdit = false;
+        Flash.clear();
         getLogs();
         getShoes();
         getActivities();
@@ -98,6 +99,8 @@
         }
 
         $scope.deleteLog = function() {
+          var confirm = $window.confirm("Are you sure you want to delete this log?");
+          if (confirm) {
             $http.delete('/api/v1/logs/' + $scope.logData.log_id)
                 .success((data) => {
                     $scope.logData = {};
@@ -111,6 +114,11 @@
                     Flash.create('danger', 'You cannot delete this log.', 5000, {}, true);
                     console.log(error);
                 });
+              }
+              else {
+                Flash.clear();
+                Flash.create('info', 'You chose not to delete this log.', 5000, {}, true);
+              }
         }
     }
 }());
