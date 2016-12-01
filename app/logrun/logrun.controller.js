@@ -5,9 +5,9 @@
         .module('logrunModule')
         .controller('LogrunController', LogrunController);
 
-    LogrunController.$inject = ['$scope', '$http', 'Auth', 'FitbitFactory', 'Flash'];
+    LogrunController.$inject = ['$scope', '$http', '$window', 'Auth', 'FitbitFactory', 'Flash'];
 
-    function LogrunController($scope, $http, Auth, FitbitFactory, Flash) {
+    function LogrunController($scope, $http, $window, Auth, FitbitFactory, Flash) {
         $scope.logData = {};
         $scope.userData = Auth.getUserData();
 
