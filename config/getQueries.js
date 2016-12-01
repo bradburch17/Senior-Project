@@ -15,7 +15,8 @@ module.exports = {
     getUserPRs: getUserPRs,
     getUserShoes: getUserShoes,
     getUserTeams: getUserTeams,
-    getActivities: getActivities
+    getActivities: getActivities,
+    getUserLogs: getUserLogs,
 };
 
 // Read Functions
@@ -36,19 +37,19 @@ function getAllUsers(req, res, next) {
 }
 
 function getAllTeams(req, res, next) {
-  db.any('SELECT * FROM team_tbl')
-      .then(function(data) {
-          res.status(200)
-              .json({
-                  status: 'success',
-                  data: data,
-                  message: 'Retrieved ALL users'
-              });
-      })
-      .catch(function(err) {
-          console.log(err);
-          return next(err);
-      });
+    db.any('SELECT * FROM team_tbl')
+        .then(function(data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL users'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
 }
 
 function getSingleUser(req, res, next) {
@@ -171,6 +172,25 @@ function getActivities(req, res, next) {
                     status: 'success',
                     data: data,
                     message: 'Retrieved activities'
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(err);
+        });
+}
+
+function getUserLogs(req, res, next) {
+    db.any('SELECT l.*, a.activity FROM log_tbl l ' +
+            'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
+            'WHERE l.person_id = $1', [req.params.id])
+        .then(function(data) {
+            console.log(data);
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved logs'
                 });
         })
         .catch(function(err) {

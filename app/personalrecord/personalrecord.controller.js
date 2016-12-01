@@ -75,7 +75,7 @@
         }
 
         $scope.updatePR = function() {
-            $http.put('/api/v1/prs/' + $scope.prData.shoe_id, $scope.prData)
+            $http.put('/api/v1/prs/' + $scope.prData.pr_id, $scope.prData)
                 .success((data) => {
                     $scope.prs[$scope.index] = data.data;
                     Flash.clear();

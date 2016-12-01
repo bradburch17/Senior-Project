@@ -10,6 +10,7 @@ var remove = require('../config/deleteQueries')
 var apipath = '/api/v1/';
 var User = require('../app/models/user');
 var nodemailer = require('nodemailer');
+var Helper = require('./routehelper');
 const path = require('path');
 var data;
 var client = new FitbitApiClient(process.env.CLIENT_ID, process.env.CLIENT_SECRET);
@@ -24,14 +25,16 @@ router.get('/login', (req, res, next) => {
 
 router.get(apipath + 'users', get.getAllUsers);
 router.get(apipath + 'users/:id', get.getSingleUser);
-router.get(apipath + 'users/:id/teams', get.getUserTeams)
+router.get(apipath + 'users/:id/teams', get.getUserTeams);
 router.get(apipath + 'team/:id', get.getTeamMembers);
 router.get(apipath + 'user/shoes/:id', get.getUserShoes);
 router.get(apipath + 'user/prs/:id', get.getUserPRs);
 router.get(apipath + 'activities', get.getActivities);
 router.get(apipath + 'teams', get.getAllTeams);
+router.get(apipath + 'user/:id/logs', get.getUserLogs);
 
 router.post(apipath + 'team', create.createTeam);
+router.post(apipath + 'team/join/:id', create.joinTeam);
 router.post(apipath + 'shoes', create.createShoe);
 router.post(apipath + 'prs', create.createPR);
 router.post(apipath + 'logs', create.createLog);
@@ -45,6 +48,7 @@ router.put(apipath + 'prs/:id', update.updatePR);
 router.delete(apipath + 'users/:id', remove.removeUser);
 router.delete(apipath + 'shoe/:id', remove.removeShoe);
 router.delete(apipath + 'pr/:id', remove.removePR);
+router.delete(apipath + 'logs/:id', remove.removeLog);
 
 router.post(apipath + 'register', passport.authenticate('local-signup'), function(req, res, err) {
     res.json(req.user);
@@ -74,11 +78,15 @@ router.get(apipath + 'auth', function(req, res) {
 
 router.post(apipath + 'forgotpass', function(req, res) {
     var token;
+    var token;
     User.findByEmail(req.body.email, function(err, user) {
         if (!user) {
             console.log('User does not exist');
             return res.redirect('/forgot');
         } else {
+            console.log(user.username);
+            token = Helper.encrypt(user.username);
+            console.log(token);
             sendEmail(token, req.body.email);
 
             res.status(200)
@@ -90,7 +98,7 @@ router.post(apipath + 'forgotpass', function(req, res) {
     });
 });
 
-router.put(apipath + 'passwordchange', update.updatePassword);
+router.put(apipath + 'passwordchange/:token', update.updatePassword);
 
 router.get(apipath + 'logout', function(req, res) {
     req.logout();
@@ -240,6 +248,7 @@ function isLoggedIn(req, res, next) {
 }
 
 function sendEmail(token, email) {
+  console.log(token);
     var smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -254,7 +263,8 @@ function sendEmail(token, email) {
         subject: 'Joggers and Loggers Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'https://joggersandloggers.herokuapp.com/#/passwordchange ' + '\n\n' +
+            // 'https://joggersandloggers.herokuapp.com/#/passwordchange/' + token + '\n\n' +
+            'http://localhost:3000/#/passwordchange/' + token + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n'
     };
 

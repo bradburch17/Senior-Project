@@ -10,7 +10,8 @@ var db = pgp(connectionString);
 module.exports = {
     removeUser: removeUser,
     removeShoe: removeShoe,
-    removePR: removePR
+    removePR: removePR,
+    removeLog: removeLog,
 };
 
 //Delete Methods
@@ -56,6 +57,26 @@ function removePR(req, res, next) {
                 .json({
                     status: 'success',
                     message: `Removed ${result.rowCount} shoe`
+                });
+        })
+        .catch(function(err) {
+            res.status(304)
+                .json({
+                    status: 'error',
+                    error: err,
+                    message: 'Error'
+                });
+            return next(err);
+        });
+}
+
+function removeLog(req, res, next) {
+    db.result('DELETE FROM log_tbl WHERE log_id = $1', [req.params.id])
+        .then(function(result) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: `Removed ${result.rowCount} log`
                 });
         })
         .catch(function(err) {

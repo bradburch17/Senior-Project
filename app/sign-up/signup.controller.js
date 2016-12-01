@@ -17,7 +17,7 @@
                     $scope.userData = data.data;
                     console.log("Inserted");
                     Flash.clear();
-                    Flash.create('success', '<strong>Success</strong> Your account was created successfully. Please login.', 0, {}, false);
+                    Flash.create('success', '<strong>Success</strong> Your account was created successfully. Please <a ui-sref="login">login.</a>', 0, {}, false);
                 })
                 .error((error) => {
                   Flash.clear();

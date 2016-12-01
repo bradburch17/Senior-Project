@@ -1,3 +1,21 @@
 <div class="container">
-  <h1>UNDER CONSTRUCTION</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>All Teams</h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Team Description</th>
+                        <th class="center">Join</th>
+                    </tr>
+                    <tr ng-repeat="team in teams">
+                        <td>{{team.teamname}}</td>
+                        <td>{{team.teamdescription}}</td>
+                        <td class="center"><button class="btn btn-primary center" ng-click="joinTeam(team)">Join</buton></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

@@ -4,6 +4,7 @@
     angular.module('mainModule', [
             'ui.router',
             'ngFlash',
+            'ngMask',
 
             'homeModule',
             'layoutModule',

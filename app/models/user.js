@@ -8,16 +8,10 @@ function User() {
     this.lastname = '';
     this.birthdate = "";
     this.sex = "";
-    this.shoe_id = null;
-    this.team_id = null;
-    this.device_id = null;
-    this.pr_id = null;
     this.email = "";
-    this.ispublic = false;
-    this.iscoach = false;
+    this.ispublic = true;
     this.username = "";
     this.password = ""; //need to declare the things that i want to be remembered for each user in the database
-    this.token = ""; //I think I need to declare this in order to return it.
 
     this.save = function(callback) {
         var client = new pg.Client(conString);
@@ -149,6 +143,7 @@ User.findByEmail = function(email, callback) {
         if (result.rows.length > 0) {
             var user = new User();
             user.email = email;
+            user.username = result.rows[0]['username'];
             console.log(email + ' was found');
         } else {
             isNotAvailable = false;

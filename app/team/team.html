@@ -15,9 +15,9 @@
 			</tr>
 			<tr ng-repeat="logs in users.logs | orderBy: 'log.logdate'">
 				<td><b>{{logs.log.logtitle}}</b></td>
-				<td>{{logs.log.logdate}}</td>
+				<td>{{logs.log.logdate | date: yyyy-MM-dd}}</td>
 				<td>{{logs.activity}}</td>
-				<td>{{logs.log.distance}} miles</td>
+				<td>{{logs.log.distance}}</td>
 				<td>{{logs.log.activitytime}}</td>
 				<td>{{logs.log.sleep}}</td>
 				<td>{{logs.log.heartrate}}</td>

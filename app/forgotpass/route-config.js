@@ -16,7 +16,7 @@
             })
 
         .state('change-password', {
-            url: '/passwordchange',
+            url: '/passwordchange/:token',
             templateUrl: 'forgotpass/change-pass.html',
             controller: 'ForgotpassController',
             requireAuth: false,

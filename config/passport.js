@@ -41,7 +41,6 @@ module.exports = function(passport) {
             // User.findOne wont fire unless data is sent back
             process.nextTick(function(callback) {
 
-
                 // find a user whose username is the same as the forms username
                 // we are checking to see if the user trying to login already exists
                 User.findOne(email, function(err, isNotAvailable, user) {

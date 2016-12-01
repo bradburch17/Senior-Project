@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-            <a class="navbar-brand" ui-sref="home">Loggers and Joggers</a>
+            <a class="navbar-brand" ui-sref="home">Joggers and Loggers</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">
@@ -18,9 +18,7 @@
                 <li class="dropdown" ng-show="loggedIn()" ng-click="retrieveData()">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <div ng-repeat="teams in allUserData">
-                        <li><a ui-sref="team({id: {{teams.team.team_id}} })">{{teams.team.teamname}}</a></li>
-                      </div>
+                        <li ng-repeat="teams in allUserData" class="unstyled"><a ui-sref="team({id: {{teams.team.team_id}} })">{{teams.team.teamname}}</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a ui-sref="all-teams">All Teams</a></li>
                         <li><a ui-sref="create-team">Create Team</a></li>
@@ -35,6 +33,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a ng-show="loggedIn()" ui-sref="user-profile">{{userData().username}}</a></li>
                 <li><a ng-controller="SignoutController" ng-click="logout()" ng-show="loggedIn()" ui-sref="logout">Logout</a></li>
+                <li><a ng-show="!loggedIn()" ui-sref="register">Sign up</a></li>
                 <li><a ng-show="!loggedIn()" ui-sref="login">Sign in</a></li>
             </ul>
         </div>

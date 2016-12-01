@@ -5,9 +5,11 @@
         .module('forgotpassModule')
         .controller('ForgotpassController', ForgotpassController);
 
-    ForgotpassController.$inject = ['$scope', '$http', 'Flash'];
+    ForgotpassController.$inject = ['$scope', '$http', '$stateParams', 'Flash'];
 
-    function ForgotpassController($scope, $http, Flash) {
+    function ForgotpassController($scope, $http, $stateParams, Flash) {
+        $scope.token = $stateParams.token;
+        console.log($stateParams.token);
         $scope.userData = {};
 
         $scope.forgotPass = function() {
@@ -25,7 +27,7 @@
         }
 
         $scope.updatePassword = function() {
-            $http.put('/api/v1/passwordchange/', $scope.userData)
+            $http.put('/api/v1/passwordchange/' + $scope.token, $scope.userData)
                 .success((data) => {
                     $scope.userData = {};
                     Flash.clear();

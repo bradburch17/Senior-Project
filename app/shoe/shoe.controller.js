@@ -92,8 +92,6 @@
         }
 
         $scope.deleteShoe = function() {
-          console.log('HERE');
-          console.log($scope.shoeData.shoe_id);
           $http.delete('/api/v1/shoe/' + $scope.shoeData.shoe_id)
               .success((data) => {
                   $scope.shoeData = {};
@@ -101,7 +99,6 @@
                   Flash.create('success', 'You have successfully deleted one shoe.', 5000, {}, true);
               })
               .error((error) => {
-                console.log('THERE WAS AN ERROR');
                   Flash.clear();
                   Flash.create('danger', 'You cannot delete this shoe because it has mileage on it.', 5000, {}, true);
                   console.log(error);

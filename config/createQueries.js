@@ -13,6 +13,7 @@ module.exports = {
     createPR: createPR,
     createLog: createLog,
     createActivity: createActivity,
+    joinTeam: joinTeam,
 };
 
 //Create Methods
@@ -120,4 +121,20 @@ function createActivity(req, res, next) {
             console.log("ERROR:", error.message || error);
             return next(error);
         });
+}
+
+function joinTeam(req, res, next) {
+  db.none('INSERT INTO person_team_tbl (person_id, team_id, iscoach) VALUES ($1, $2, false)', [req.body.person_id, req.params.id])
+      .then(function(events) {
+          res.status(200)
+              .json({
+                  status: 'success',
+                  events: events,
+                  message: 'Inserted one team'
+              });
+      })
+      .catch(function(error) {
+          console.log("ERROR:", error.message || error);
+          return next(error);
+      });
 }
