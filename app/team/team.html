@@ -2,6 +2,15 @@
 	<h1>{{teamData[0].teamname}}</h1>
 	<div ng-repeat="users in teamData" class="table-responsive">
 		<h3>{{users.username}}</h3>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<flash-message></flash-message>
+				</div>
+			</div>
+		</div>
+
 		<table class="table table-striped">
 			<tr>
 				<th>Title</th>
@@ -13,7 +22,7 @@
 				<th>Heartrate</th>
 				<th>Description</th>
 			</tr>
-			<tr ng-repeat="logs in users.logs | orderBy: 'log.logdate'">
+			<tr ng-repeat-start="logs in users.logs | orderBy: 'log.logdate'" ng-click="showComment(index, logs)">
 				<td><b>{{logs.log.logtitle}}</b></td>
 				<td>{{logs.log.logdate | date: yyyy-MM-dd}}</td>
 				<td>{{logs.activity}}</td>
@@ -22,6 +31,13 @@
 				<td>{{logs.log.sleep}}</td>
 				<td>{{logs.log.heartrate}}</td>
 				<td>{{logs.log.description}}</td>
+			</tr>
+			<tr ng-repeat-end ng-show="isSelected(logs.log.log_id) && show">
+				<td><b>Enter a comment:</b></td>
+				<td><textarea value="description" class="form-control" rows="4" ng-model="commentData.description" placeholder="Write your comment here"></textarea> </td>
+				<td><button type="button" class="btn btn-primary center" ng-click="saveComment(logs.log.log_id)">Save Comment</button>
+					<br> <br>
+					<button type="button" class="btn btn-primary center" ng-click="cancel()">Cancel</button></td>
 			</tr>
 		</table>
 	</div>

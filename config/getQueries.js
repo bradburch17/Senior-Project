@@ -106,8 +106,8 @@ function getTeamMembers(req, res, next) {
             'FROM person_tbl p ' +
             'INNER JOIN log_tbl l ON p.person_id = l.person_id ' +
             'INNER JOIN activity_tbl a ON l.activity_id = a.activity_id ' +
-            'INNER JOIN person_team_tbl pt on p.person_id = pt.person_id ' +
-            'INNER JOIN team_tbl t on t.team_id = pt.team_id ' +
+            'INNER JOIN person_team_tbl pt ON p.person_id = pt.person_id ' +
+            'INNER JOIN team_tbl t ON t.team_id = pt.team_id ' +
             'WHERE t.team_id = $1 ' +
             'AND l.logdate > NOW()::date - 7 ' +
             'GROUP BY p.username, t.teamname ' +

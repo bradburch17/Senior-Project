@@ -32,18 +32,21 @@ router.get(apipath + 'user/prs/:id', get.getUserPRs);
 router.get(apipath + 'activities', get.getActivities);
 router.get(apipath + 'teams', get.getAllTeams);
 router.get(apipath + 'user/:id/logs', get.getUserLogs);
+// router.get(apipath + 'logs/comment/:id', get.getComments);
 
 router.post(apipath + 'team', create.createTeam);
 router.post(apipath + 'team/join/:id', create.joinTeam);
 router.post(apipath + 'shoes', create.createShoe);
 router.post(apipath + 'prs', create.createPR);
 router.post(apipath + 'logs', create.createLog);
+router.post(apipath + 'log/comment/:id', create.createComment);
 
 router.put(apipath + 'users/:id', update.updateUser);
 router.put(apipath + 'logs/:id', update.updateLog);
 router.put(apipath + 'team/:id', update.updateTeam);
 router.put(apipath + 'shoes/:id', update.updateShoe);
 router.put(apipath + 'prs/:id', update.updatePR);
+router.put(apipath + 'logs/comment/:id', update.updateComment);
 
 router.delete(apipath + 'users/:id', remove.removeUser);
 router.delete(apipath + 'shoe/:id', remove.removeShoe);

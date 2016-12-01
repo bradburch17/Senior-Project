@@ -4,9 +4,9 @@
     angular.module('personalrecordModule')
         .controller('PersonalrecordController', PersonalrecordController);
 
-    PersonalrecordController.$inject = ['$scope', '$http', 'Auth', 'Flash'];
+    PersonalrecordController.$inject = ['$scope', '$http', '$window', 'Auth', 'Flash'];
 
-    function PersonalrecordController($scope, $http, Auth, Flash) {
+    function PersonalrecordController($scope, $http, $window, Auth, Flash) {
         $scope.prData = {};
         $scope.userData = Auth.getUserData();
         Flash.clear();
@@ -89,18 +89,25 @@
         }
 
         $scope.deletePR = function() {
-            $http.delete('/api/v1/pr/' + $scope.prData.pr_id)
-                .success((data) => {
-                    $scope.prData = {};
-                    console.log(data);
-                    Flash.clear();
-                    Flash.create('success', 'You have successfully deleted one PR.', 5000, {}, true);
-                })
-                .error((error) => {
-                    Flash.clear();
-                    Flash.create('danger', 'You cannot delete this personal record.', 5000, {}, true);
-                    console.log(error);
-                });
+            var confirm = $window.confirm("Are you sure you want to delete this personal record?");
+            if (confirm) {
+                $http.delete('/api/v1/pr/' + $scope.prData.pr_id)
+                    .success((data) => {
+                        $scope.prData = {};
+                        $scope.prs[$scope.index] = {};
+                        console.log(data);
+                        Flash.clear();
+                        Flash.create('success', 'You have successfully deleted one PR.', 5000, {}, true);
+                    })
+                    .error((error) => {
+                        Flash.clear();
+                        Flash.create('danger', 'You cannot delete this personal record.', 5000, {}, true);
+                        console.log(error);
+                    });
+            } else {
+                Flash.clear();
+                Flash.create('info', 'You chose not to delete the personal record.', 5000, {}, true);
+            }
         }
     }
 }());

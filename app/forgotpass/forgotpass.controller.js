@@ -15,9 +15,9 @@
         $scope.forgotPass = function() {
             $http.post('/api/v1/forgotpass', $scope.userData)
                 .success((data) => {
-                    $scope.userData = {};
                     Flash.clear();
                     Flash.create('info', 'An email has been sent to ' + $scope.userData.email + '. It should arrive momentarily.', 5000, {}, true);
+                    $scope.userData = {};
                 })
                 .error((error) => {
                     Flash.clear();

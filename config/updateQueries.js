@@ -17,6 +17,7 @@ module.exports = {
     updatePR: updatePR,
     updateTeam: updateTeam,
     updatePassword: updatePassword,
+    updateComment: updateComment,
 };
 
 //Update Methods
@@ -112,6 +113,22 @@ function updatePassword(req, res, next) {
                     status: 'success',
                     data: req.body,
                     message: 'Updated password'
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+}
+
+function updateComment(req, res, next) {
+    db.none('UPDATE comment_tbl SET description = ${description} WHERE comment_id = ${comment_id}',
+            req.body)
+        .then(function() {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: req.body,
+                    message: 'Updated comment'
                 });
         })
         .catch(function(err) {

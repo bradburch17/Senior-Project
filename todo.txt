@@ -1,13 +1,9 @@
 TODO:
-* Ability to add Activities from front end
 * Validate input on all screens
-* Create Userprofile HTML to show:
-  - User information
-  - User Profile sidebar
 * Delete users from team if Coach
-* Change Team view
-  - Create a 'Create Team' view
-  - Pick what team you want to see
+
+ADD ACTIVITIES FROM FRONT END
+ADD COMMENTS
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site

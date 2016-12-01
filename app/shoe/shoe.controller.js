@@ -5,9 +5,9 @@
         .module('shoeModule')
         .controller('ShoeController', ShoeController);
 
-    ShoeController.$inject = ['$scope', '$http', 'Auth', 'Flash'];
+    ShoeController.$inject = ['$scope', '$http', '$window', 'Auth', 'Flash'];
 
-    function ShoeController($scope, $http, Auth, Flash) {
+    function ShoeController($scope, $http, $window, Auth, Flash) {
         $scope.shoeData = {};
         $scope.userData = Auth.getUserData();
         Flash.clear();
@@ -64,7 +64,7 @@
             };
             $http.post('api/v1/shoes', data)
                 .success((data) => {
-                  $scope.shoes.push($scope.shoeData);
+                    $scope.shoes.push($scope.shoeData);
                     $scope.shoeData = data.data;
                     Flash.clear();
                     Flash.create('success', '<strong>Success</strong> You have added a shoe!', 5000, {}, true);
@@ -92,17 +92,24 @@
         }
 
         $scope.deleteShoe = function() {
-          $http.delete('/api/v1/shoe/' + $scope.shoeData.shoe_id)
-              .success((data) => {
-                  $scope.shoeData = {};
-                  Flash.clear();
-                  Flash.create('success', 'You have successfully deleted one shoe.', 5000, {}, true);
-              })
-              .error((error) => {
-                  Flash.clear();
-                  Flash.create('danger', 'You cannot delete this shoe because it has mileage on it.', 5000, {}, true);
-                  console.log(error);
-              });
+            var confirm = $window.confirm("Are you sure you want to delete this shoe?");
+            if (confirm) {
+                $http.delete('/api/v1/shoe/' + $scope.shoeData.shoe_id)
+                    .success((data) => {
+                        $scope.shoeData = {};
+                        $scope.shoes[$scope.index] = {};
+                        Flash.clear();
+                        Flash.create('success', 'You have successfully deleted one shoe.', 5000, {}, true);
+                    })
+                    .error((error) => {
+                        Flash.clear();
+                        Flash.create('danger', 'You cannot delete this shoe because it has mileage on it.', 5000, {}, true);
+                        console.log(error);
+                    });
+            } else {
+                Flash.clear();
+                Flash.create('info', 'You chose not to delete the shoe.', 5000, {}, true);
+            }
         }
     }
 }());

@@ -14,6 +14,7 @@ module.exports = {
     createLog: createLog,
     createActivity: createActivity,
     joinTeam: joinTeam,
+    createComment: createComment,
 };
 
 //Create Methods
@@ -125,6 +126,22 @@ function createActivity(req, res, next) {
 
 function joinTeam(req, res, next) {
   db.none('INSERT INTO person_team_tbl (person_id, team_id, iscoach) VALUES ($1, $2, false)', [req.body.person_id, req.params.id])
+      .then(function(events) {
+          res.status(200)
+              .json({
+                  status: 'success',
+                  events: events,
+                  message: 'Inserted one team'
+              });
+      })
+      .catch(function(error) {
+          console.log("ERROR:", error.message || error);
+          return next(error);
+      });
+}
+
+function createComment(req, res, next) {
+  db.none('INSERT INTO comment_tbl (person_id, log_id, description) VALUES ($1, $2, $3)', [req.body.userData.person_id, req.params.id, req.body.commentData.description])
       .then(function(events) {
           res.status(200)
               .json({

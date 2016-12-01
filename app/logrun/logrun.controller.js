@@ -68,27 +68,33 @@
         }
 
         $scope.createLog = function() {
-          if (angular.isUndefined($scope.logData.shoe)) {
-            $scope.logData.shoe = {};
-            $scope.logData.shoe.shoe_id = null;
-          }
+            var confirm = $window.confirm('Are you sure you want to delete this log?');
+            if (confirm) {
+                if (angular.isUndefined($scope.logData.shoe)) {
+                    $scope.logData.shoe = {};
+                    $scope.logData.shoe.shoe_id = null;
+                }
 
-            data = {
-                'logData': $scope.logData,
-                'userData': $scope.userData
-            };
-            $http.post('/api/v1/logs', data)
-                .success((data) => {
-                    $scope.logData = data.data;
-                    Flash.clear();
-                    Flash.create('success', '<strong>Success</strong> You have logged an activity!', 5000, {}, true);
-                    console.log("Inserted");
-                })
-                .error((error) => {
-                    Flash.clear();
-                    Flash.create('warning', 'Please enter all required information.', 5000, {}, true);
-                    console.log('Error: ' + error);
-                });
-        };
+                data = {
+                    'logData': $scope.logData,
+                    'userData': $scope.userData
+                };
+                $http.post('/api/v1/logs', data)
+                    .success((data) => {
+                        $scope.logData = data.data;
+                        Flash.clear();
+                        Flash.create('success', '<strong>Success</strong> You have logged an activity!', 5000, {}, true);
+                        console.log("Inserted");
+                    })
+                    .error((error) => {
+                        Flash.clear();
+                        Flash.create('warning', 'Please enter all required information.', 5000, {}, true);
+                        console.log('Error: ' + error);
+                    });
+            } else {
+                Flash.clear();
+                Flash.create('info', 'You decided not to delete this log.', 5000, {}, true);
+            }
+        }
     }
 }());
