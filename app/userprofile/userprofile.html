@@ -37,7 +37,8 @@
                     <tr ng-repeat="(index, log) in logs" ng-click="editLog(index, log)">
                         <td><b>{{log.logtitle}}</b></td>
                         <td>{{log.logdate | date: yyyy-MM-dd}}</td>
-                        <td>{{log.activity}}</td>
+                        <td ng-hide="showEdit">{{log.activity}}</td>
+                        <td ng-show="showEdit">{{log.activity.activity}}</td>
                         <td>{{log.distance}}</td>
                         <td>{{log.activitytime}}</td>
                         <td>{{log.sleep}}</td>

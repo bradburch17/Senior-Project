@@ -84,3 +84,13 @@ CREATE TABLE Person_Team_tbl (
   foreign key (team_id) references Team_tbl on delete cascade,
   primary key (person_id, team_id)
 );
+
+CREATE TABLE Comment_tbl (
+  comment_id SERIAL primary key,
+  person_id integer not null,
+  log_id integer not null,
+  description varchar(250),
+
+  foreign key (person_id) references Person_tbl on delete cascade,
+  foreign key (log_id) references Log_tbl on delete cascade
+);

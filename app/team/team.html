@@ -32,8 +32,8 @@
 				<td>{{logs.log.description}}</td>
 			</tr>
 			<tr ng-show="isComment(logs.log.log_id, logs.comments.log_id)">
+				<td><b>{{userData.username}}</b></td>
 				<td>{{logs.comments.description}}</td>
-				<td>{{userData.username}}
 			</tr>
 			<tr ng-repeat-end ng-show="isSelected(logs.log.log_id) && show">
 				<td><b>Enter a comment:</b></td>
