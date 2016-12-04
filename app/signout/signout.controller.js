@@ -1,3 +1,8 @@
+/*
+  Sign out Controller
+
+  Created by bburch
+*/
 (function() {
     'use strict';
 
@@ -7,14 +12,13 @@
 
     SignoutController.$inject = ['$scope', '$window', '$http', '$state'];
 
+    //Logs a user out
     function SignoutController($scope, $window, $http, $state) {
         $scope.logout = function() {
             $http.get('api/v1/logout')
                 .success((data) => {
                     $scope.userData = data.data;
-                    console.log('Successful logout');
-                    console.log(data);
-                    window.localStorage.clear()
+                    window.localStorage.clear(); //Clears localstorage. Don't use localstorage.
                     $state.go('home');
                 })
                 .error((error) => {

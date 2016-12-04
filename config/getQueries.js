@@ -17,6 +17,7 @@ module.exports = {
     getUserTeams: getUserTeams,
     getActivities: getActivities,
     getUserLogs: getUserLogs,
+    getActivitiesandShoes: getActivitiesandShoes,
 };
 
 // Read Functions
@@ -197,5 +198,30 @@ function getUserLogs(req, res, next) {
         .catch(function(err) {
             console.log(err);
             return next(err);
+        });
+}
+
+function getActivitiesandShoes(req, res, next) {
+    console.log(req.params.id);
+    db.tx(function(t) {
+            return t.batch([
+                t.any('SELECT * FROM activity_tbl'),
+                t.any('SELECT s.* FROM shoe_tbl s ' +
+                    'INNER JOIN person_tbl p ON p.person_id = s.person_id ' +
+                    'WHERE s.isretired = false AND s.person_id = $1', [req.params.id])
+            ]);
+        })
+        .then(function(data) {
+            console.log(data[0]);
+            res.status(200)
+                .json({
+                    status: 'success',
+                    activities: data[0],
+                    shoes: data[1],
+                    message: 'Retrieved activities and shoes'
+                });
+        })
+        .catch(function(error) {
+            console.log("ERROR:", error.message || error);
         });
 }

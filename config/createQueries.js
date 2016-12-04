@@ -20,7 +20,6 @@ module.exports = {
 //Create Methods
 function createTeam(req, res, next) {
     db.task(function(t) {
-            console.log(req.body);
             return t.one('INSERT INTO team_tbl (teamName, teamDescription, isRestricted)' +
                     'VALUES (${teamName}, ${teamDescription}, ${isrestricted}) returning team_id',
                     req.body.teamData)

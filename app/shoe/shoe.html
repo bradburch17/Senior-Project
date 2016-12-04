@@ -2,6 +2,8 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="center">Shoes</h1>
+
+            <!-- Table for existing shoes -->
             <div class="table-responsive">
                 <table class="table table-striped text-center center">
                     <tr>
@@ -22,17 +24,20 @@
                 </tr>
             </table>
           </div>
+
             <button class="btn btn-primary right" ng-click="showAddShoe()">Add a Shoe</button>
             </div>
         </div>
     </div>
-<br><br>
+    <br><br>
+
     <!-- Add a new Shoe -->
     <div class="container" ng-show="show">
         <div class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
 
             <flash-message></flash-message>
             <div class="panel panel-default">
+
                 <div class="panel-heading">
                     <div class="panel-title text-center" ng-hide="edit"><b>Add a Shoe</b></div>
                     <div class="panel-title text-center" ng-hide="!edit"><b>Edit Shoe</b></div>
@@ -40,6 +45,7 @@
 
                 <div class="panel-body">
                     <form name="AddShoeForm" ng-submit="submitShoe();">
+
                         <div class="form-group">
                             <label>Enter the shoe model:</label><label class="asterisk">*</label>
                             <input type="text" name="shoename" class="form-control" ng-model="shoeData.shoename" placeholder="Model" required>
@@ -72,7 +78,6 @@
                             <button type="button" ng-click="deleteShoe()" class="btn btn-danger" ng-hide="!edit">Delete Shoe</button>
                             <button type="button" ng-click="cancel()" class="btn btn-primary">Cancel</button>
                         </div>
-
                     </form>
                 </div>
             </div>

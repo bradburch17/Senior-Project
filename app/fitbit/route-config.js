@@ -1,9 +1,9 @@
 (function() {
-  'use strict';
+    'use strict';
 
     angular
-    .module('fitbitModule')
-    .config(configFunction);
+        .module('fitbitModule')
+        .config(configFunction);
 
     configFunction.$inject = ['$stateProvider'];
 

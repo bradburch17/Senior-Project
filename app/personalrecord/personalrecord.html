@@ -2,6 +2,8 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="center">Personal Records</h1>
+
+            <!-- Table shows existing shoes -->
             <div class="table-responsive">
                 <table class="table table-striped  text-center center">
                     <tr>
@@ -17,7 +19,8 @@
                         <td><button class="btn btn-primary center" ng-click="showEditPR(index, pr)">Edit</buton>
                     </tr>
                 </table>
-          </div>
+             </div>
+
             <button class="btn btn-primary right" ng-click="showAddPR()">Add a Personal Record</button>
             </div>
         </div>
@@ -37,18 +40,22 @@
 
                 <div class="panel-body">
                     <form name="AddPRForm" ng-submit="submitPR();">
+
                         <div class="form-group">
                             <label>Date: </label><label class="asterisk">*</label>
                             <input type="date" datetime="yyyy-MM-dd" ng-change="prData.prdate = prData.prdate.toISOString()" value="prdate" class="form-control" ng-model="prData.prdate">
                         </div>
+
                         <div class="form-group">
                             <label>Event: </label><label class="asterisk">*</label>
                             <input type="text" value="prevent" class="form-control" ng-model="prData.prevent" placeholder="Event" required>
                         </div>
+
                         <div class="form-group">
                             <label>Time: </label><label class="asterisk">*</label>
                             <input type="text" value="prtime" mask="99:59:59" ng-value="000000" class="form-control" ng-model="prData.prtime" placeholder="Time" required>
                         </div>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary" ng-hide="edit">Add Personal Record</button>
                             <button type="submit" class="btn btn-primary" ng-hide="!edit">Save</button>

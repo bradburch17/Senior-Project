@@ -1,3 +1,8 @@
+/*
+  Directive for footer
+
+  Created by bburch
+*/
 (function() {
     'use strict';
 

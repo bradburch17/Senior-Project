@@ -1,59 +1,33 @@
+/*
+  Factory for authenticating user login and getting user data.
+
+  Created by bburch
+*/
 (function() {
     'use strict';
 
     angular
         .module('authModule')
-        .factory('Auth', ['$http', '$window', '$state', function authFactory($http, $window, $state) {
+        .factory('Auth', ['$http', '$window', function authFactory($http, $window) {
             var factory = {};
 
-            var userData = {};
-
+            //Gets user data from local storage.
             factory.getUserData = function() {
-                // $http.get('/api/v1/auth')
-                //     .success(function(data) {
-                //         if (data.status == true) {
-                //             console.log("User data is true");
-                //             userData = data.data;
-                //         } else {
-                //             console.log("User data is false");
-                //             userData = {};
-                //         }
-                //     })
-                //     .error(function(error) {
-                //         console.log(error);
-                //         userData = {};
-                //     });
-                //     console.log(userData);
-                // return userData;
                 return angular.fromJson(window.localStorage.getItem('userData'));
             }
 
+            //Checks if user is logged in by checking if there is anything in localstorage
             factory.isLoggedIn = function() {
-                // $http.get('/api/v1/auth')
-                //     .success(function(data) {
-                //         if (data.status == true) {
-                //             console.log("User data is true");
-                //             loggedIn = true;
-                //         } else {
-                //             console.log("User data is false");
-                //             loggedIn = false;
-                //         }
-                //     })
-                //     .error(function(error) {
-                //         console.log(error);
-                //         loggedIn = false;
-                //     });
-                // return loggedIn;
                 if (window.localStorage.getItem('userData'))
-                  return true;
+                    return true;
                 else {
-                  return false
+                    return false
                 }
             }
 
+            //Returns user data in a promise
             factory.getAllUserData = function(id) {
-              console.log(id);
-              return $http.get('/api/v1/users/' + id + '/teams');
+                return $http.get('/api/v1/users/' + id + '/teams');
             }
 
             return factory;

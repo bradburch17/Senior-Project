@@ -31,10 +31,10 @@
         })
 
         .state('all-teams', {
-          url: '/teams',
-          templateUrl: 'team/all-teams/teams.html',
-          controller: 'AllTeamController',
-          requireAuth: true,
+            url: '/teams',
+            templateUrl: 'team/all-teams/teams.html',
+            controller: 'AllTeamController',
+            requireAuth: true,
         })
     }
 }());

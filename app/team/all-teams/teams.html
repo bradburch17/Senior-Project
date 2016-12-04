@@ -2,7 +2,9 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="center">All Teams</h1>
+
             <flash-message></flash-message>
+
             <div class="table-responsive">
                 <table class="table table-striped">
                     <tr>
@@ -10,6 +12,7 @@
                         <th>Team Description</th>
                         <th class="center">Join</th>
                     </tr>
+
                     <tr ng-repeat="team in teams">
                         <td>{{team.teamname}}</td>
                         <td>{{team.teamdescription}}</td>

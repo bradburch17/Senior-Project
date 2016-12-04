@@ -1,3 +1,10 @@
+/*
+  Controller for forgotpassword.
+  Controls forgotpassword form and changing password.
+  Forgot password generates token that is used to change password
+
+  Created by bburch
+*/
 (function() {
     'use strict';
 
@@ -8,10 +15,11 @@
     ForgotpassController.$inject = ['$scope', '$http', '$stateParams', 'Flash'];
 
     function ForgotpassController($scope, $http, $stateParams, Flash) {
-        $scope.token = $stateParams.token;
-        console.log($stateParams.token);
+        $scope.token = $stateParams.token; //Token is the username encrypted 
         $scope.userData = {};
+        Flash.clear();
 
+        //Sends email address to server to authenticate the email is real, then sends email for change password.
         $scope.forgotPass = function() {
             $http.post('/api/v1/forgotpass', $scope.userData)
                 .success((data) => {
@@ -20,12 +28,13 @@
                     $scope.userData = {};
                 })
                 .error((error) => {
+                    console.log(error);
                     Flash.clear();
                     Flash.create('danger', $scope.userData.email + ' is not a registered email address.', 5000, {}, true);
-                    console.log(error);
                 });
         }
 
+        //Sends new password to server to change. Checks token against generated token for users.
         $scope.updatePassword = function() {
             $http.put('/api/v1/passwordchange/' + $scope.token, $scope.userData)
                 .success((data) => {

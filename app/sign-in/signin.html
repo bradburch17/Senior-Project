@@ -7,7 +7,9 @@
 				<br>
 			</div>
 		</div>
+
 		<flash-message></flash-message>
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="panel-title text-center"><b>Joggers and Loggers Login</b></div>
@@ -15,14 +17,17 @@
 
 			<div class="panel-body">
 				<form name="LoginForm" ng-submit="loginUser();" novalidate>
+
 					<div class="form-group">
 						<label for="username">Username</label><label class="asterisk">*</label>
 						<input type="text" value="username" class="form-control" ng-model="userData.username" placeholder="Username" required>
 					</div>
+
 					<div class="form-group">
 						<label for="password">Password</label><label class="asterisk">*</label>
 						<input type="password" value="password" class="form-control" ng-model="userData.password" placeholder="Password" required>
 					</div>
+
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary">Login</button>
 						<button class="btn btn-primary" ui-sref="register">Register</button>
@@ -30,7 +35,6 @@
 						<p><a href='#/forgot-password' ui-sref="forgot-password">Forgot Password?</a></p>
 					</div>
 				</form>
-
 			</div>
 		</div>
 	</div>

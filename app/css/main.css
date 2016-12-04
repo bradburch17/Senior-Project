@@ -182,34 +182,41 @@ body,html
 	color: red;
 }
 
-#loginbox {
+#loginbox
+{
     margin-top: 30px;
 }
 
-#loginbox > div:first-child {
+#loginbox > div:first-child
+{
     padding-bottom: 10px;
 }
 
-.icons {
+.icons
+{
 		width: 50%;
 		height: auto;
     margin: auto;
 }
 
-#form > div {
+#form > div
+{
     margin-bottom: 25px;
 }
 
-#form > div:last-child {
+#form > div:last-child
+{
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.panel {
+.panel
+{
     background-color: transparent;
 }
 
-.panel-body {
+.panel-body
+{
     padding-top: 30px;
     background-color: rgba(2555,255,255,.3);
 }

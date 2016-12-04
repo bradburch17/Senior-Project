@@ -32,7 +32,7 @@ router.get(apipath + 'user/prs/:id', get.getUserPRs);
 router.get(apipath + 'activities', get.getActivities);
 router.get(apipath + 'teams', get.getAllTeams);
 router.get(apipath + 'user/:id/logs', get.getUserLogs);
-// router.get(apipath + 'logs/comment/:id', get.getComments);
+router.get(apipath + 'logs/info/:id', get.getActivitiesandShoes);
 
 router.post(apipath + 'team', create.createTeam);
 router.post(apipath + 'team/join/:id', create.joinTeam);

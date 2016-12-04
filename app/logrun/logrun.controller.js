@@ -1,3 +1,9 @@
+/*
+  Controller for logs
+  Get shoes and activities, check if logged into Fitbit, retrieve Fitbit data, create new log
+
+  Created by bburch
+*/
 (function() {
     'use strict';
 
@@ -10,35 +16,23 @@
     function LogrunController($scope, $http, Auth, FitbitFactory, Flash) {
         $scope.logData = {};
         $scope.userData = Auth.getUserData();
-
-        getShoes();
-        getActivities();
-
+        getActivitiesandShoes();
         Flash.clear();
         var data = {};
 
-        function getShoes() {
-            $http.get('/api/v1/user/shoes/' + $scope.userData.person_id)
+        //Gets all activites and shoes that belong to the user and not restricted
+        function getActivitiesandShoes() {
+            $http.get('/api/v1/logs/info/' + $scope.userData.person_id)
                 .success((data) => {
-                    $scope.shoes = data.data;
-                    console.log(data.data);
-                })
-                .error((error) => {
-                    console.log(error);
-                });
-        }
-
-        function getActivities() {
-            $http.get('api/v1/activities')
-                .success((data) => {
-                    $scope.activities = data.data;
-                    console.log(data.data);
+                    $scope.logData.shoes = data.shoes;
+                    $scope.logData.activities = data.activities;
                 })
                 .error((error) => {
                     console.log(error);
                 })
         }
 
+        //Checks if user is logged into Fitbit
         FitbitFactory.isLoggedIn()
             .then(
                 function(data) {
@@ -48,12 +42,14 @@
                     console.log(errorData);
                 });
 
+        //Retrieves Fitbit data - Just sleep data
         $scope.retrieveData = function() {
+            //Makes sure that the date is defined to retrieve Fitbit data
             if ($scope.logData.logdate !== undefined) {
                 FitbitFactory.fitbitSleep($scope.logData.logdate)
                     .then(
                         function(data) {
-                            var sleepHours = +((data.data.summary.totalMinutesAsleep / 60).toFixed(1))
+                            var sleepHours = +((data.data.summary.totalMinutesAsleep / 60).toFixed(1)) //Converts sleep minutes to hours with one decimal point
                             $scope.logData.sleep = sleepHours;
                             Flash.clear();
                             Flash.create('success', 'Successfully retrieved Fitbit data', 5000, {}, true);
@@ -67,12 +63,15 @@
             }
         }
 
+        //Creates a log
         $scope.createLog = function() {
+            //If a user does not enter a shoe, makes shoe_id null for database
             if (angular.isUndefined($scope.logData.shoe)) {
                 $scope.logData.shoe = {};
                 $scope.logData.shoe.shoe_id = null;
             }
 
+            //Creates JSON object for post request
             data = {
                 'logData': $scope.logData,
                 'userData': $scope.userData

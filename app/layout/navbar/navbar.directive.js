@@ -8,7 +8,6 @@
                 restrict: "E",
                 templateUrl: "layout/navbar/navbar.directive.html",
                 controller: "NavController",
-                controllerAs: "vm",
             };
         });
 }());

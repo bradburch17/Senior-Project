@@ -3,13 +3,8 @@
 	<flash-message></flash-message>
 	<div ng-repeat="users in teamData" class="table-responsive">
 		<h3>{{users.username}}</h3>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-				</div>
-			</div>
-		</div>
 
+		<!-- Table to display all team members -->
 		<table class="table table-striped">
 			<tr>
 				<th>Title</th>
@@ -21,6 +16,7 @@
 				<th>Heartrate</th>
 				<th>Description</th>
 			</tr>
+
 			<tr ng-repeat-start="logs in users.logs | orderBy: 'log.logdate'" ng-click="showComment(logs)">
 				<td><b>{{logs.log.logtitle}}</b></td>
 				<td>{{logs.log.logdate | date: yyyy-MM-dd}}</td>
@@ -31,10 +27,12 @@
 				<td>{{logs.log.heartrate}}</td>
 				<td>{{logs.log.description}}</td>
 			</tr>
+
 			<tr ng-show="isComment(logs.log.log_id, logs.comments.log_id)">
 				<td><b>{{userData.username}}</b></td>
 				<td>{{logs.comments.description}}</td>
 			</tr>
+
 			<tr ng-repeat-end ng-show="isSelected(logs.log.log_id) && show">
 				<td><b>Enter a comment:</b></td>
 				<td><textarea value="description" class="form-control" rows="4" ng-model="commentData.description" placeholder="Write your comment here"></textarea> </td>
