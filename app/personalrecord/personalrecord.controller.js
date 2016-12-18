@@ -23,7 +23,7 @@
 
         //Gets current PRs
         function getPRs() {
-            $http.get('/api/v1/user/prs/' + $scope.userData.person_id)
+            $http.get('/api/v1/user/' + $scope.userData.person_id + '/prs/' )
                 .success((data) => {
                     $scope.prs = data.data;
                 })

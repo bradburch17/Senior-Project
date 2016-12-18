@@ -3,7 +3,6 @@ TODO:
 * Delete users from team if Coach
 
 ADD ACTIVITIES FROM FRONT END
-ADD COMMENTS
 
 ********Bonus*********
 * Create an API route to return current mileage information to transfer to another site

@@ -24,7 +24,7 @@
 
         //Gets the user's current shoes
         function getShoes() {
-            $http.get('/api/v1/user/shoes/' + $scope.userData.person_id)
+            $http.get('/api/v1/user/' + $scope.userData.person_id + '/shoes/' )
                 .success((data) => {
                     $scope.shoes = data.data;
                 })

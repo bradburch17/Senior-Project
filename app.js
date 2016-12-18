@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-//Passport Stuff////////////////////////////////////////////////////////////////////
 app.use(session({
     secret: process.env.SECRET,
     resave: false,

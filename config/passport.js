@@ -10,15 +10,12 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        console.log(user.person_id + " was seralized");
         done(null, user.person_id);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        console.log(id + " was deserialized");
         User.findById(id, function(err, user) {
-            console.log(id + ' was used in the findbyid method');
             done(err, user);
         });
     });
@@ -52,8 +49,6 @@ module.exports = function(passport) {
                     if (isNotAvailable == true) {
                         return done(null, false);
                     } else {
-                        console.log('new local user');
-
                         // if there is no user with that email
                         // create the user
                         user = new User();
@@ -66,7 +61,6 @@ module.exports = function(passport) {
                         user.firstname = req.body.firstname;
                         user.lastname = req.body.lastname;
                         user.save(function(newUser) {
-                            console.log("the object user is: ", newUser);
                             passport.authenticate();
                             return done(null, newUser);
                         });
@@ -111,8 +105,6 @@ module.exports = function(passport) {
                     return done(null, false);
                 }
                 // all is well, return successful user
-
-                console.log('Logged In :)');
 
                 return done(null, user);
             });
